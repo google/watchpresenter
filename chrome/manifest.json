@@ -1,0 +1,39 @@
+{
+    "manifest_version": 2,
+    "name": "Watchpresenter",
+    "version": "1.2",
+
+    "background": {
+        "scripts": ["background.js"]
+    },
+
+    "icons": {
+        "16": "images/icon_16.png",
+        "48": "images/icon_48.png",
+        "128": "images/icon_128.png"
+    },
+
+    "web_accessible_resources": [
+    "images/*"
+    ],
+    "page_action": {
+        "default_icon": {
+            "19": "images/icon_19.png"
+        },
+        "default_title": "Watchpresenter",
+        "default_popup": "popup.html"
+    },
+    "content_security_policy": "script-src https://*.google.com 'unsafe-eval'; object-src 'self'",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmeVhIEQA2YACP7G0jk5pxp8+3mw3kQBMlS70SEVs1aJLhR2jmnA/8eJI0QlZ8I0ABvPL0qvpkw98NH2sKIuxtrVgO2V7kgWsvmj5fKR5H8tBZTJkQTmdXyXADyNZyaTLRp9aCPnsnOqeT7ogwUOHB/GIeMjTqMsaGCEMv2ZabGCTB2J2ve8t8vgZW4WSwVCZdv/MkOYUHbwDvQHR0WFA3E/qSddpl1QAAYsP+4XoRea2uleighkNHd2mAFLaQQP1njEfgc76w3pmpw820+CK8+nVD2olZiXe4SFi6mnZyBTHGb+0PT/E3xekR7oiKFRuOXvoJuBkghDL7GqF6WE7yQIDAQAB",
+    "permissions": ["activeTab", "gcm", "storage", "identity", "tabs",
+    "notifications",
+        "http://*/",
+        "https://*/"],
+
+    "oauth2": {
+        "client_id": "1048948725539-2fvnptbb4vqh2dqsfgnm32c2caqg32h8.apps.googleusercontent.com",
+        "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+    }
+}
