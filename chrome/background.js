@@ -139,8 +139,21 @@ function checkAuthStatus(tabId) {
             'interactive': false
         },
         function (token) {
+            var lastError = chrome.runtime.lastError;
+            if (lastError) {
+                if (lastError.message) {
+                    if (lastError.message.match(/\(-106\)/)) {
+                        //This error is caused by lack of connection, just go ahead as usual)
+                        token = true;
+                        console.log("Could not connect. Won't ask interactively for token");
+                    }
+                    else{
+                        console.log("Unknown error while non-interactively retrieving token: " + lastError.message);
+                    }
+                }
+            }
             if (token) {
-                console.log("Valid token found: " + token);
+                console.log("Valid token found");
                 loadGoogleAPI();
             } else {
                 console.log("Valid token not found");
