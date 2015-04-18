@@ -146,8 +146,7 @@ function checkAuthStatus(tabId) {
                         //This error is caused by lack of connection, just go ahead as usual)
                         token = true;
                         console.log("Could not connect. Won't ask interactively for token");
-                    }
-                    else{
+                    } else {
                         console.log("Unknown error while non-interactively retrieving token: " + lastError.message);
                     }
                 }
@@ -214,9 +213,28 @@ chrome.gcm.onMessage.addListener(function (message) {
     console.log("Message received: '" + message + "'");
     chrome.tabs.getSelected(null, function (tab) {
         if (tab.url.match(URLRegexp)) {
-            chrome.tabs.executeScript({
-                file: "slide_switcher.js"
-            });
+            if (message.data) {
+                if (message.data.message) {
+                    if ("NEXT_SLIDE" == message.data.message) {
+                        chrome.tabs.executeScript({
+                            file: "slide_switcher.js"
+                        });
+                    } else if ("PREV_SLIDE" == message.data.message) {
+                        chrome.tabs.executeScript({
+                            file: "slide_switcher_backwards.js"
+                        });
+                    }
+                    else{
+                        console.log("Unknown message received. data.message: " + message.data.message);
+                    }
+                } else {
+                    console.log("Unknown message received. data: " + message.data);
+                }
+            } else {
+                console.log("Unknown message received: " + message);
+            }
+
+
         }
     });
 });
