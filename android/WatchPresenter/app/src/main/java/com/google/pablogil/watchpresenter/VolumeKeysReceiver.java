@@ -41,7 +41,7 @@ public class VolumeKeysReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent i = new Intent("com.google.pablogil.watchpresenter.NEXT_SLIDE");
+        Intent i = new Intent("com.google.pablogil.watchpresenter.SEND_MESSAGE");
         final long currentEvent = System.currentTimeMillis();
         if(currentEvent - lastEvent > 200) {
             int newVolume =

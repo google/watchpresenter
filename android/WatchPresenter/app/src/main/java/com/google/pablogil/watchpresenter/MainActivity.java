@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
     }
 
     public void onSendMessageButtonClick(View v){
-        Intent i = new Intent("com.google.pablogil.watchpresenter.NEXT_SLIDE");
+        Intent i = new Intent("com.google.pablogil.watchpresenter.SEND_MESSAGE");
         i.putExtra(Constants.EXTRA_MESSAGE, Constants.NEXT_SLIDE_MESSAGE);
         sendBroadcast(i);
     }
@@ -100,7 +100,7 @@ public class MainActivity extends Activity {
         int notificationId = 001;
 // Build intent for notification content
         Intent viewIntent = new Intent(this, SendMessageReceiver.class);
-        viewIntent.setAction("com.google.pablogil.watchpresenter.NEXT_SLIDE");
+        viewIntent.setAction("com.google.pablogil.watchpresenter.SEND_MESSAGE");
         viewIntent.putExtra(Constants.EXTRA_MESSAGE, Constants.NEXT_SLIDE_MESSAGE);
         PendingIntent viewPendingIntent =
                 PendingIntent.getBroadcast(this, 0, viewIntent, 0);

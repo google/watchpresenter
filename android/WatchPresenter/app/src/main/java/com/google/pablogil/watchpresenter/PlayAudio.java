@@ -58,7 +58,7 @@ public class PlayAudio extends Service{
         scheduler.scheduleAtFixedRate
                 (new Runnable() {
                     public void run() {
-                        Intent i = new Intent("com.google.pablogil.watchpresenter.NEXT_SLIDE");
+                        Intent i = new Intent("com.google.pablogil.watchpresenter.SEND_MESSAGE");
                         i.putExtra(Constants.EXTRA_MESSAGE, Constants.KEEP_ALIVE_MESSAGE);
                         sendBroadcast(i);
                     }
