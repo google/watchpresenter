@@ -36,13 +36,20 @@ public class VolumeKeysReceiver extends BroadcastReceiver {
     private static final long DUPLICATE_TIME = 200;
 
     private static long lastEvent = 0;
+    private static int lastVolume = -1; //By initializing to a negative value we
+    //are assuming that the first event ever is a next slide event
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent i = new Intent("com.google.pablogil.watchpresenter.NEXT_SLIDE");
         final long currentEvent = System.currentTimeMillis();
         if(currentEvent - lastEvent > 200) {
-            i.putExtra(Constants.EXTRA_MESSAGE, Constants.NEXT_SLIDE_MESSAGE);
+            int newVolume =
+                    (Integer)intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
+            final String message = (newVolume > lastVolume)?
+                    Constants.NEXT_SLIDE_MESSAGE: Constants.PREV_SLIDE_MESSAGE;
+            lastVolume = newVolume;
+            i.putExtra(Constants.EXTRA_MESSAGE, message);
             context.sendBroadcast(i);
         }
         else{
