@@ -16,15 +16,16 @@
 
 package com.example.pablogil.myapplication.backend;
 
+import com.google.appengine.repackaged.org.apache.commons.codec.binary.Hex;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * The Objectify object model for device registrations we are persisting
@@ -34,10 +35,22 @@ import java.util.Set;
 public class PresenterRecord {
 
     private Set<String> regIds;
+    private static final Logger log = Logger.getLogger(PresenterRecord.class.getCanonicalName());
     // you can add more fields...
 
+    private static MessageDigest crypt = null;
+
+    static{
+        try {
+            crypt = MessageDigest.getInstance("SHA-1");
+        }
+        catch (NoSuchAlgorithmException e){
+            log.severe("Algorithm not found" + e);
+        }
+    }
+
     @Id
-    private String username;
+    private String userId;
 
     public PresenterRecord() {
         regIds = new HashSet<String>();
@@ -51,15 +64,21 @@ public class PresenterRecord {
         this.regIds = regIds;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public void addRegistrationId(String regId){
         this.getRegIds().add(regId);
+    }
+
+    public static synchronized String getUserId(String username){
+        crypt.reset();
+        crypt.update(username.getBytes());
+        return Hex.encodeHexString(crypt.digest());
     }
 }

@@ -25,12 +25,10 @@ package com.example.pablogil.myapplication.backend;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
-import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.users.User;
 import com.googlecode.objectify.Key;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
@@ -71,12 +69,13 @@ public class RegistrationEndpoint {
         if(user == null){
             throw new OAuthRequestException("Not authorized");
         }
+        final String userId = PresenterRecord.getUserId(user.getEmail());
         PresenterRecord record = ofy().load().
-                key(Key.create(PresenterRecord.class, user.getEmail())).now();
+                key(Key.create(PresenterRecord.class, userId)).now();
         if(record == null){
-            log.info("Record not found for presenter '" + user.getEmail() + "'. Adding new record");
+            log.info("Record not found for userId '" + userId + "'. Adding new record");
             record = new PresenterRecord();
-            record.setUsername(user.getEmail());
+            record.setUserId(userId);
         }
         if (record.getRegIds().contains(regId)) {
             log.info("Device " + regId + " already registered, skipping register");

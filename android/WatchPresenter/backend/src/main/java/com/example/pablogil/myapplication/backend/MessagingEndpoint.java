@@ -81,13 +81,14 @@ public class MessagingEndpoint {
         if(user == null){
             throw new OAuthRequestException("Not authorized");
         }
+        final String userId = PresenterRecord.getUserId(user.getEmail());
         if(com.example.pablogil.myapplication.backend.Constants.KEEP_ALIVE_MESSAGE.equals(
                 message)){
-            log.fine("Keep alive from user: " + user.getEmail());
+            log.fine("Keep alive from userId: " + userId);
             //This is just a keep-alive. Nothing to do here...
             return;
         }
-        log.info("User: " + user.getEmail());
+        log.info("UserId: " + userId);
         if (message == null || message.trim().length() == 0) {
             log.warning("Not sending message because it is empty");
             return;
@@ -99,7 +100,7 @@ public class MessagingEndpoint {
         Sender sender = new Sender(API_KEY);
         Message msg = new Message.Builder().addData("message", message).build();
         PresenterRecord presenterRecord =
-                ofy().load().key(Key.create(PresenterRecord.class,user.getEmail())).now();
+                ofy().load().key(Key.create(PresenterRecord.class,userId)).now();
         if(presenterRecord != null) {
             Iterator<String> regIdsIterator = presenterRecord.getRegIds().iterator();
             while (regIdsIterator.hasNext()) {
@@ -131,7 +132,7 @@ public class MessagingEndpoint {
             }
         }
         else{
-            log.info("No presenters found for user: '" + user.getEmail() + "'");
+            log.info("No presenters found for userId: '" + userId + "'");
         }
     }
 
@@ -145,9 +146,10 @@ public class MessagingEndpoint {
         if(user == null){
             throw new OAuthRequestException("Not authorized");
         }
+        final String userId = PresenterRecord.getUserId(user.getEmail());
         if(log.isLoggable(Level.FINE)) {
-            log.fine("Get message version for user " +
-                    user.getEmail() + ". Version number: " + versionNumber);
+            log.fine("Get message version for userId " +
+                    userId + ". Version number: " + versionNumber);
         }
         VersionMessage message = new VersionMessage(
                 VersionMessage.ACTION_NOTHING, "", "");
