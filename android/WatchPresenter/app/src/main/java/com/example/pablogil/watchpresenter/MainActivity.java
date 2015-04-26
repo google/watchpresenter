@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
     private String accountName;
     private GoogleAccountCredential credential;
     private static final int REQUEST_ACCOUNT_PICKER = 2;
-
+    private String versionName;
 
 
     private void chooseAccount() {
@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
         }
         try {
             int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
             Log.d(Constants.LOG_TAG, "Pagage name: " + getPackageName());
             Log.d(Constants.LOG_TAG, "Version code: " + versionCode);
             Log.d(Constants.LOG_TAG, "Version name: " + versionName);
@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
                     getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
 
             TextView versionTextView = (TextView)findViewById(com.example.pablogil.watchpresenter.R.id.versionText);
-            versionTextView.setText("Version: " + versionName);
+            versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(Constants.LOG_TAG, "Cannot retrieve app version", e);
         }
@@ -117,8 +117,8 @@ public class MainActivity extends Activity {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(com.example.pablogil.watchpresenter.R.drawable.ic_launcher)
-                        .setContentTitle("WatchPresenter")
-                        .setContentText("Dismiss when you're done presenting")
+                        .setContentTitle(getResources().getString(R.string.notificationTitle))
+                        .setContentText(getResources().getString(R.string.notificationMessage))
                         .setDeleteIntent(dismissedPendingIntent)
                         .addAction(action)
                         .setContentIntent(viewPendingIntent)
@@ -158,7 +158,7 @@ public class MainActivity extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == com.example.pablogil.watchpresenter.R.id.action_about) {
             (new AlertDialog.Builder(this)
-                    .setTitle(R.string.aboutTitle)
+                    .setTitle(getResources().getString(R.string.aboutTitle) + " " + versionName)
                     .setMessage(R.string.aboutMessage)
 
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -209,7 +209,7 @@ public class MainActivity extends Activity {
 
     public void showSuggestUpdateDialog(final VersionMessage message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("A message from the developer")
+                .setTitle(getResources().getString(R.string.aMessageFromTheDeveloper))
                 .setMessage(message.getMessage());
         final String action = message.getAction();
         if(Constants.VersionMessageActions.ACTION_RECOMMEND_UPGRADE.equals(action) ||

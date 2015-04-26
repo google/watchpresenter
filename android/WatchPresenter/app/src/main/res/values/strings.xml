@@ -31,8 +31,12 @@
     <string name="or">or</string>
     <string name="useVolume">use phone\'s volume buttons</string>
     <string name="toPassTheSlidesYouMay">To pass the slides you may:</string>
-    <string name="infoFeedback">Info/Feedback: go/watchpresenter</string>
-    <string name="aboutTitle">About Watch Presenter</string>
+    <string name="infoFeedback"></string>
+    <string name="aMessageFromTheDeveloper">A message from the developer</string>
+    <string name="notificationTitle">Watch Presenter</string>
+    <string name="notificationMessage">Dismiss when you\'re done presenting</string>
+    <string name="versionPrefix">Version:</string>
+    <string name="aboutTitle">Watch Presenter </string>
     <string name="aboutMessage">Watch Presenter is released under the Apache 2.0 License.\n\nFor a full copy of the license please refer to https://www.apache.org/licenses/LICENSE-2.0\n\nThis application includes code copyrighted by Google, Inc.\n\nNote: Watch Presenter is not an official Google product and is not supported by Google in any way.</string>
 
 </resources>
