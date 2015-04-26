@@ -21,8 +21,10 @@ package com.example.pablogil.myapplication.backend;
  */
 public class Constants {
     public static final String WEB_CLIENT_ID = "1048948725539-nted56v5uo7li0b4aiet2kg8e5hge9g4.apps.googleusercontent.com";
-    public static final String ANDROID_DEBUG_CLIENT_ID = "1048948725539-8i9mppb9kkrpqoiq63m8huihiu8kufev.apps.googleusercontent.com";
-    public static final String ANDROID_CLIENT_ID = "1048948725539-ioo446ijrvarl01voq5kfpmci456vadv.apps.googleusercontent.com";
+    public static final String ANDROID_DEBUG_CLIENT_ID_OLD = "1048948725539-8i9mppb9kkrpqoiq63m8huihiu8kufev.apps.googleusercontent.com";
+    public static final String ANDROID_CLIENT_ID_OLD = "1048948725539-ioo446ijrvarl01voq5kfpmci456vadv.apps.googleusercontent.com";
+    public static final String ANDROID_DEBUG_CLIENT_ID = "1048948725539-12c9ociv6fualj89aaafss889cr4fjnn.apps.googleusercontent.com";
+    public static final String ANDROID_CLIENT_ID = "1048948725539-tqbtnuagg3hr46nok9isb1b36iv7vnrh.apps.googleusercontent.com";
     public static final String CHROME_EXTENSION_ID = "1048948725539-2fvnptbb4vqh2dqsfgnm32c2caqg32h8.apps.googleusercontent.com";
     public static final String ANDROID_AUDIENCE = WEB_CLIENT_ID;
     public static final String EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";
