@@ -158,8 +158,8 @@ public class MainActivity extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == com.example.pablogil.watchpresenter.R.id.action_about) {
             (new AlertDialog.Builder(this)
-                    .setTitle("A message from the developer")
-                    .setMessage("This is a very early dogfood preview for Googlers only. Contact pablogil@ for more info")
+                    .setTitle(R.string.aboutTitle)
+                    .setMessage(R.string.aboutMessage)
 
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -185,26 +185,12 @@ public class MainActivity extends Activity {
                             data.getExtras().getString(
                                     AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
-                        if(accountName.endsWith("@google.com")) {
-                            Log.d(Constants.LOG_TAG, "User picked. Account name: " + accountName);
-                            setSelectedAccountName(accountName);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putString(Constants.PREF_ACCOUNT_NAME, accountName);
-                            editor.commit();
-                        }
-                        else{
-                            (new AlertDialog.Builder(this)
-                                    .setTitle("Googlers only!")
-                                    .setMessage("You must select a @google.com account")
+                        Log.d(Constants.LOG_TAG, "User picked. Account name: " + accountName);
+                        setSelectedAccountName(accountName);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(Constants.PREF_ACCOUNT_NAME, accountName);
+                        editor.commit();
 
-                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            chooseAccount();
-                                        }
-                                    })
-                                    .setIcon(android.R.drawable.ic_dialog_alert)
-                            ).show();
-                        }
                     }
                 }
                 break;
