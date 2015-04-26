@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.pablogil.watchpresenter;
+package com.example.pablogil.watchpresenter;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +24,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -43,7 +42,7 @@ public class PlayAudio extends Service{
     public void onCreate(){
         super.onCreate();
         Log.d(LOGCAT, "Service Started!");
-        objPlayer = MediaPlayer.create(this,R.raw.silence);
+        objPlayer = MediaPlayer.create(this, com.example.pablogil.watchpresenter.R.raw.silence);
         objPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         objPlayer.setLooping(true);
     }
@@ -58,7 +57,7 @@ public class PlayAudio extends Service{
         scheduler.scheduleAtFixedRate
                 (new Runnable() {
                     public void run() {
-                        Intent i = new Intent("com.google.pablogil.watchpresenter.SEND_MESSAGE");
+                        Intent i = new Intent("com.example.pablogil.watchpresenter.SEND_MESSAGE");
                         i.putExtra(Constants.EXTRA_MESSAGE, Constants.KEEP_ALIVE_MESSAGE);
                         sendBroadcast(i);
                     }

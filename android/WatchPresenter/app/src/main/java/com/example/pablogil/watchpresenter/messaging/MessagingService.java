@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.pablogil.watchpresenter.messaging;
+package com.example.pablogil.watchpresenter.messaging;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,7 +24,7 @@ import com.example.pablogil.myapplication.backend.messaging.Messaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;
-import com.google.pablogil.watchpresenter.Constants;
+import com.example.pablogil.watchpresenter.Constants;
 
 /**
  * Created by pablogil on 2/12/15.

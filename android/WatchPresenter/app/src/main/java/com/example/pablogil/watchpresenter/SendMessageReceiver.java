@@ -14,29 +14,35 @@
  * limitations under the License.
  */
 
-package com.google.pablogil.watchpresenter;
+package com.example.pablogil.watchpresenter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.pablogil.myapplication.backend.messaging.Messaging;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.pablogil.watchpresenter.messaging.GcmSendMessageAsyncTask;
+import com.example.pablogil.watchpresenter.messaging.GcmSendMessageAsyncTask;
+import com.example.pablogil.watchpresenter.messaging.MessagingService;
 
 /**
  * Created by pablogil on 1/4/15.
  */
-public class NotificationDismissedReceiver extends BroadcastReceiver {
+public class SendMessageReceiver extends BroadcastReceiver {
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent objIntent = new Intent(context, PlayAudio.class);
-        context.stopService(objIntent);
+        final String message = intent.getStringExtra(Constants.EXTRA_MESSAGE);
+        Log.v(Constants.LOG_TAG, "SendMessageReceiver. Message: " + message);
+        Messaging messagingService = MessagingService.get(context);
+        if(messagingService != null){
+            Log.v(Constants.LOG_TAG, "Initiating send message task");
+            new GcmSendMessageAsyncTask(messagingService).
+                    execute(new String[]{message});
+        }
+        else{
+            Log.i(Constants.LOG_TAG, "No messagingService available at the moment");
+        }
     }
 }

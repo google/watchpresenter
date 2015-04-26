@@ -16,7 +16,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.pablogil.watchpresenter"
+    package="com.example.pablogil.watchpresenter"
     android:versionCode="2"
     android:versionName="1.1" >
 
@@ -50,7 +50,7 @@
 
         <receiver android:name=".SendMessageReceiver" >
             <intent-filter>
-                <action android:name="com.google.pablogil.watchpresenter.SEND_MESSAGE" >
+                <action android:name="com.example.pablogil.watchpresenter.SEND_MESSAGE" >
                 </action>
             </intent-filter>
         </receiver>

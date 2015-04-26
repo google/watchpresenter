@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.pablogil.watchpresenter.messaging;
+package com.example.pablogil.watchpresenter.messaging;
 
 /**
  * Created by pablogil on 1/16/15.

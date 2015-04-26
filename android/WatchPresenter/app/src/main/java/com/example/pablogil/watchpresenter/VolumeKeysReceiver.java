@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package com.google.pablogil.watchpresenter;
+package com.example.pablogil.watchpresenter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
-
-import com.example.pablogil.myapplication.backend.messaging.Messaging;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.pablogil.watchpresenter.messaging.GcmSendMessageAsyncTask;
 
 /**
  * Created by pablogil on 1/4/15.
@@ -41,7 +34,7 @@ public class VolumeKeysReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent i = new Intent("com.google.pablogil.watchpresenter.SEND_MESSAGE");
+        Intent i = new Intent("com.example.pablogil.watchpresenter.SEND_MESSAGE");
         final long currentEvent = System.currentTimeMillis();
         if(currentEvent - lastEvent > 200) {
             int newVolume =

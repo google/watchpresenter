@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.pablogil.watchpresenter;
+package com.example.pablogil.watchpresenter;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -23,8 +23,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+import com.example.pablogil.watchpresenter.messaging.GcmBroadcastReceiver;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.pablogil.watchpresenter.messaging.GcmBroadcastReceiver;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
