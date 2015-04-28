@@ -20,12 +20,16 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,7 +52,20 @@ public class MainActivity extends Activity {
     private GoogleAccountCredential credential;
     private static final int REQUEST_ACCOUNT_PICKER = 2;
     private String versionName;
+    private static final String ACTION_STOP_MONITORING = "com.example.pablogil.watchpresenter.STOP_MONITORING";
 
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(MainActivity.ACTION_STOP_MONITORING)) {
+                Log.d(Constants.LOG_TAG, "Notification dismissed");
+                MonitorVolumeKeyPress.stopMonitoring(context);
+                //finish the activity to prevent it from restarting the volume
+                //keys monitoring on activity resume after the notification has been dismissed
+                finish();
+            }
+        }
+    };
 
     private void chooseAccount() {
         startActivityForResult(credential.newChooseAccountIntent(),
@@ -83,6 +100,7 @@ public class MainActivity extends Activity {
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(Constants.LOG_TAG, "Cannot retrieve app version", e);
         }
+        registerReceiver(broadcastReceiver, new IntentFilter(ACTION_STOP_MONITORING));
     }
 
 
@@ -96,6 +114,8 @@ public class MainActivity extends Activity {
         sendBroadcast(i);
     }
 
+
+
     public void launchNotification(){
         int notificationId = 001;
 // Build intent for notification content
@@ -106,8 +126,7 @@ public class MainActivity extends Activity {
                 PendingIntent.getBroadcast(this, 0, viewIntent, 0);
 
 
-        Intent dismissedIntent = new Intent(this, NotificationDismissedReceiver.class);
-        viewIntent.setAction("com.example.pablogil.watchpresenter.NOTIFICATION_DISMISSED");
+        Intent dismissedIntent = new Intent(ACTION_STOP_MONITORING);
         PendingIntent dismissedPendingIntent =
                 PendingIntent.getBroadcast(this, 0, dismissedIntent, 0);
 
@@ -252,4 +271,11 @@ public class MainActivity extends Activity {
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.show();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
+    }
+
 }

@@ -60,12 +60,6 @@
                 </action>
             </intent-filter>
         </receiver>
-        <receiver android:name=".NotificationDismissedReceiver" >
-            <intent-filter>
-                <action android:name="android.media.NOTIFICATION_DISMISSED" >
-                </action>
-            </intent-filter>
-        </receiver>
         <receiver
             android:name=".messaging.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
