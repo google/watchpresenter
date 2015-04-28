@@ -131,8 +131,7 @@ public class MainActivity extends Activity {
 
 // Build the notification and issues it with notification manager.
         notificationManager.notify(notificationId, notificationBuilder.build());
-        Intent objIntent = new Intent(this, PlayAudio.class);
-        startService(objIntent);
+        PlayAudio.startMonitoring(this);
     }
 
     @Override

@@ -16,8 +16,10 @@
 
 package com.example.pablogil.watchpresenter;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
@@ -92,5 +94,25 @@ public class PlayAudio extends Service{
     @Override
     public IBinder onBind(Intent objIndent) {
         return null;
+    }
+
+    public static void startMonitoring(Context context){
+        Intent objIntent = new Intent(context, PlayAudio.class);
+        context.startService(objIntent);
+        ComponentName receiver = new ComponentName(context, VolumeKeysReceiver.class);
+        PackageManager pm = context.getPackageManager();
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+    }
+
+    public static void stopMonitoring(Context context){
+        Intent objIntent = new Intent(context, PlayAudio.class);
+        context.stopService(objIntent);
+        ComponentName receiver = new ComponentName(context, VolumeKeysReceiver.class);
+        PackageManager pm = context.getPackageManager();
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
     }
 }

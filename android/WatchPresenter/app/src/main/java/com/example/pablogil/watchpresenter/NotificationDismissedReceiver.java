@@ -28,7 +28,6 @@ public class NotificationDismissedReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent objIntent = new Intent(context, PlayAudio.class);
-        context.stopService(objIntent);
+        PlayAudio.stopMonitoring(context);
     }
 }
