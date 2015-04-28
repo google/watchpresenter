@@ -31,11 +31,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This service's purpose is to play an inaudible audio in teh background.
+ * This service's purpose is to play an inaudible audio in the background.
  *
  * That way, we can detect volume key's presses with a Receiver.
  */
-public class PlayAudio extends Service{
+public class MonitorVolumeKeyPress extends Service{
     private static final String LOGCAT = null;
     MediaPlayer objPlayer;
     WifiManager.WifiLock wifiLock = null;
@@ -97,7 +97,7 @@ public class PlayAudio extends Service{
     }
 
     public static void startMonitoring(Context context){
-        Intent objIntent = new Intent(context, PlayAudio.class);
+        Intent objIntent = new Intent(context, MonitorVolumeKeyPress.class);
         context.startService(objIntent);
         ComponentName receiver = new ComponentName(context, VolumeKeysReceiver.class);
         PackageManager pm = context.getPackageManager();
@@ -107,7 +107,7 @@ public class PlayAudio extends Service{
     }
 
     public static void stopMonitoring(Context context){
-        Intent objIntent = new Intent(context, PlayAudio.class);
+        Intent objIntent = new Intent(context, MonitorVolumeKeyPress.class);
         context.stopService(objIntent);
         ComponentName receiver = new ComponentName(context, VolumeKeysReceiver.class);
         PackageManager pm = context.getPackageManager();

@@ -131,7 +131,7 @@ public class MainActivity extends Activity {
 
 // Build the notification and issues it with notification manager.
         notificationManager.notify(notificationId, notificationBuilder.build());
-        PlayAudio.startMonitoring(this);
+        MonitorVolumeKeyPress.startMonitoring(this);
     }
 
     @Override

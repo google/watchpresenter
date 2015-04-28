@@ -28,6 +28,6 @@ public class NotificationDismissedReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        PlayAudio.stopMonitoring(context);
+        MonitorVolumeKeyPress.stopMonitoring(context);
     }
 }

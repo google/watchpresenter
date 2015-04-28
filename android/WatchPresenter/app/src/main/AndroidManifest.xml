@@ -77,7 +77,7 @@
         </receiver>
 
         <service android:name=".GcmIntentService" />
-        <service android:name=".PlayAudio"  android:enabled="true"></service>
+        <service android:name=".MonitorVolumeKeyPress"  android:enabled="true"></service>
 
     </application>
 
