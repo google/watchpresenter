@@ -39,7 +39,7 @@ public class VolumeKeysReceiver extends BroadcastReceiver {
         if(currentEvent - lastEvent > 200) {
             int newVolume =
                     (Integer)intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
-            final String message = (newVolume > lastVolume)?
+            final String message = (newVolume!=0&&(newVolume >= lastVolume))?
                     Constants.NEXT_SLIDE_MESSAGE: Constants.PREV_SLIDE_MESSAGE;
             lastVolume = newVolume;
             i.putExtra(Constants.EXTRA_MESSAGE, message);
