@@ -16,9 +16,11 @@
 
 package com.example.pablogil.watchpresenter;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
@@ -40,6 +42,37 @@ public class MonitorVolumeKeyPress extends Service{
     MediaPlayer objPlayer;
     WifiManager.WifiLock wifiLock = null;
     private ScheduledExecutorService scheduler;
+    private static final String ACTION_VOLUME_KEY_PRESS = "android.media.VOLUME_CHANGED_ACTION";
+
+    private BroadcastReceiver volumeKeysReceiver = new BroadcastReceiver() {
+
+        private static final long DUPLICATE_TIME = 200;
+
+
+        private long lastEvent = 0;
+        private int lastVolume = -1; //By initializing to a negative value we
+        //are assuming that the first event ever is a next slide event
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Intent i = new Intent("com.example.pablogil.watchpresenter.SEND_MESSAGE");
+            final long currentEvent = System.currentTimeMillis();
+            if(currentEvent - lastEvent > DUPLICATE_TIME) {
+                int newVolume =
+                        (Integer)intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
+                final String message = (newVolume!=0&&(newVolume >= lastVolume))?
+                        Constants.NEXT_SLIDE_MESSAGE: Constants.PREV_SLIDE_MESSAGE;
+                lastVolume = newVolume;
+                i.putExtra(Constants.EXTRA_MESSAGE, message);
+                context.sendBroadcast(i);
+            }
+            else{
+                Log.d(Constants.LOG_TAG, "Duplicate volume event discarded");
+            }
+            lastEvent = currentEvent;
+        }
+    };
+
 
     public void onCreate(){
         super.onCreate();
@@ -49,7 +82,22 @@ public class MonitorVolumeKeyPress extends Service{
         objPlayer.setLooping(true);
     }
 
-    public int onStartCommand(Intent intent, int flags, int startId){
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        startMonitoring();
+        return 1;
+    }
+
+    @Override
+    public void onDestroy(){
+        Log.d(Constants.LOG_TAG,"destroying KeyPress monitor service");
+        stopMonitoring();
+    }
+    @Override
+    public IBinder onBind(Intent objIndent) {
+        return null;
+    }
+
+    private void startMonitoring(){
         wifiLock = ((WifiManager) getSystemService(Context.WIFI_SERVICE))
                 .createWifiLock(WifiManager.WIFI_MODE_FULL, "WatchPresenterLock");
         wifiLock.acquire();
@@ -65,54 +113,18 @@ public class MonitorVolumeKeyPress extends Service{
                     }
                 }, 0, 2, TimeUnit.MINUTES);
         objPlayer.start();
+        registerReceiver(volumeKeysReceiver, new IntentFilter(ACTION_VOLUME_KEY_PRESS));
         Log.d(LOGCAT, "Media Player started!");
         if(objPlayer.isLooping() != true){
             Log.d(LOGCAT, "Problem in Playing Audio");
         }
-        return 1;
     }
 
-    public void onStop(){
+    private void stopMonitoring(){
         objPlayer.stop();
         wifiLock.release();
         objPlayer.release();
         scheduler.shutdown();
-    }
-
-    public void onPause(){
-        objPlayer.stop();
-        wifiLock.release();
-        objPlayer.release();
-        scheduler.shutdown();
-    }
-    public void onDestroy(){
-        objPlayer.stop();
-        wifiLock.release();
-        objPlayer.release();
-        scheduler.shutdown();
-    }
-    @Override
-    public IBinder onBind(Intent objIndent) {
-        return null;
-    }
-
-    public static void startMonitoring(Context context){
-        Intent objIntent = new Intent(context, MonitorVolumeKeyPress.class);
-        context.startService(objIntent);
-        ComponentName receiver = new ComponentName(context, VolumeKeysReceiver.class);
-        PackageManager pm = context.getPackageManager();
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
-    }
-
-    public static void stopMonitoring(Context context){
-        Intent objIntent = new Intent(context, MonitorVolumeKeyPress.class);
-        context.stopService(objIntent);
-        ComponentName receiver = new ComponentName(context, VolumeKeysReceiver.class);
-        PackageManager pm = context.getPackageManager();
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
+        unregisterReceiver(volumeKeysReceiver);
     }
 }

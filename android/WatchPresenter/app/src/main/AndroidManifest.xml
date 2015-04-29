@@ -54,12 +54,6 @@
                 </action>
             </intent-filter>
         </receiver>
-        <receiver android:name=".VolumeKeysReceiver" >
-            <intent-filter>
-                <action android:name="android.media.VOLUME_CHANGED_ACTION" >
-                </action>
-            </intent-filter>
-        </receiver>
         <receiver
             android:name=".messaging.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >

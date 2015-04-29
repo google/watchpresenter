@@ -53,13 +53,15 @@ public class MainActivity extends Activity {
     private static final int REQUEST_ACCOUNT_PICKER = 2;
     private String versionName;
     private static final String ACTION_STOP_MONITORING = "com.example.pablogil.watchpresenter.STOP_MONITORING";
+    public static final int PRESENTING_NOTIFICATION_ID = 001;
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(MainActivity.ACTION_STOP_MONITORING)) {
                 Log.d(Constants.LOG_TAG, "Notification dismissed");
-                MonitorVolumeKeyPress.stopMonitoring(context);
+                Intent objIntent = new Intent(context, MonitorVolumeKeyPress.class);
+                context.stopService(objIntent);
                 //finish the activity to prevent it from restarting the volume
                 //keys monitoring on activity resume after the notification has been dismissed
                 finish();
@@ -117,7 +119,6 @@ public class MainActivity extends Activity {
 
 
     public void launchNotification(){
-        int notificationId = 001;
 // Build intent for notification content
         Intent viewIntent = new Intent(this, SendMessageReceiver.class);
         viewIntent.setAction("com.example.pablogil.watchpresenter.SEND_MESSAGE");
@@ -149,8 +150,9 @@ public class MainActivity extends Activity {
                 NotificationManagerCompat.from(this);
 
 // Build the notification and issues it with notification manager.
-        notificationManager.notify(notificationId, notificationBuilder.build());
-        MonitorVolumeKeyPress.startMonitoring(this);
+        notificationManager.notify(PRESENTING_NOTIFICATION_ID, notificationBuilder.build());
+        Intent objIntent = new Intent(this, MonitorVolumeKeyPress.class);
+        startService(objIntent);
     }
 
     @Override
