@@ -44,7 +44,6 @@ public class MonitorVolumeKeyPress extends Service{
     private static final String LOGCAT = null;
     MediaPlayer objPlayer;
     WifiManager.WifiLock wifiLock = null;
-    private ScheduledExecutorService scheduler;
     private static final String ACTION_VOLUME_KEY_PRESS = "android.media.VOLUME_CHANGED_ACTION";
     private static final long SWITCH_OFF_DELAY = 3600000;
 
@@ -110,17 +109,6 @@ public class MonitorVolumeKeyPress extends Service{
         wifiLock = ((WifiManager) getSystemService(Context.WIFI_SERVICE))
                 .createWifiLock(WifiManager.WIFI_MODE_FULL, "WatchPresenterLock");
         wifiLock.acquire();
-        scheduler =
-                Executors.newSingleThreadScheduledExecutor();
-
-        scheduler.scheduleAtFixedRate
-                (new Runnable() {
-                    public void run() {
-                        Intent i = new Intent("com.example.pablogil.watchpresenter.SEND_MESSAGE");
-                        i.putExtra(Constants.EXTRA_MESSAGE, Constants.KEEP_ALIVE_MESSAGE);
-                        sendBroadcast(i);
-                    }
-                }, 0, 2, TimeUnit.MINUTES);
         objPlayer.start();
         registerReceiver(volumeKeysReceiver, new IntentFilter(ACTION_VOLUME_KEY_PRESS));
         Log.d(LOGCAT, "Media Player started!");
@@ -134,7 +122,6 @@ public class MonitorVolumeKeyPress extends Service{
         objPlayer.stop();
         wifiLock.release();
         objPlayer.release();
-        scheduler.shutdown();
         cancelShutdown();
         unregisterReceiver(volumeKeysReceiver);
     }
