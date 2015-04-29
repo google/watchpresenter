@@ -26,8 +26,11 @@ import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +46,10 @@ public class MonitorVolumeKeyPress extends Service{
     WifiManager.WifiLock wifiLock = null;
     private ScheduledExecutorService scheduler;
     private static final String ACTION_VOLUME_KEY_PRESS = "android.media.VOLUME_CHANGED_ACTION";
+    private static final long SWITCH_OFF_DELAY = 3600000;
+
+
+    private Timer timer;
 
     private BroadcastReceiver volumeKeysReceiver = new BroadcastReceiver() {
 
@@ -65,6 +72,7 @@ public class MonitorVolumeKeyPress extends Service{
                 lastVolume = newVolume;
                 i.putExtra(Constants.EXTRA_MESSAGE, message);
                 context.sendBroadcast(i);
+                scheduleShutdown();
             }
             else{
                 Log.d(Constants.LOG_TAG, "Duplicate volume event discarded");
@@ -80,6 +88,7 @@ public class MonitorVolumeKeyPress extends Service{
         objPlayer = MediaPlayer.create(this, com.example.pablogil.watchpresenter.R.raw.silence);
         objPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         objPlayer.setLooping(true);
+        timer = new Timer();
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -89,7 +98,7 @@ public class MonitorVolumeKeyPress extends Service{
 
     @Override
     public void onDestroy(){
-        Log.d(Constants.LOG_TAG,"destroying KeyPress monitor service");
+        Log.d(Constants.LOG_TAG, "destroying KeyPress monitor service");
         stopMonitoring();
     }
     @Override
@@ -118,6 +127,7 @@ public class MonitorVolumeKeyPress extends Service{
         if(objPlayer.isLooping() != true){
             Log.d(LOGCAT, "Problem in Playing Audio");
         }
+        scheduleShutdown();
     }
 
     private void stopMonitoring(){
@@ -125,6 +135,39 @@ public class MonitorVolumeKeyPress extends Service{
         wifiLock.release();
         objPlayer.release();
         scheduler.shutdown();
+        cancelShutdown();
         unregisterReceiver(volumeKeysReceiver);
     }
+
+    private synchronized void scheduleShutdown(){
+        if(timer != null){
+            timer.cancel();
+        }
+        timer = new Timer();
+        timer.schedule(new TimerTask(){
+
+            @Override
+            public void run() {
+                if(MainActivity.active == false) {
+                    Log.d(Constants.LOG_TAG, "Timeout, stopping keypress monitoring service...");
+                    NotificationManagerCompat notificationManager =
+                            NotificationManagerCompat.from(MonitorVolumeKeyPress.this);
+
+// Build the notification and issues it with notification manager.
+                    notificationManager.cancel(MainActivity.PRESENTING_NOTIFICATION_ID);
+                    stopSelf();
+                }
+                else{
+                    Log.d(Constants.LOG_TAG, "Timeout, but MainActivity in foreground. Not stopping");
+                }
+            }
+        }, SWITCH_OFF_DELAY);
+    }
+
+    private synchronized void cancelShutdown(){
+        if(timer != null){
+            timer.cancel();
+        }
+    }
+
 }

@@ -55,6 +55,8 @@ public class MainActivity extends Activity {
     private static final String ACTION_STOP_MONITORING = "com.example.pablogil.watchpresenter.STOP_MONITORING";
     public static final int PRESENTING_NOTIFICATION_ID = 001;
 
+    public static boolean active = false;
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -159,6 +161,7 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         launchNotification();
+        active = true;
     }
 
     @Override
@@ -279,5 +282,12 @@ public class MainActivity extends Activity {
         super.onDestroy();
         unregisterReceiver(broadcastReceiver);
     }
+
+    @Override
+    protected void onStop() {
+        super.onPause();
+        active = false;
+    }
+
 
 }
