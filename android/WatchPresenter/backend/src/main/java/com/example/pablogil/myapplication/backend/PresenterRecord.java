@@ -23,6 +23,7 @@ import com.googlecode.objectify.annotation.Id;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -35,6 +36,7 @@ import java.util.logging.Logger;
 public class PresenterRecord {
 
     private Set<String> regIds;
+    private Date lastUpdate;
     private static final Logger log = Logger.getLogger(PresenterRecord.class.getCanonicalName());
     // you can add more fields...
 
@@ -80,5 +82,17 @@ public class PresenterRecord {
         crypt.reset();
         crypt.update(username.getBytes());
         return Hex.encodeHexString(crypt.digest());
+    }
+
+    public void updateTime(){
+        lastUpdate = new Date();
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

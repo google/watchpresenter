@@ -84,8 +84,9 @@ public class RegistrationEndpoint {
         }
         else {
             record.addRegistrationId(regId);
-            ofy().save().entity(record).now();
         }
+        record.updateTime();
+        ofy().save().entity(record).now();
     }
 
 
