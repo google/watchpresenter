@@ -38,6 +38,10 @@
         <servlet-name>cleanupDatabase</servlet-name>
         <servlet-class>com.example.pablogil.myapplication.backend.Cleanup</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>keepAlive</servlet-name>
+        <servlet-class>com.example.pablogil.myapplication.backend.KeepAlive</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
@@ -45,6 +49,10 @@
     <servlet-mapping>
         <servlet-name>cleanupDatabase</servlet-name>
         <url-pattern>/cron/cleanupDatabase</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>keepAlive</servlet-name>
+        <url-pattern>/cron/keepAlive</url-pattern>
     </servlet-mapping>
     <security-constraint>
         <web-resource-collection>

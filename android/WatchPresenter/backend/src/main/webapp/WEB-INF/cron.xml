@@ -21,4 +21,9 @@
         <description>Cleans old entries in the database</description>
         <schedule>every day 02:00</schedule>
     </cron>
+    <cron>
+        <url>/cron/keepAlive</url>
+        <description>Keeps app alive</description>
+        <schedule>every 2 minutes</schedule>
+    </cron>
 </cronentries>
