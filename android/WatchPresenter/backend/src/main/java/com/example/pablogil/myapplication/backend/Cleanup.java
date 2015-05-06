@@ -43,44 +43,37 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static com.example.pablogil.myapplication.backend.OfyService.ofy;
 
+
 /**
- * Messagint EndPoint
- *
- * This endpoint receives messages from the mobile app and delivers them to the
- * browser.
+ * This class handles clean up of old database entries
  */
-@Api(name = "cleanup",
-        version = "v1",
-        namespace = @ApiNamespace(ownerDomain = "backend.myapplication.pablogil.example.com",
-                ownerName = "backend.myapplication.pablogil.example.com",
-                packagePath = ""),
-    scopes = {com.example.pablogil.myapplication.backend.Constants.EMAIL_SCOPE},
-    clientIds = {com.example.pablogil.myapplication.backend.Constants.ANDROID_DEBUG_CLIENT_ID,
-            com.example.pablogil.myapplication.backend.Constants.ANDROID_DEBUG_CLIENT_ID_OLD,
-            com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID,
-            com.example.pablogil.myapplication.backend.Constants.WEB_CLIENT_ID,
-            com.example.pablogil.myapplication.backend.Constants.ANDROID_CLIENT_ID,
-            com.example.pablogil.myapplication.backend.Constants.ANDROID_CLIENT_ID_OLD
-//            com.example.pablogil.myapplication.backend.Constants.CHROME_EXTENSION_ID
-    },
-    audiences = {com.example.pablogil.myapplication.backend.Constants.ANDROID_AUDIENCE})
-public class Cleanup {
+public class Cleanup extends HttpServlet{
     private static final Logger log = Logger.getLogger(Cleanup.class.getName());
 
-    private static final long EXPIRY_MILLISECONDS = 10000;
+    private static final long EXPIRY_MILLISECONDS = 63 * 24 * 3600 * 1000; //Cleaning entries older
+    // than 63 days
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+            IOException {
+        try {
+            cleanUp();
+        } catch (OAuthRequestException e) {
+            throw new ServletException("Could not perform cleanup", e);
+        }
+    }
 
     /**
      *
      */
-    @ApiMethod(name = "cleanup")
-    public void sendMessage(User user) throws IOException, OAuthRequestException {
-        if(user == null){
-            throw new OAuthRequestException("Not authorized");
-        }
+    private void cleanUp() throws IOException, OAuthRequestException {
 
         List<PresenterRecord> oldRecords = ofy().load().
                 type(PresenterRecord.class).filter(

@@ -34,8 +34,25 @@
             </param-value>
         </init-param>
     </servlet>
+    <servlet>
+        <servlet-name>cleanupDatabase</servlet-name>
+        <servlet-class>com.example.pablogil.myapplication.backend.Cleanup</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cleanupDatabase</servlet-name>
+        <url-pattern>/cron/cleanupDatabase</url-pattern>
+    </servlet-mapping>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>cron</web-resource-name>
+            <url-pattern>/cron/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

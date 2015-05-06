@@ -20,6 +20,7 @@ import com.google.appengine.repackaged.org.apache.commons.codec.binary.Hex;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -36,6 +37,8 @@ import java.util.logging.Logger;
 public class PresenterRecord {
 
     private Set<String> regIds;
+
+    @Index
     private Date lastUpdate;
     private static final Logger log = Logger.getLogger(PresenterRecord.class.getCanonicalName());
     // you can add more fields...
