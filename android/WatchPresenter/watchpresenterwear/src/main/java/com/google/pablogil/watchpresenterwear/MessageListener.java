@@ -21,10 +21,7 @@ import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
-
-import static com.google.pablogil.mloggerwear.Constants.LOG_EVENT_PATH;
-import static com.google.pablogil.mloggerwear.Constants.START_SERVICE_PATH;
-import static com.google.pablogil.mloggerwear.Constants.STOP_SERVICE_PATH;
+import com.google.pablogil.watchpresentercommon.Constants;
 
 
 /**
@@ -43,22 +40,16 @@ public class MessageListener extends WearableListenerService {
 
         final String messagePath = messageEvent.getPath();
         if(messagePath != null){
-            if(messagePath.equals(START_SERVICE_PATH)){
+            if(messagePath.equals(Constants.START_GESTURE_SERVICE_PATH)){
                 Log.d(TAG, "Starting service...");
-                Intent intent = new Intent(this, LoggerService.class);
-                intent.putExtra(LoggerService.EXTRA_COMMAND, LoggerService.EXTRA_START);
+                Intent intent = new Intent(this, GestureService.class);
+                intent.putExtra(GestureService.EXTRA_COMMAND, GestureService.EXTRA_START);
                 startService(intent);
             }
-            else if(messagePath.equals(STOP_SERVICE_PATH)){
+            else if(messagePath.equals(Constants.STOP_GESTURE_SERVICE_PATH)){
                 Log.d(TAG, "Stopping service...");
-                Intent intent = new Intent(this, LoggerService.class);
+                Intent intent = new Intent(this, GestureService.class);
                 stopService(intent);
-            }
-            else if(messagePath.equals(LOG_EVENT_PATH)){
-                Log.d(TAG, "Logging event...");
-                Intent intent = new Intent(this, LoggerService.class);
-                intent.putExtra(LoggerService.EXTRA_COMMAND, LoggerService.EXTRA_LOG_EVENT);
-                startService(intent);
             }
             else{
                 Log.i(TAG, "Received message with unknown path: " + messagePath);

@@ -20,6 +20,7 @@ package com.google.pablogil.watchpresentercommon;
  * Created by pablogil on 2/10/15.
  */
 public class Constants {
+
     public static final String PREF_ACCOUNT_NAME = "accountName";
     public static final String ANDROID_AUDIENCE = "1048948725539-nted56v5uo7li0b4aiet2kg8e5hge9g4.apps.googleusercontent.com";
     public static final String LOG_TAG = "WatchPresenter";
@@ -36,4 +37,7 @@ public class Constants {
         public static final String ACTION_BLOCK = "ACTION_BLOCK";
         public static final String ACTION_SHOW_MESSAGE = "ACTION_SHOW_MESSAGE";
     }
+
+    public static final String START_GESTURE_SERVICE_PATH = "start/GestureService";
+    public static final String STOP_GESTURE_SERVICE_PATH = "stop/GestureService";
 }

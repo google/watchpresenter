@@ -24,7 +24,7 @@
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
-        <service android:name=".LoggerService"></service>
+        <service android:name=".GestureService"></service>
     </application>
 
 </manifest>

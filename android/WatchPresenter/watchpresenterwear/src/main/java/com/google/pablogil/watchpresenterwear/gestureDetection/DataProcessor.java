@@ -14,27 +14,16 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
+package com.google.pablogil.watchpresenterwear.gestureDetection;
 
-android {
-    compileSdkVersion 20
-    buildToolsVersion '20.0.0'
-    defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 20
-        versionCode 1
-        versionName "1.0"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    productFlavors {
-    }
-}
+import java.io.IOException;
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+/**
+ * Created by pablogil on 5/17/15.
+ */
+public interface DataProcessor {
+
+    boolean processData(double[] input);
+    void load() throws IOException;
+    void shutdown();
 }
