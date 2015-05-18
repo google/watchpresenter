@@ -38,5 +38,7 @@
     <string name="versionPrefix">Version:</string>
     <string name="aboutTitle">Watch Presenter </string>
     <string name="aboutMessage">Watch Presenter is released under the Apache 2.0 License.\n\nFor a full copy of the license please refer to https://www.apache.org/licenses/LICENSE-2.0\n\nThis application includes code copyrighted by Google, Inc.\n\nNote: Watch Presenter is not an official Google product and is not supported by Google in any way.</string>
+    <string name="wearGestureDetectionOn">Watch gestures ON</string>
+    <string name="wearGestureDetectionOff">Watch gestures OFF</string>
 
 </resources>

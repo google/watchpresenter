@@ -29,34 +29,32 @@ import com.google.pablogil.watchpresentercommon.Constants;
  */
 public class MessageListener extends WearableListenerService {
 
-    private static final String TAG = "MLogger";
-
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-        if (Log.isLoggable(TAG, Log.DEBUG)) {
-            Log.d(TAG, "onDataChanged: " + messageEvent);
+        if (Log.isLoggable(Constants.LOG_TAG, Log.DEBUG)) {
+            Log.d(Constants.LOG_TAG, "onDataChanged: " + messageEvent);
         }
 
         final String messagePath = messageEvent.getPath();
         if(messagePath != null){
             if(messagePath.equals(Constants.START_GESTURE_SERVICE_PATH)){
-                Log.d(TAG, "Starting service...");
+                Log.d(Constants.LOG_TAG, "Starting service...");
                 Intent intent = new Intent(this, GestureService.class);
                 intent.putExtra(GestureService.EXTRA_COMMAND, GestureService.EXTRA_START);
                 startService(intent);
             }
             else if(messagePath.equals(Constants.STOP_GESTURE_SERVICE_PATH)){
-                Log.d(TAG, "Stopping service...");
+                Log.d(Constants.LOG_TAG, "Stopping service...");
                 Intent intent = new Intent(this, GestureService.class);
                 stopService(intent);
             }
             else{
-                Log.i(TAG, "Received message with unknown path: " + messagePath);
+                Log.i(Constants.LOG_TAG, "Received message with unknown path: " + messagePath);
             }
         }
         else{
-            Log.e(TAG, "Message with null path: " + messageEvent);
+            Log.e(Constants.LOG_TAG, "Message with null path: " + messageEvent);
         }
     }
 }

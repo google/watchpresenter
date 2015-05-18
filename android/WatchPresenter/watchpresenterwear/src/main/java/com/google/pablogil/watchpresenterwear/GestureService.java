@@ -135,10 +135,11 @@ public class GestureService extends Service {
 
     private synchronized void startDetection() {
         if (running == false) {
+            Log.d(Constants.LOG_TAG, "Starting gesture detection service...");
             if (pm == null) {
                 pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             }
-            wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MLogger - sensor");
+            wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Watchpresenter - gestures");
             wl.acquire();
             try {
 
@@ -174,11 +175,11 @@ public class GestureService extends Service {
                 gestureDetector.start();
 
             } catch (IOException e) {
-                Log.e(Constants.LOG_TAG, "Could not open file for logging", e);
+                Log.e(Constants.LOG_TAG, "Exception while starting service", e);
             }
         }
         else{
-            Log.w(Constants.LOG_TAG, "Service already logging. Start logging skipped");
+            Log.w(Constants.LOG_TAG, "Service already logging. Skipped");
         }
     }
 
@@ -208,7 +209,7 @@ public class GestureService extends Service {
             dataProcessor.shutdown();
         }
         running = false;
-        Log.d(Constants.LOG_TAG, "Service is being destroyed.");
+        Log.d(Constants.LOG_TAG, "Gesture service is being destroyed.");
     }
 
 

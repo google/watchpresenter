@@ -35,7 +35,9 @@ import android.view.MenuItem;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
 import com.zuluindia.watchpresenter.messaging.GcmRegistrationAsyncTask;
@@ -54,6 +56,10 @@ public class MainActivity extends Activity {
     private String versionName;
     private static final String ACTION_STOP_MONITORING = "com.zuluindia.watchpresenter.STOP_MONITORING";
     public static final int PRESENTING_NOTIFICATION_ID = 001;
+
+
+    private ToggleButton tbEnableWearGestures;
+    private WearMessenger wearMessenger;
 
     public static boolean active = false;
 
@@ -105,6 +111,22 @@ public class MainActivity extends Activity {
             Log.e(Constants.LOG_TAG, "Cannot retrieve app version", e);
         }
         registerReceiver(broadcastReceiver, new IntentFilter(ACTION_STOP_MONITORING));
+
+        wearMessenger = new WearMessenger(this);
+
+        tbEnableWearGestures = (ToggleButton)findViewById(R.id.enableWearGestureDetection);
+
+        tbEnableWearGestures.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+                if (arg1) {
+                    startGestureDetection();
+                } else {
+                    stopGestureDetection();
+                }
+            }
+        });
+
     }
 
 
@@ -289,5 +311,14 @@ public class MainActivity extends Activity {
         active = false;
     }
 
+
+
+    private void startGestureDetection(){
+        wearMessenger.sendToAllThread(Constants.START_GESTURE_SERVICE_PATH);
+    }
+
+    private void stopGestureDetection(){
+        wearMessenger.sendToAllThread(Constants.STOP_GESTURE_SERVICE_PATH);
+    }
 
 }
