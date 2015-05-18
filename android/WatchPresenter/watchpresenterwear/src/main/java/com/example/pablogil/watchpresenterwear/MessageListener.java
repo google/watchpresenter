@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.pablogil.watchpresenterwear;
+package com.example.pablogil.watchpresenterwear;
 
 import android.content.Intent;
 import android.util.Log;
