@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenter;
+package com.google.pablogil.watchpresentercommon;
 
 import android.content.Context;
 import android.util.Log;
@@ -25,7 +25,6 @@ import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
-import com.google.pablogil.watchpresentercommon.Constants;
 
 import java.util.Collection;
 import java.util.HashSet;

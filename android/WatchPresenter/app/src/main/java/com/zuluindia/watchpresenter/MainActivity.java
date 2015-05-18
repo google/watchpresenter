@@ -45,6 +45,7 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.zuluindia.watchpresenter.messaging.GcmGetVersionMessageAsyncTask;
 import com.zuluindia.watchpresenter.messaging.MessagingService;
 import com.google.pablogil.watchpresentercommon.Constants;
+import com.google.pablogil.watchpresentercommon.WearMessenger;
 
 
 public class MainActivity extends Activity {
