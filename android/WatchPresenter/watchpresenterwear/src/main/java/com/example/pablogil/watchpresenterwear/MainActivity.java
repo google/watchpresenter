@@ -28,12 +28,12 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.pablogil.watchpresenterwear.R.layout.activity_main);
-        final WatchViewStub stub = (WatchViewStub) findViewById(com.example.pablogil.watchpresenterwear.R.id.watch_view_stub);
+        setContentView(com.example.pablogil.watchpresenter.R.layout.activity_main);
+        final WatchViewStub stub = (WatchViewStub) findViewById(com.example.pablogil.watchpresenter.R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                mTextView = (TextView) stub.findViewById(com.example.pablogil.watchpresenterwear.R.id.text);
+                mTextView = (TextView) stub.findViewById(com.example.pablogil.watchpresenter.R.id.text);
             }
         });
     }

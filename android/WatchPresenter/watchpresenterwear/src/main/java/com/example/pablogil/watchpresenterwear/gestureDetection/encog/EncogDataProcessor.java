@@ -21,7 +21,7 @@ import android.util.Log;
 
 
 import com.google.pablogil.watchpresentercommon.Constants;
-import com.example.pablogil.watchpresenterwear.R;
+import com.example.pablogil.watchpresenter.R;
 import com.example.pablogil.watchpresenterwear.gestureDetection.DataProcessor;
 
 import org.encog.Encog;
