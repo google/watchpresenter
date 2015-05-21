@@ -47,7 +47,7 @@ public class MessagingService {
                 credential.setSelectedAccountName(accountName);
                 Messaging.Builder builder = new Messaging.Builder(AndroidHttp.newCompatibleTransport(),
                         new GsonFactory(), credential)
-                        .setRootUrl("https://watchpresenterpublic.appspot.com/_ah/api/");
+                        .setRootUrl("https://watchpresenter.appspot.com/_ah/api/");
 
                 messagingService = builder.build();
             }
