@@ -38,7 +38,7 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
     private GoogleCloudMessaging gcm;
     private Context context;
 
-    private static final String SENDER_ID = "736639150268";
+    private static final String SENDER_ID = "122248338560";
 
     public GcmRegistrationAsyncTask(Context context) {
         this.context = context;
