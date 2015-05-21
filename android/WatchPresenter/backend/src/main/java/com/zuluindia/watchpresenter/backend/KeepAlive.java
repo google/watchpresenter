@@ -20,7 +20,7 @@
    https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints
 */
 
-package com.example.pablogil.myapplication.backend;
+package com.zuluindia.watchpresenter.backend;
 
 import com.google.appengine.api.oauth.OAuthRequestException;
 
@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.example.pablogil.myapplication.backend.OfyService.ofy;
+import static com.zuluindia.watchpresenter.backend.OfyService.ofy;
 
 
 /**

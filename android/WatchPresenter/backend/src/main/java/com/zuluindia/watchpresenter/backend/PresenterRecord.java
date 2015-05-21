@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.myapplication.backend;
+package com.zuluindia.watchpresenter.backend;
 
 import com.google.appengine.repackaged.org.apache.commons.codec.binary.Hex;
 import com.googlecode.objectify.annotation.Cache;

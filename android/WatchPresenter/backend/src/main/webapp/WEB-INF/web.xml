@@ -29,18 +29,18 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>com.example.pablogil.myapplication.backend.RegistrationEndpoint,
-                com.example.pablogil.myapplication.backend.MessagingEndpoint
+            <param-value>com.zuluindia.watchpresenter.backend.RegistrationEndpoint,
+                com.zuluindia.watchpresenter.backend.MessagingEndpoint
             </param-value>
         </init-param>
     </servlet>
     <servlet>
         <servlet-name>cleanupDatabase</servlet-name>
-        <servlet-class>com.example.pablogil.myapplication.backend.Cleanup</servlet-class>
+        <servlet-class>com.zuluindia.watchpresenter.backend.Cleanup</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>keepAlive</servlet-name>
-        <servlet-class>com.example.pablogil.myapplication.backend.KeepAlive</servlet-class>
+        <servlet-class>com.zuluindia.watchpresenter.backend.KeepAlive</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>

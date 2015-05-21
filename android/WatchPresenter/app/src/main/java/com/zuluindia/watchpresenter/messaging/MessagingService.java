@@ -20,7 +20,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.example.pablogil.myapplication.backend.messaging.Messaging;
+import com.zuluindia.watchpresenter.backend.messaging.Messaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;

@@ -24,7 +24,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.example.pablogil.myapplication.backend.registration.Registration;
+import com.zuluindia.watchpresenter.backend.registration.Registration;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;

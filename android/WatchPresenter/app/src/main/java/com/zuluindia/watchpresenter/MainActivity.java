@@ -37,7 +37,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.pablogil.myapplication.backend.messaging.model.VersionMessage;
+import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
 import com.zuluindia.watchpresenter.messaging.GcmRegistrationAsyncTask;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.zuluindia.watchpresenter.messaging.GcmGetVersionMessageAsyncTask;

@@ -23,8 +23,8 @@ package com.zuluindia.watchpresenter.messaging;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.pablogil.myapplication.backend.messaging.Messaging;
-import com.example.pablogil.myapplication.backend.messaging.model.VersionMessage;
+import com.zuluindia.watchpresenter.backend.messaging.Messaging;
+import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
 import com.zuluindia.watchpresenter.MainActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;

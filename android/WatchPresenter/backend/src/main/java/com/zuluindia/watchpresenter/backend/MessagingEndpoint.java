@@ -20,7 +20,7 @@
    https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints
 */
 
-package com.example.pablogil.myapplication.backend;
+package com.zuluindia.watchpresenter.backend;
 
 import com.google.android.gcm.server.Constants;
 import com.google.android.gcm.server.Message;
@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
-import static com.example.pablogil.myapplication.backend.OfyService.ofy;
+import static com.zuluindia.watchpresenter.backend.OfyService.ofy;
 
 /**
  * Messagint EndPoint
@@ -53,19 +53,19 @@ import static com.example.pablogil.myapplication.backend.OfyService.ofy;
  */
 @Api(name = "messaging",
         version = "v1",
-        namespace = @ApiNamespace(ownerDomain = "backend.myapplication.pablogil.example.com",
-                ownerName = "backend.myapplication.pablogil.example.com",
+        namespace = @ApiNamespace(ownerDomain = "backend.watchpresenter.zuluindia.com",
+                ownerName = "backend.watchpresenter.zuluindia.com",
                 packagePath = ""),
-    scopes = {com.example.pablogil.myapplication.backend.Constants.EMAIL_SCOPE},
-    clientIds = {com.example.pablogil.myapplication.backend.Constants.ANDROID_DEBUG_CLIENT_ID,
-            com.example.pablogil.myapplication.backend.Constants.ANDROID_DEBUG_CLIENT_ID_OLD,
+    scopes = {com.zuluindia.watchpresenter.backend.Constants.EMAIL_SCOPE},
+    clientIds = {com.zuluindia.watchpresenter.backend.Constants.ANDROID_DEBUG_CLIENT_ID,
+            com.zuluindia.watchpresenter.backend.Constants.ANDROID_DEBUG_CLIENT_ID_OLD,
             com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID,
-            com.example.pablogil.myapplication.backend.Constants.WEB_CLIENT_ID,
-            com.example.pablogil.myapplication.backend.Constants.ANDROID_CLIENT_ID,
-            com.example.pablogil.myapplication.backend.Constants.ANDROID_CLIENT_ID_OLD
-//            com.example.pablogil.myapplication.backend.Constants.CHROME_EXTENSION_ID
+            com.zuluindia.watchpresenter.backend.Constants.WEB_CLIENT_ID,
+            com.zuluindia.watchpresenter.backend.Constants.ANDROID_CLIENT_ID,
+            com.zuluindia.watchpresenter.backend.Constants.ANDROID_CLIENT_ID_OLD
+//            com.zuluindia.watchpresenter.backend.Constants.CHROME_EXTENSION_ID
     },
-    audiences = {com.example.pablogil.myapplication.backend.Constants.ANDROID_AUDIENCE})
+    audiences = {com.zuluindia.watchpresenter.backend.Constants.ANDROID_AUDIENCE})
 public class MessagingEndpoint {
     private static final Logger log = Logger.getLogger(MessagingEndpoint.class.getName());
 
@@ -84,7 +84,7 @@ public class MessagingEndpoint {
             throw new OAuthRequestException("Not authorized");
         }
         final String userId = PresenterRecord.getUserId(user.getEmail());
-        if(com.example.pablogil.myapplication.backend.Constants.KEEP_ALIVE_MESSAGE.equals(
+        if(com.zuluindia.watchpresenter.backend.Constants.KEEP_ALIVE_MESSAGE.equals(
                 message)){
             log.fine("Keep alive from userId: " + userId);
             //This is just a keep-alive. Nothing to do here...

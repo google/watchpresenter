@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.myapplication.backend;
+package com.zuluindia.watchpresenter.backend;
 
 /**
  * This class wraps a message to be sent to the mobile app.

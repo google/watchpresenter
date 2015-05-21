@@ -21,7 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.pablogil.myapplication.backend.messaging.Messaging;
+import com.zuluindia.watchpresenter.backend.messaging.Messaging;
 import com.zuluindia.watchpresenter.messaging.GcmSendMessageAsyncTask;
 import com.zuluindia.watchpresenter.messaging.MessagingService;
 
