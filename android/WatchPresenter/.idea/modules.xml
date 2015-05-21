@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/WatchPresenter.iml" filepath="$PROJECT_DIR$/WatchPresenter.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/watchpresenterwear/watchpresenterwear.iml" filepath="$PROJECT_DIR$/watchpresenterwear/watchpresenterwear.iml" />
     </modules>
   </component>

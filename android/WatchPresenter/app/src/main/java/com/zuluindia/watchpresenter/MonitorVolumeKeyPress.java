@@ -27,6 +27,8 @@ import android.os.PowerManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import com.google.pablogil.watchpresentercommon.Constants;
+
 import java.util.Timer;
 import java.util.TimerTask;
 

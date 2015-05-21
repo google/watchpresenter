@@ -28,7 +28,7 @@ import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
 import com.zuluindia.watchpresenter.MainActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.zuluindia.watchpresenter.Constants;
+import com.google.pablogil.watchpresentercommon.Constants;
 
 import java.io.IOException;
 

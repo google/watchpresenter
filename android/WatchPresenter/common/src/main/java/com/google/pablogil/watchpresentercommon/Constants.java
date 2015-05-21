@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.zuluindia.watchpresenter;
+package com.google.pablogil.watchpresentercommon;
 
 /**
  * Created by pablogil on 2/10/15.
  */
 public class Constants {
     public static final String PREF_ACCOUNT_NAME = "accountName";
-    public static final String ANDROID_AUDIENCE = "736639150268-egocd3c5l2p2peh0r436fln5dv0ir1m8.apps.googleusercontent.com";
+    public static final String ANDROID_AUDIENCE = "1048948725539-nted56v5uo7li0b4aiet2kg8e5hge9g4.apps.googleusercontent.com";
     public static final String LOG_TAG = "WatchPresenter";
-    public static final String NEXT_SLIDE_MESSAGE = "NEXT";
-    public static final String PREV_SLIDE_MESSAGE = "PREV";
+    public static final String NEXT_SLIDE_MESSAGE = "NEXT_SLIDE";
+    public static final String PREV_SLIDE_MESSAGE = "PREV_SLIDE";
+    public static final String KEEP_ALIVE_MESSAGE = "KEEP_ALIVE";
 
     public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
 
