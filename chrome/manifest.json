@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Watchpresenter",
-    "version": "1.6",
+    "version": "1.7",
 
     "background": {
         "scripts": ["background.js"]
@@ -30,7 +30,7 @@
         "https://*/"],
    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkZKUpYaK/MmGR3VZQlGCX2LJF2oIxKouPVvDKE/tw0Y8VmxrOcgF+eYDM6FCCYuns2/H7FIMshLxzph18aUf6NcwYfyAeWlg9VvLELBBSIqWMK8F7RzA5xJ+Y+5OUkwRLvlTu+AZDYx6u2hIx7Vdu2Cclwio10QBJRGcZm/vecACaTyAjed8wL0NT+mo+UStE2KDpGY08okJRgoWG3DU3O9gr8Hu0SnuecKG7ZiXDoI9GQM2jDEoq3qWgy0w5GdT7K0jWavDuVNZizR72awxbja0IQovqUOWphu0jor9byxwdN0h7YW8EA2cr/66QQWU7uzRFEWGYiTT/JbovFAYtQIDAQAB",
     "oauth2": {
-        "client_id": "1048948725539-2fvnptbb4vqh2dqsfgnm32c2caqg32h8.apps.googleusercontent.com",
+        "client_id": "736639150268-d4i5u6msvjai5okftb50s3tcaqu9booi.apps.googleusercontent.com",
         "scopes": [
       "https://www.googleapis.com/auth/userinfo.email"
     ]

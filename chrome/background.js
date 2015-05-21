@@ -293,7 +293,7 @@ function loadScript(url) {
 function authorize() {
     console.log("on authorize()");
     gapi.auth.authorize({
-            client_id: '1048948725539-2fvnptbb4vqh2dqsfgnm32c2caqg32h8.apps.googleusercontent.com',
+            client_id: '736639150268-d4i5u6msvjai5okftb50s3tcaqu9booi.apps.googleusercontent.com',
             immediate: true,
             scope: 'https://www.googleapis.com/auth/userinfo.email'
         },
