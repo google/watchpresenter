@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenter;
+package com.zuluindia.watchpresenter;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

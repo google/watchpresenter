@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenter.messaging;
+package com.zuluindia.watchpresenter.messaging;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -22,7 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
-import com.example.pablogil.watchpresenter.GcmIntentService;
+import com.zuluindia.watchpresenter.GcmIntentService;
 
 /**
  * Created by pablogil on 1/16/15.

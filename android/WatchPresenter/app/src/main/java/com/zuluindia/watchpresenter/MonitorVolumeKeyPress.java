@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenter;
+package com.zuluindia.watchpresenter;
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
@@ -31,9 +29,6 @@ import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * This service's purpose is to play an inaudible audio in the background.
@@ -61,7 +56,7 @@ public class MonitorVolumeKeyPress extends Service{
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Intent i = new Intent("com.example.pablogil.watchpresenter.SEND_MESSAGE");
+            Intent i = new Intent("com.zuluindia.watchpresenter.SEND_MESSAGE");
             final long currentEvent = System.currentTimeMillis();
             if(currentEvent - lastEvent > DUPLICATE_TIME) {
                 int newVolume =
@@ -84,7 +79,7 @@ public class MonitorVolumeKeyPress extends Service{
     public void onCreate(){
         super.onCreate();
         Log.d(LOGCAT, "Service Started!");
-        objPlayer = MediaPlayer.create(this, com.example.pablogil.watchpresenter.R.raw.silence);
+        objPlayer = MediaPlayer.create(this, com.zuluindia.watchpresenter.R.raw.silence);
         objPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         objPlayer.setLooping(true);
         timer = new Timer();

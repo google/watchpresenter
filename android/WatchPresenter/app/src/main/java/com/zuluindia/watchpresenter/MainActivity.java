@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenter;
+package com.zuluindia.watchpresenter;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -29,7 +29,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,10 +38,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.pablogil.myapplication.backend.messaging.model.VersionMessage;
-import com.example.pablogil.watchpresenter.messaging.GcmRegistrationAsyncTask;
+import com.zuluindia.watchpresenter.messaging.GcmRegistrationAsyncTask;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.example.pablogil.watchpresenter.messaging.GcmGetVersionMessageAsyncTask;
-import com.example.pablogil.watchpresenter.messaging.MessagingService;
+import com.zuluindia.watchpresenter.messaging.GcmGetVersionMessageAsyncTask;
+import com.zuluindia.watchpresenter.messaging.MessagingService;
 
 
 public class MainActivity extends Activity {
@@ -52,7 +51,7 @@ public class MainActivity extends Activity {
     private GoogleAccountCredential credential;
     private static final int REQUEST_ACCOUNT_PICKER = 2;
     private String versionName;
-    private static final String ACTION_STOP_MONITORING = "com.example.pablogil.watchpresenter.STOP_MONITORING";
+    private static final String ACTION_STOP_MONITORING = "com.zuluindia.watchpresenter.STOP_MONITORING";
     public static final int PRESENTING_NOTIFICATION_ID = 001;
 
     public static boolean active = false;
@@ -79,7 +78,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.pablogil.watchpresenter.R.layout.activity_main);
+        setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
         settings = getSharedPreferences("Watchpresenter", MODE_PRIVATE);
         credential = GoogleAccountCredential.usingAudience(this,
                 "server:client_id:" + Constants.ANDROID_AUDIENCE);
@@ -99,7 +98,7 @@ public class MainActivity extends Activity {
             (new GcmGetVersionMessageAsyncTask(MessagingService.get(this), this)).execute(
                     getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
 
-            TextView versionTextView = (TextView)findViewById(com.example.pablogil.watchpresenter.R.id.versionText);
+            TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
             versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(Constants.LOG_TAG, "Cannot retrieve app version", e);
@@ -113,7 +112,7 @@ public class MainActivity extends Activity {
     }
 
     public void onSendMessageButtonClick(View v){
-        Intent i = new Intent("com.example.pablogil.watchpresenter.SEND_MESSAGE");
+        Intent i = new Intent("com.zuluindia.watchpresenter.SEND_MESSAGE");
         i.putExtra(Constants.EXTRA_MESSAGE, Constants.NEXT_SLIDE_MESSAGE);
         sendBroadcast(i);
     }
@@ -123,7 +122,7 @@ public class MainActivity extends Activity {
     public void launchNotification(){
 // Build intent for notification content
         Intent viewIntent = new Intent(this, SendMessageReceiver.class);
-        viewIntent.setAction("com.example.pablogil.watchpresenter.SEND_MESSAGE");
+        viewIntent.setAction("com.zuluindia.watchpresenter.SEND_MESSAGE");
         viewIntent.putExtra(Constants.EXTRA_MESSAGE, Constants.NEXT_SLIDE_MESSAGE);
         PendingIntent viewPendingIntent =
                 PendingIntent.getBroadcast(this, 0, viewIntent, 0);
@@ -135,10 +134,10 @@ public class MainActivity extends Activity {
 
 
         NotificationCompat.Action action = new NotificationCompat.Action.Builder(
-                com.example.pablogil.watchpresenter.R.drawable.ic_stat_ic_action_forward_blue, null, viewPendingIntent).build();
+                com.zuluindia.watchpresenter.R.drawable.ic_stat_ic_action_forward_blue, null, viewPendingIntent).build();
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(com.example.pablogil.watchpresenter.R.drawable.ic_launcher)
+                        .setSmallIcon(com.zuluindia.watchpresenter.R.drawable.ic_launcher)
                         .setContentTitle(getResources().getString(R.string.notificationTitle))
                         .setContentText(getResources().getString(R.string.notificationMessage))
                         .setDeleteIntent(dismissedPendingIntent)
@@ -167,7 +166,7 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(com.example.pablogil.watchpresenter.R.menu.menu_main, menu);
+        getMenuInflater().inflate(com.zuluindia.watchpresenter.R.menu.menu_main, menu);
         return true;
     }
 
@@ -179,7 +178,7 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == com.example.pablogil.watchpresenter.R.id.action_about) {
+        if (id == com.zuluindia.watchpresenter.R.id.action_about) {
             (new AlertDialog.Builder(this)
                     .setTitle(getResources().getString(R.string.aboutTitle) + " " + versionName)
                     .setMessage(R.string.aboutMessage)
@@ -260,7 +259,7 @@ public class MainActivity extends Activity {
             });
         }
         if(Constants.VersionMessageActions.ACTION_RECOMMEND_UPGRADE.equals(action)){
-            builder.setNegativeButton(com.example.pablogil.watchpresenter.R.string.later, new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(com.zuluindia.watchpresenter.R.string.later, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     //nothing to do here
                 }

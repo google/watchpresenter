@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenter.messaging;
+package com.zuluindia.watchpresenter.messaging;
 
 /**
  * Created by pablogil on 1/16/15.
@@ -25,10 +25,10 @@ import android.util.Log;
 
 import com.example.pablogil.myapplication.backend.messaging.Messaging;
 import com.example.pablogil.myapplication.backend.messaging.model.VersionMessage;
-import com.example.pablogil.watchpresenter.MainActivity;
+import com.zuluindia.watchpresenter.MainActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.example.pablogil.watchpresenter.Constants;
+import com.zuluindia.watchpresenter.Constants;
 
 import java.io.IOException;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenter;
+package com.zuluindia.watchpresenter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,8 +22,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.pablogil.myapplication.backend.messaging.Messaging;
-import com.example.pablogil.watchpresenter.messaging.GcmSendMessageAsyncTask;
-import com.example.pablogil.watchpresenter.messaging.MessagingService;
+import com.zuluindia.watchpresenter.messaging.GcmSendMessageAsyncTask;
+import com.zuluindia.watchpresenter.messaging.MessagingService;
 
 /**
  * Created by pablogil on 1/4/15.
