@@ -23,9 +23,8 @@ public class Constants {
     public static final String PREF_ACCOUNT_NAME = "accountName";
     public static final String ANDROID_AUDIENCE = "1048948725539-nted56v5uo7li0b4aiet2kg8e5hge9g4.apps.googleusercontent.com";
     public static final String LOG_TAG = "WatchPresenter";
-    public static final String NEXT_SLIDE_MESSAGE = "NEXT_SLIDE";
-    public static final String PREV_SLIDE_MESSAGE = "PREV_SLIDE";
-    public static final String KEEP_ALIVE_MESSAGE = "KEEP_ALIVE";
+    public static final String NEXT_SLIDE_MESSAGE = "com.zuluindia.watchpresenter.NEXT_SLIDE";
+    public static final String PREV_SLIDE_MESSAGE = "com.zuluindia.watchpresenter.PREV_SLIDE";
 
     public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
 

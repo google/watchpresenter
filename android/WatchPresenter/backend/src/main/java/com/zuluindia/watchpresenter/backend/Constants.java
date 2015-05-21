@@ -30,6 +30,5 @@ public class Constants {
     public static final String EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";
 
     //Maybe there is a way to share these constants in a Google Cloud Endpoints-way
-    public static final String NEXT_SLIDE_MESSAGE = "NEXT_SLIDE";
     public static final String KEEP_ALIVE_MESSAGE = "KEEP_ALIVE";
 }

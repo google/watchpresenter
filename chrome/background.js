@@ -215,11 +215,11 @@ chrome.gcm.onMessage.addListener(function (message) {
         if (tab.url.match(URLRegexp)) {
             if (message.data) {
                 if (message.data.message) {
-                    if ("NEXT_SLIDE" == message.data.message) {
+                    if ("com.zuluindia.watchpresenter.NEXT_SLIDE" == message.data.message) {
                         chrome.tabs.executeScript({
                             file: "slide_switcher.js"
                         });
-                    } else if ("PREV_SLIDE" == message.data.message) {
+                    } else if ("com.zuluindia.watchpresenter.PREV_SLIDE" == message.data.message) {
                         chrome.tabs.executeScript({
                             file: "slide_switcher_backwards.js"
                         });
