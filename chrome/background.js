@@ -64,7 +64,7 @@ function afterAPIUp() {
         else
             console.log("Not registered yet. Registering...");
         // Up to 100 senders are allowed.
-        var senderIds = ["122248338560"];
+        var senderIds = ["736639150268"];
         chrome.gcm.register(senderIds, registerCallback);
     });
     apiUp = true;
