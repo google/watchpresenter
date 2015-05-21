@@ -299,7 +299,7 @@ function authorize() {
         },
         function (token) {
             if (token.access_token && !token.error) {
-                gapi.client.load('registration', 'v1', afterAPIUp, 'https://watchpresenterpublic.appspot.com/_ah/api');
+                gapi.client.load('registration', 'v1', afterAPIUp, 'https://watchpresenter.appspot.com/_ah/api');
             } else {
                 chrome.storage.local.set({
                     registered: false
