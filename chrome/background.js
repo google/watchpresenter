@@ -15,8 +15,10 @@
 
 var apiUp = false;
 var URLRegexp = /http[s]:\/\/docs\.google\.com.*\/presentation/i;
+var URLRegexpNoPresent = /http[s]:\/\/docs\.google\.com.*\/presentation(?!.*present\?)/i;
 var checkLaunched = false;
 var modalRegistrationTabId;
+var REGISTRATION_TIMEOUT = 24 * 3600 * 1000;
 
 function registerCallback(registrationId) {
     console.log("on registerCallback");
@@ -165,22 +167,74 @@ function checkAuthStatus(tabId) {
     );
 }
 
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    console.log("Match: " + tab.url.match(/.*#openModal$/));
-    if (changeInfo.status == "complete" && tab.url && tab.url.match(/http[s]:\/\/docs\.google\.com.*\/presentation/i)) {
-        console.log("URL match");
-        if (!(tab.url.match(/.*#openModal$/))) {
-            if (checkLaunched == false) {
-                window.setTimeout(function () {
-                    checkAuthStatus(tabId)
-                }, 1000);
-            } else {
-                console.log("checkAuthStatus already scheduled");
-            }
+function getLastRegistrationURL(callback) {
+    chrome.storage.local.get("lastRegistrationURL", function (result) {
+        var lastRegistrationURL = result["lastRegistrationURL"];
+        callback(lastRegistrationURL);
+    });
+}
 
+function removeFragment(url) {
+    var indexOfHash = url.indexOf('#')
+    if (indexOfHash > 0) {
+        url = url.substring(0, indexOfHash);
+    }
+    return url;
+}
+
+function setLastRegistrationURL(url) {
+    chrome.storage.local.set({
+        lastRegistrationURL: removeFragment(url)
+    });
+}
+
+function getLastRegistrationTime(callback) {
+    chrome.storage.local.get("lastRegistrationTime", function (result) {
+        var lastRegistrationTime = result["lastRegistrationTime"];
+        callback(lastRegistrationTime);
+    });
+}
+
+function setLastRegistrationTime() {
+    chrome.storage.local.set({
+        lastRegistrationTime: (new Date()).getTime()
+    });
+}
+
+function tryRegistration(tabId, changeInfo, tab) {
+
+    if (!(tab.url.match(/.*#openModal$/))) {
+        if (checkLaunched == false) {
+            window.setTimeout(function () {
+                checkAuthStatus(tabId)
+            }, 1000);
         } else {
-            console.log("We are already in openModal");
+            console.log("checkAuthStatus already scheduled");
         }
+
+    } else {
+        console.log("We are already in openModal");
+    }
+
+    setLastRegistrationURL(tab.url);
+    setLastRegistrationTime();
+}
+
+
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (changeInfo.status == "complete" && tab.url && tab.url.match(URLRegexpNoPresent)) {
+        console.log("URL match. Checking auth status...");
+        getLastRegistrationURL(function (lastRegistrationURL) {
+            if (lastRegistrationURL != removeFragment(tab.url)) {
+                tryRegistration(tabId, changeInfo, tab);
+            } else {
+                getLastRegistrationTime(function (lastRegistrationTime) {
+                    if (!lastRegistrationTime || ((new Date()).getTime() - lastRegistrationTime > REGISTRATION_TIMEOUT)) {
+                        tryRegistration(tabId, changeInfo, tab);
+                    }
+                });
+            }
+        });
     } else {
         chrome.pageAction.hide(tabId);
     }
@@ -223,8 +277,7 @@ chrome.gcm.onMessage.addListener(function (message) {
                         chrome.tabs.executeScript({
                             file: "slide_switcher_backwards.js"
                         });
-                    }
-                    else{
+                    } else {
                         console.log("Unknown message received. data.message: " + message.data.message);
                     }
                 } else {
