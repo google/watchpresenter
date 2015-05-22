@@ -50,6 +50,7 @@ public class GcmSendMessageAsyncTask extends AsyncTask<String, Void, String> {
         if(messagingService != null) {
 
             try {
+                Log.d(LOG_TAG, "Sending message...");
                 messagingService.sendMessage(msg).execute();
 
             } catch (IOException ex) {
