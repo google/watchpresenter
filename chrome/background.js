@@ -19,6 +19,7 @@ var URLRegexpNoPresent = /http[s]:\/\/docs\.google\.com.*\/presentation(?!.*pres
 var checkLaunched = false;
 var modalRegistrationTabId;
 var REGISTRATION_TIMEOUT = 24 * 3600 * 1000;
+var MIN_SLIDE_PASS_PERIOD = 500;
 
 function registerCallback(registrationId) {
     console.log("on registerCallback");
@@ -201,6 +202,19 @@ function setLastRegistrationTime() {
     });
 }
 
+function getLastSlidePassTime(callback) {
+    chrome.storage.local.get("lastSlidePassTime", function (result) {
+        var lastSlidePassTime = result["lastSlidePassTime"];
+        callback(lastSlidePassTime);
+    });
+}
+
+function setLastSlidePassTime() {
+    chrome.storage.local.set({
+        lastSlidePassTime: (new Date()).getTime()
+    });
+}
+
 function tryRegistration(tabId, changeInfo, tab) {
 
     if (!(tab.url.match(/.*#openModal$/))) {
@@ -270,13 +284,23 @@ chrome.gcm.onMessage.addListener(function (message) {
             if (message.data) {
                 if (message.data.message) {
                     if ("NEXT" == message.data.message) {
-                        chrome.tabs.executeScript({
-                            file: "slide_switcher.js"
+                        getLastSlidePassTime(function (lastTime) {
+                            if (!lastTime || (lastTime - (new Date()).getTime()) > MIN_SLIDE_PASS_PERIOD) {
+                                chrome.tabs.executeScript({
+                                    file: "slide_switcher.js"
+                                });
+                            }
                         });
+
                     } else if ("PREV" == message.data.message) {
-                        chrome.tabs.executeScript({
-                            file: "slide_switcher_backwards.js"
+                        getLastSlidePassTime(function (lastTime) {
+                            if (!lastTime || (lastTime - (new Date()).getTime()) > MIN_SLIDE_PASS_PERIOD) {
+                                chrome.tabs.executeScript({
+                                    file: "slide_switcher_backwards.js"
+                                });
+                            }
                         });
+
                     } else {
                         console.log("Unknown message received. data.message: " + message.data.message);
                     }
