@@ -71,6 +71,7 @@ public class MainActivity extends Activity {
                 Log.d(Constants.LOG_TAG, "Notification dismissed");
                 Intent objIntent = new Intent(context, MonitorVolumeKeyPress.class);
                 context.stopService(objIntent);
+                stopGestureDetection();
                 //finish the activity to prevent it from restarting the volume
                 //keys monitoring on activity resume after the notification has been dismissed
                 finish();
