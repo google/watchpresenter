@@ -47,7 +47,7 @@ public class MonitorVolumeKeyPress extends Service{
 
     private BroadcastReceiver volumeKeysReceiver = new BroadcastReceiver() {
 
-        private static final long DUPLICATE_TIME = 200;
+        private static final long DUPLICATE_TIME = 400;
 
 
         private long lastEvent = 0;
