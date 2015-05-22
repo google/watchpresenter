@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.pablogil.watchpresentercommon;
+package com.zuluindia.watchpresenter.common;
 
 /**
  * Created by pablogil on 2/10/15.

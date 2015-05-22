@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenterwear;
+package com.zuluindia.watchpresenter.wear;
 
 import android.content.Intent;
 import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
-import com.google.pablogil.watchpresentercommon.Constants;
+import com.zuluindia.watchpresenter.common.Constants;
 
 
 /**

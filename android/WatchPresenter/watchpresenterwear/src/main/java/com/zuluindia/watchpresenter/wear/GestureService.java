@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenterwear;
+package com.zuluindia.watchpresenter.wear;
 
 /**
  * Created by pablogil on 4/13/15.
@@ -32,11 +32,11 @@ import android.os.PowerManager;
 import android.os.Vibrator;
 import android.util.Log;
 
-import com.google.pablogil.watchpresentercommon.Constants;
-import com.example.pablogil.watchpresenterwear.gestureDetection.DataProcessor;
-import com.example.pablogil.watchpresenterwear.gestureDetection.GestureDetector;
-import com.example.pablogil.watchpresenterwear.gestureDetection.encog.EncogDataProcessor;
-import com.google.pablogil.watchpresentercommon.WearMessenger;
+import com.zuluindia.watchpresenter.common.Constants;
+import com.zuluindia.watchpresenter.wear.gestureDetection.DataProcessor;
+import com.zuluindia.watchpresenter.wear.gestureDetection.GestureDetector;
+import com.zuluindia.watchpresenter.wear.gestureDetection.encog.EncogDataProcessor;
+import com.zuluindia.watchpresenter.common.WearMessenger;
 
 import java.io.IOException;
 import java.io.PrintWriter;

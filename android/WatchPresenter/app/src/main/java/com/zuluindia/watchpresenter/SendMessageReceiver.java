@@ -24,7 +24,7 @@ import android.util.Log;
 import com.zuluindia.watchpresenter.backend.messaging.Messaging;
 import com.zuluindia.watchpresenter.messaging.GcmSendMessageAsyncTask;
 import com.zuluindia.watchpresenter.messaging.MessagingService;
-import com.google.pablogil.watchpresentercommon.Constants;
+import com.zuluindia.watchpresenter.common.Constants;
 
 /**
  * Created by pablogil on 1/4/15.

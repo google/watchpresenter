@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenterwear.gestureDetection.encog;
+package com.zuluindia.watchpresenter.wear.gestureDetection.encog;
 
 import android.content.Context;
-import android.util.Log;
 
 
-import com.google.pablogil.watchpresentercommon.Constants;
-import com.example.pablogil.watchpresenter.R;
-import com.example.pablogil.watchpresenterwear.gestureDetection.DataProcessor;
+import com.zuluindia.watchpresenter.R;
+import com.zuluindia.watchpresenter.wear.gestureDetection.DataProcessor;
 
 import org.encog.Encog;
 import org.encog.ml.MLRegression;

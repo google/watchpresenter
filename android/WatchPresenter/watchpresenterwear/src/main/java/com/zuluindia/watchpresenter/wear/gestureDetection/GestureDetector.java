@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.pablogil.watchpresenterwear.gestureDetection;
+package com.zuluindia.watchpresenter.wear.gestureDetection;
 
 import java.util.Iterator;
 import java.util.LinkedList;

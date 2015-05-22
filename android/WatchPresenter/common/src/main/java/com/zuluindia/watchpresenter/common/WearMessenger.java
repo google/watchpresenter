@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.pablogil.watchpresentercommon;
+package com.zuluindia.watchpresenter.common;
 
 import android.content.Context;
 import android.util.Log;
