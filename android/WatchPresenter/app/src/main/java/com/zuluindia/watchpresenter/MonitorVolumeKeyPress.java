@@ -139,6 +139,7 @@ public class MonitorVolumeKeyPress extends Service{
 
 // Build the notification and issues it with notification manager.
                     notificationManager.cancel(MainActivity.PRESENTING_NOTIFICATION_ID);
+                    (new WearController(MonitorVolumeKeyPress.this)).stopGestureDetection();
                     stopSelf();
                 }
                 else{

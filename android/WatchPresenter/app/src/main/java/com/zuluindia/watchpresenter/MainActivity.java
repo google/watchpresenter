@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
 
 
     private ToggleButton tbEnableWearGestures;
-    private WearMessenger wearMessenger;
+    private WearController wearController;
 
     public static boolean active = false;
 
@@ -114,7 +114,7 @@ public class MainActivity extends Activity {
         }
         registerReceiver(broadcastReceiver, new IntentFilter(ACTION_STOP_MONITORING));
 
-        wearMessenger = new WearMessenger(this);
+        wearController = new WearController(this);
 
         tbEnableWearGestures = (ToggleButton)findViewById(R.id.enableWearGestureDetection);
 
@@ -316,11 +316,11 @@ public class MainActivity extends Activity {
 
 
     private void startGestureDetection(){
-        wearMessenger.sendToAllThread(Constants.START_GESTURE_SERVICE_PATH);
+        wearController.voidStartGestureDetection();
     }
 
     private void stopGestureDetection(){
-        wearMessenger.sendToAllThread(Constants.STOP_GESTURE_SERVICE_PATH);
+        wearController.stopGestureDetection();
     }
 
 }
