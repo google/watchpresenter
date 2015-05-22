@@ -36,6 +36,7 @@ import com.google.pablogil.watchpresentercommon.Constants;
 import com.example.pablogil.watchpresenterwear.gestureDetection.DataProcessor;
 import com.example.pablogil.watchpresenterwear.gestureDetection.GestureDetector;
 import com.example.pablogil.watchpresenterwear.gestureDetection.encog.EncogDataProcessor;
+import com.google.pablogil.watchpresentercommon.WearMessenger;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -49,6 +50,10 @@ public class GestureService extends Service {
     private static final long PERIOD = 50;
     private static final int WINDOW = 10;
 
+    /* Do not send message if two gestures are detected within this time range */
+    private static final long MIN_GESTURE_LAPSE = 200;
+
+    private long lastGesture;
 
     public boolean running;
 
@@ -121,6 +126,8 @@ public class GestureService extends Service {
     private SensorListener accelListener;
     private SensorListener gyroListener;
 
+    private WearMessenger wearMessenger;
+
     PowerManager pm;
     PowerManager.WakeLock wl;
 
@@ -129,6 +136,7 @@ public class GestureService extends Service {
 
         if(intent == null || EXTRA_START.equals(intent.getStringExtra(EXTRA_COMMAND))){
             startDetection();
+            wearMessenger = new WearMessenger(this);
         }
         return START_STICKY;
     }
@@ -153,7 +161,7 @@ public class GestureService extends Service {
                 gestureDetector = new GestureDetector(dataProcessor, new Runnable() {
                     @Override
                     public void run() {
-                        vibrate();
+                        onGestureDetected();
                     }
                 },PERIOD,WINDOW);
 
@@ -212,5 +220,16 @@ public class GestureService extends Service {
         Log.d(Constants.LOG_TAG, "Gesture service is being destroyed.");
     }
 
+    private void onGestureDetected(){
+        final long currentTime = System.currentTimeMillis();
+        if(currentTime - lastGesture > MIN_GESTURE_LAPSE) {
+            lastGesture = currentTime;
+            vibrate();
+            wearMessenger.sendToAll(Constants.NEXT_SLIDE_GESTURE_DETECTED_PATH);
+        }
+        else{
+            Log.d(Constants.LOG_TAG, "Gesture discarded due to gesture lapse time");
+        }
+    }
 
 }

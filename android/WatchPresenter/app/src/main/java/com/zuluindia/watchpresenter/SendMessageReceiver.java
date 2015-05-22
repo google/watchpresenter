@@ -31,6 +31,7 @@ import com.google.pablogil.watchpresentercommon.Constants;
  */
 public class SendMessageReceiver extends BroadcastReceiver {
 
+    public static final String INTENT = "com.zuluindia.watchpresenter.SEND_MESSAGE";
 
     @Override
     public void onReceive(Context context, Intent intent) {

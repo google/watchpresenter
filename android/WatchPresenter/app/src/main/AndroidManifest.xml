@@ -63,7 +63,11 @@
                 <category android:name="MY_PACKAGE" />
             </intent-filter>
         </receiver>
-
+        <service android:name=".WearMessageListener">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
+        </service>
         <service android:name=".GcmIntentService" />
         <service android:name=".MonitorVolumeKeyPress"  android:enabled="true"></service>
 

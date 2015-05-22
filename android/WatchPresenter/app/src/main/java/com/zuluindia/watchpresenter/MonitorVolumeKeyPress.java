@@ -58,7 +58,7 @@ public class MonitorVolumeKeyPress extends Service{
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Intent i = new Intent("com.zuluindia.watchpresenter.SEND_MESSAGE");
+            Intent i = new Intent(SendMessageReceiver.INTENT);
             final long currentEvent = System.currentTimeMillis();
             if(currentEvent - lastEvent > DUPLICATE_TIME) {
                 int newVolume =

@@ -49,7 +49,7 @@ public class EncogDataProcessor implements DataProcessor {
 
     @Override
     public boolean processData(double[] input) {
-        Log.d(Constants.LOG_TAG, "Processing data");
+//        Log.d(Constants.LOG_TAG, "Processing data");
         String[] inputString = new String[input.length];
         for(int i=0;i<input.length;i++){
             inputString[i] = Double.toString(input[i]);
@@ -59,7 +59,7 @@ public class EncogDataProcessor implements DataProcessor {
         helper.normalizeInputVector(inputString,inputData.getData(),false);
 //        Log.d(Constants.TAG, "About to compute");
         MLData outputData = method.compute(inputData);
-        Log.d(Constants.LOG_TAG, "Computing finished");
+//        Log.d(Constants.LOG_TAG, "Computing finished");
         final String output = helper.denormalizeOutputVectorToString(outputData)[0];
 //        Log.d(Constants.TAG, "Input: " + Arrays.toString(inputString));
 //        Log.d(Constants.TAG, "Output: " + output);
