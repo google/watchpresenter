@@ -47,6 +47,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".tutorial.TutorialActivity"
+            android:label="Tutorial" >
+        </activity>
 
         <receiver android:name=".SendMessageReceiver" >
             <intent-filter>

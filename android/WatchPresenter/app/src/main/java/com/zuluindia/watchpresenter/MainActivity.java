@@ -30,6 +30,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.NotificationCompat;
@@ -42,6 +43,7 @@ import com.zuluindia.watchpresenter.messaging.GcmRegistrationAsyncTask;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.zuluindia.watchpresenter.messaging.GcmGetVersionMessageAsyncTask;
 import com.zuluindia.watchpresenter.messaging.MessagingService;
+import com.zuluindia.watchpresenter.tutorial.TutorialActivity;
 
 
 public class MainActivity extends Activity {
@@ -50,9 +52,11 @@ public class MainActivity extends Activity {
     private String accountName;
     private GoogleAccountCredential credential;
     private static final int REQUEST_ACCOUNT_PICKER = 2;
+    private static final int TUTORIAL_ACTIVITY = 3;
     private String versionName;
     private static final String ACTION_STOP_MONITORING = "com.zuluindia.watchpresenter.STOP_MONITORING";
     public static final int PRESENTING_NOTIFICATION_ID = 001;
+    private static final int TUTORIAL_VERSION = 1;
 
     public static boolean active = false;
 
@@ -87,7 +91,7 @@ public class MainActivity extends Activity {
             Log.d(Constants.LOG_TAG, "User already logged in");
         } else {
             Log.d(Constants.LOG_TAG, "User not logged in. Requesting user...");
-            chooseAccount();
+            launchChooseAccount();
         }
         try {
             int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
@@ -118,6 +122,29 @@ public class MainActivity extends Activity {
     }
 
 
+    public void launchChooseAccount(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Tutorial")
+
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert);
+
+
+        LayoutInflater inflater = getLayoutInflater();
+        View tutorialView = inflater.inflate(R.layout.tutorial_layout, null);
+        builder.setView(tutorialView);
+        builder.setCancelable(false);
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                chooseAccount();
+            }
+        });
+        builder.show();
+    }
 
     public void launchNotification(){
 // Build intent for notification content
@@ -212,11 +239,40 @@ public class MainActivity extends Activity {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(Constants.PREF_ACCOUNT_NAME, accountName);
                         editor.commit();
-
+                        final int lastTutorialShown =
+                                settings.getInt(Constants.PREF_LAST_TUTORIAL_SHOWN, 0);
+                        if(lastTutorialShown < TUTORIAL_VERSION){
+                            launchTutorial();
+                        }
+                    }
+                    else{
+                        alertAndClose();
                     }
                 }
+                else{
+                    alertAndClose();
+                }
+                break;
+            case TUTORIAL_ACTIVITY:
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(Constants.PREF_LAST_TUTORIAL_SHOWN, TUTORIAL_VERSION);
+                editor.commit();
                 break;
         }
+    }
+
+    private void alertAndClose(){
+        (new AlertDialog.Builder(this)
+                .setTitle("Cannot go on")
+                .setMessage(R.string.aboutMessage)
+
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+        ).show();
     }
 
     private void setSelectedAccountName(String accountName) {
@@ -288,5 +344,10 @@ public class MainActivity extends Activity {
         active = false;
     }
 
+
+    private void launchTutorial(){
+        Intent intent = new Intent(this, TutorialActivity.class);
+        startActivityForResult(intent, TUTORIAL_ACTIVITY);
+    }
 
 }

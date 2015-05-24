@@ -21,6 +21,7 @@ package com.zuluindia.watchpresenter;
  */
 public class Constants {
     public static final String PREF_ACCOUNT_NAME = "accountName";
+    public static final String PREF_LAST_TUTORIAL_SHOWN = "lastTutorial";
     public static final String ANDROID_AUDIENCE = "736639150268-egocd3c5l2p2peh0r436fln5dv0ir1m8.apps.googleusercontent.com";
     public static final String LOG_TAG = "WatchPresenter";
     public static final String NEXT_SLIDE_MESSAGE = "NEXT";
