@@ -108,6 +108,7 @@ public class MainActivity extends Activity {
             Log.e(Constants.LOG_TAG, "Cannot retrieve app version", e);
         }
         registerReceiver(broadcastReceiver, new IntentFilter(ACTION_STOP_MONITORING));
+//        launchTutorial();
     }
 
 
@@ -124,18 +125,15 @@ public class MainActivity extends Activity {
 
     public void launchChooseAccount(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Tutorial")
+                .setTitle(getString(R.string.chooseAnAccount))
 
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 })
+                .setMessage(R.string.beforeAccountChooseMessage)
                 .setIcon(android.R.drawable.ic_dialog_alert);
 
-
-        LayoutInflater inflater = getLayoutInflater();
-        View tutorialView = inflater.inflate(R.layout.tutorial_layout, null);
-        builder.setView(tutorialView);
         builder.setCancelable(false);
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -219,6 +217,14 @@ public class MainActivity extends Activity {
             ).show();
             return true;
         }
+        if (id == R.id.action_tutorial) {
+            launchTutorial();
+            return true;
+        }
+        if (id == R.id.action_switchAccounts) {
+            switchAccounts();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -263,8 +269,8 @@ public class MainActivity extends Activity {
 
     private void alertAndClose(){
         (new AlertDialog.Builder(this)
-                .setTitle("Cannot go on")
-                .setMessage(R.string.aboutMessage)
+                .setTitle(getString(R.string.errorNoAccount))
+                .setMessage(R.string.cannotContinueWithoutAccount)
 
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -344,6 +350,15 @@ public class MainActivity extends Activity {
         active = false;
     }
 
+    private void switchAccounts(){
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove(Constants.PREF_ACCOUNT_NAME);
+        editor.commit();
+        Intent objIntent = new Intent(this, MonitorVolumeKeyPress.class);
+        stopService(objIntent);
+        MessagingService.reset();
+        recreate();
+    }
 
     private void launchTutorial(){
         Intent intent = new Intent(this, TutorialActivity.class);

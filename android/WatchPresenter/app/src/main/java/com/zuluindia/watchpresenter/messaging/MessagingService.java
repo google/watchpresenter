@@ -55,5 +55,8 @@ public class MessagingService {
         return messagingService;
     }
 
+    public static void reset(){
+        messagingService = null;
+    }
 
 }

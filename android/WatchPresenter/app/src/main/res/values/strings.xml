@@ -38,9 +38,10 @@
     <string name="versionPrefix">Version:</string>
     <string name="aboutTitle">Watch Presenter </string>
     <string name="aboutMessage">Watch Presenter is released under the Apache 2.0 License.\n\nFor a full copy of the license please refer to https://www.apache.org/licenses/LICENSE-2.0\n\nThis application includes code copyrighted by Google, Inc.\n\nNote: Watch Presenter is not an official Google product and is not supported by Google in any way.</string>
-    <string name="tutorialText1">Watch Presenter needs a Chrome extension install on your computer to control the slides.\n\nIf you haven\'t installed the extension yet, do it now.\n\nSearch the Chrome App store for \'WatchPresenter\'.\n\nMore info on watchpresenter.zuluindia.com</string>
-    <string name="tutorialText2">Once the Chrome extension is installed, this icon will appear next to the address on Chrome.\n\nOnce you see that icon, simply start the presentation full screen as you would normally do.\n\nYou will then be able to control it by using your phone</string>
-    <string name="tutorialText3">In order to control the presentation with the phone, just click on the volume buttons on the side of the phone. Volume up for next slide and volume down for previous slide.</string>
-    <string name="tutorialText4">When controlling the presentation with your phone you can switch the phone\'s screen off. This way you will save battery and avoid distractions.\n\n\nBe sure to switch off your computer\'s screensaver and power management options. Otherwise, the computer\'s screen might turn off while presenting.</string>
-
+    <string name="beforeAccountChooseMessage">Watch Presenter uses your Google account to link with the Chrome browser extension.\n\nOn the next step, you must choose the Google account you use for logging in Chrome.\n\nAn ID will be generated based on your e-mail address. No personal information will be stored anywhere.</string>
+    <string name="chooseAnAccount">Choose account</string>
+    <string name="cannotContinueWithoutAccount">You must choose an account to continue. The app will be closed now.</string>
+    <string name="errorNoAccount">Error</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="switchAccounts">Switch accounts</string>
 </resources>
