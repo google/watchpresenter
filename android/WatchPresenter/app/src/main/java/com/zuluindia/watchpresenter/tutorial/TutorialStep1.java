@@ -39,8 +39,8 @@ public class TutorialStep1 extends WizardStep {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tutorial_layout, container, false);
-        WebView tv = (WebView) v.findViewById(R.id.mainWebView);
-        tv.loadUrl("file:///android_asset/tutorial1.html");
+        WebView wv = (WebView) v.findViewById(R.id.mainWebView);
+        wv.loadUrl("file:///android_asset/tutorial/tutorial1.html");
 
         return v;
     }

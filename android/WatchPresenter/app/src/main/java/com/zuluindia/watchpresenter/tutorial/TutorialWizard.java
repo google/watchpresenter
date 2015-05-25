@@ -38,6 +38,7 @@ public class TutorialWizard extends BasicWizardLayout {
                 .addStep(TutorialStep2.class)
                 .addStep(TutorialStep3.class)
                 .addStep(TutorialStep4.class)
+                .addStep(TutorialStep5.class)
                 .create();
     }
 

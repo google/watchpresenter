@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.zuluindia.watchpresenter.R;
@@ -37,8 +38,8 @@ public class TutorialStep4 extends WizardStep {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tutorial_layout, container, false);
-        TextView tv = (TextView) v.findViewById(R.id.mainText);
-        tv.setText(R.string.tutorialText4);
+        WebView wv = (WebView) v.findViewById(R.id.mainWebView);
+        wv.loadUrl("file:///android_asset/tutorial/tutorial4.html");
 
         return v;
     }

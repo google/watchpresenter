@@ -30,16 +30,16 @@ import org.codepond.wizardroid.WizardStep;
 /**
  * Created by pablogil on 5/24/15.
  */
-public class TutorialStep3 extends WizardStep {
+public class TutorialStep5 extends WizardStep {
 
-    public TutorialStep3() {
+    public TutorialStep5() {
     }
     
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tutorial_layout, container, false);
         WebView wv = (WebView) v.findViewById(R.id.mainWebView);
-        wv.loadUrl("file:///android_asset/tutorial/tutorial3.html");
+        wv.loadUrl("file:///android_asset/tutorial/tutorial5.html");
 
         return v;
     }
