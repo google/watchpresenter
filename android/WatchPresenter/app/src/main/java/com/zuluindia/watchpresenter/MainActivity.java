@@ -108,9 +108,8 @@ public class MainActivity extends Activity {
             Log.e(Constants.LOG_TAG, "Cannot retrieve app version", e);
         }
         registerReceiver(broadcastReceiver, new IntentFilter(ACTION_STOP_MONITORING));
-//        launchTutorial();
     }
-    
+
 
 
     public void launchChooseAccount(){
