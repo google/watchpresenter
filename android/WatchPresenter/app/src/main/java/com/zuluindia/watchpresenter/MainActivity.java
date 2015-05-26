@@ -110,11 +110,7 @@ public class MainActivity extends Activity {
         registerReceiver(broadcastReceiver, new IntentFilter(ACTION_STOP_MONITORING));
 //        launchTutorial();
     }
-
-
-    public void onRegisterGcmButtonClick(View v){
-        (new GcmRegistrationAsyncTask(this)).execute();
-    }
+    
 
 
     public void launchChooseAccount(){
