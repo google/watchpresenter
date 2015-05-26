@@ -20,7 +20,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:onClick="onSendMessageButtonClick"
     android:background="#ff000000">
 
     <LinearLayout
@@ -37,7 +36,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:onClick="onSendMessageButtonClick"
         android:id="@+id/versionText"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
@@ -49,7 +47,6 @@
         android:text="@string/infoFeedback"
         android:id="@+id/textView9"
         android:textColor="#ffffffff"
-        android:onClick="onSendMessageButtonClick"
         android:layout_marginBottom="20dp"
         android:layout_above="@+id/versionText"
         android:layout_centerHorizontal="true"/>
@@ -70,9 +67,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@drawable/phone_usage"
-        android:layout_above="@+id/textView6"
+        android:layout_above="@+id/textView9"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="57dp" />
+        android:layout_marginBottom="92dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -80,7 +77,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffffff"
         android:text="You can present now!"
-        android:onClick="onSendMessageButtonClick"
         android:id="@+id/usageText"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -91,7 +87,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffff0016"
         android:text="@string/screensaverReminder"
-        android:onClick="onSendMessageButtonClick"
         android:id="@+id/screensaverReminder"
         android:textStyle="bold"
         android:layout_alignBottom="@+id/imageView"

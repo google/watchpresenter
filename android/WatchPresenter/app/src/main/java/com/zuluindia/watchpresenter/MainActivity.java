@@ -116,12 +116,6 @@ public class MainActivity extends Activity {
         (new GcmRegistrationAsyncTask(this)).execute();
     }
 
-    public void onSendMessageButtonClick(View v){
-        Intent i = new Intent("com.zuluindia.watchpresenter.SEND_MESSAGE");
-        i.putExtra(Constants.EXTRA_MESSAGE, Constants.NEXT_SLIDE_MESSAGE);
-        sendBroadcast(i);
-    }
-
 
     public void launchChooseAccount(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
