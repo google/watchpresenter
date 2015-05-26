@@ -135,7 +135,7 @@ function interactiveRequestAuthToken(tabId) {
 }
 
 
-function checkAuthStatus(tab) {
+function checkAuthStatus(tab, tryInteractive) {
     chrome.pageAction.show(tab.id);
 
 
@@ -160,7 +160,7 @@ function checkAuthStatus(tab) {
                 setLastRegistrationURL(tab.url);
                 setLastRegistrationTime();
                 loadGoogleAPI();
-            } else {
+            } else if(tryInteractive){
                 console.log("Valid token not found");
                 chrome.storage.local.set({
                     registered: false
@@ -218,12 +218,12 @@ function setLastSlidePassTime() {
     });
 }
 
-function tryRegistration(tab) {
-
+function tryRegistration(tab, tryInteractive) {
+    console.log("Try registration. Interactive: " + tryInteractive);
     if (!(tab.url.match(/.*#openModal$/))) {
         if (checkLaunched == false) {
             window.setTimeout(function () {
-                checkAuthStatus(tab)
+                checkAuthStatus(tab, tryInteractive)
             }, 1000);
         } else {
             console.log("checkAuthStatus already scheduled");
@@ -241,11 +241,11 @@ function onPresentationPage(tab) {
         console.log("URL match. Checking auth status...");
         getLastRegistrationURL(function (lastRegistrationURL) {
             if (lastRegistrationURL != removeFragment(tab.url)) {
-                tryRegistration(tab);
+                tryRegistration(tab, true);
             } else {
                 getLastRegistrationTime(function (lastRegistrationTime) {
                     if (!lastRegistrationTime || ((new Date()).getTime() - lastRegistrationTime > REGISTRATION_TIMEOUT)) {
-                        tryRegistration(tab);
+                        tryRegistration(tab, true);
                     }
                 });
             }
@@ -366,6 +366,25 @@ function authorize() {
     );
 }
 
+
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (changeInfo.status == "complete" && tab.url && tab.url.match(URLRegexpNoPresent)) {
+        console.log("URL match. Checking auth status...");
+//        getLastRegistrationURL(function (lastRegistrationURL) {
+//            if (lastRegistrationURL != removeFragment(tab.url)) {
+//                tryRegistration(tab,false);
+//            } else {
+                getLastRegistrationTime(function (lastRegistrationTime) {
+                    if (!lastRegistrationTime || ((new Date()).getTime() - lastRegistrationTime > REGISTRATION_TIMEOUT)) {
+                        tryRegistration(tab, false);
+                    }
+                });
+//            }
+//        });
+    } else {
+        chrome.pageAction.hide(tabId);
+    }
+});
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log(sender.tab ?
