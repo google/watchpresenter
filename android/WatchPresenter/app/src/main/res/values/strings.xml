@@ -27,7 +27,6 @@
     <string name="androidWearHint">touch on your Wear device</string>
     <string name="later">Later</string>
     <string name="about">About</string>
-    <string name="youCanSwitchOffScreen">You may switch off phone\'s screen if you use the volume butons or the Android Wear device</string>
     <string name="or">or</string>
     <string name="useVolume">use phone\'s volume buttons</string>
     <string name="toPassTheSlidesYouMay">To pass the slides you may:</string>
