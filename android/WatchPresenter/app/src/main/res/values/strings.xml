@@ -44,4 +44,5 @@
     <string name="errorNoAccount">Error</string>
     <string name="tutorial">Tutorial</string>
     <string name="switchAccounts">Switch accounts</string>
+    <string name="screensaverReminder">Remember to turn the screensaver off on your computer</string>
 </resources>

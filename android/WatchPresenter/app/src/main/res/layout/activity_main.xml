@@ -30,34 +30,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/linearLayout"
-        android:gravity="center_horizontal">
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/bigButtonDesc"
-        android:id="@+id/textView"
-        android:textColor="#ffffffff"
-        android:textAlignment="center"
-        android:onClick="onSendMessageButtonClick"
-        android:layout_below="@+id/textView7"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/androidWearHint"
-        android:id="@+id/textView2"
-        android:textColor="#ffffffff"
-        android:onClick="onSendMessageButtonClick"
-        android:layout_below="@+id/textView5"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"  />
+        android:gravity="center_horizontal"></LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,42 +41,6 @@
         android:id="@+id/versionText"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/useVolume"
-        android:id="@+id/textView3"
-        android:textColor="#ffffffff"
-        android:onClick="onSendMessageButtonClick"
-        android:layout_below="@+id/textView4"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/or"
-        android:id="@+id/textView4"
-        android:onClick="onSendMessageButtonClick"
-        android:textColor="#ffffffff"
-        android:layout_below="@+id/textView"
-        android:layout_alignStart="@+id/textView5"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/or"
-        android:id="@+id/textView5"
-        android:onClick="onSendMessageButtonClick"
-        android:textColor="#ffffffff"
-        android:layout_below="@+id/textView3"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"  />
 
     <TextView
         android:layout_width="wrap_content"
@@ -125,21 +62,39 @@
         android:id="@+id/textView6"
         android:textColor="#ffffffff"
         android:onClick="onSendMessageButtonClick"
-        android:layout_marginBottom="30dp"
-        android:layout_above="@+id/textView9"
+        android:layout_alignBottom="@+id/textView9"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/phone_usage"
+        android:layout_above="@+id/textView6"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="57dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffffff"
+        android:text="You can present now!"
+        android:onClick="onSendMessageButtonClick"
+        android:id="@+id/usageText"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/toPassTheSlidesYouMay"
-        android:id="@+id/textView7"
-        android:textColor="#ffffffff"
-        android:textAlignment="center"
+        android:textColor="#ffff0016"
+        android:text="@string/screensaverReminder"
         android:onClick="onSendMessageButtonClick"
-        android:layout_marginTop="15dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/screensaverReminder"
+        android:textStyle="bold"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
