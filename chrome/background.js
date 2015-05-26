@@ -18,7 +18,7 @@ var URLRegexp = /http[s]:\/\/docs\.google\.com.*\/presentation/i;
 var URLRegexpNoPresent = /http[s]:\/\/docs\.google\.com.*\/presentation(?!.*present\?)/i;
 var checkLaunched = false;
 var modalRegistrationTabId;
-var REGISTRATION_TIMEOUT = 24 * 3600 * 1000;
+var REGISTRATION_TIMEOUT = 60 * 1000;
 var MIN_SLIDE_PASS_PERIOD = 500;
 
 
