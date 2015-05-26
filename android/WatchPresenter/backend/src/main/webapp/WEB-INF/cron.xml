@@ -24,6 +24,6 @@
     <cron>
         <url>/cron/keepAlive</url>
         <description>Keeps app alive</description>
-        <schedule>every 2 minutes</schedule>
+        <schedule>every 1 minutes</schedule>
     </cron>
 </cronentries>
