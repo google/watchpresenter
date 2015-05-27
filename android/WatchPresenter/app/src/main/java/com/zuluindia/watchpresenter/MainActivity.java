@@ -42,7 +42,7 @@ import android.widget.TextView;
 
 import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.zuluindia.watchpresenter.messaging.GcmGetVersionMessageAsyncTask;
+import com.zuluindia.watchpresenter.messaging.GcmCheckRegistrationAsyncTask;
 import com.zuluindia.watchpresenter.messaging.MessagingService;
 import com.zuluindia.watchpresenter.tutorial.TutorialActivity;
 
@@ -100,7 +100,7 @@ public class MainActivity extends Activity {
             Log.d(Constants.LOG_TAG, "Pagage name: " + getPackageName());
             Log.d(Constants.LOG_TAG, "Version code: " + versionCode);
             Log.d(Constants.LOG_TAG, "Version name: " + versionName);
-            (new GcmGetVersionMessageAsyncTask(MessagingService.get(this), this)).execute(
+            (new GcmCheckRegistrationAsyncTask(MessagingService.get(this), this)).execute(
                     getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
 
             TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
