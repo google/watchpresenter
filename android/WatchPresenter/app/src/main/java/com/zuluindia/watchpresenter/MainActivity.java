@@ -37,10 +37,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
-import com.zuluindia.watchpresenter.messaging.GcmRegistrationAsyncTask;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.zuluindia.watchpresenter.messaging.GcmGetVersionMessageAsyncTask;
 import com.zuluindia.watchpresenter.messaging.MessagingService;
@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
+        updateInterface(true);
         settings = getSharedPreferences("Watchpresenter", MODE_PRIVATE);
         credential = GoogleAccountCredential.usingAudience(this,
                 "server:client_id:" + Constants.ANDROID_AUDIENCE);
@@ -353,6 +353,25 @@ public class MainActivity extends Activity {
     private void launchTutorial(){
         Intent intent = new Intent(this, TutorialActivity.class);
         startActivityForResult(intent, TUTORIAL_ACTIVITY);
+    }
+
+
+    public void registrationUpdate(boolean registered){
+        updateInterface(registered);
+    }
+
+    private void updateInterface(boolean registered){
+        setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
+        if(!registered){
+            TextView usageText = (TextView)findViewById(R.id.usageText);
+            TextView warning1 = (TextView)findViewById(R.id.warning1);
+            TextView warning2 = (TextView)findViewById(R.id.warning2);
+            ImageView usageImage = (ImageView)findViewById(R.id.usageImage);
+            usageText.setText(R.string.chromeExtensionNotDetected);
+            warning1.setText(R.string.installChromeExtension);
+            warning2.setText(R.string.goToSite);
+            usageImage.setImageResource(R.drawable.phone_usage_broken);
+        }
     }
 
     public void showTroubleShooting(View v){

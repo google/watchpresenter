@@ -54,7 +54,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:id="@+id/usageImage"
         android:src="@drawable/phone_usage"
         android:layout_above="@+id/textView9"
         android:layout_alignParentStart="true"
@@ -76,9 +76,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffff0016"
         android:text="@string/screensaverReminder"
-        android:id="@+id/screensaverReminder"
+        android:id="@+id/warning1"
         android:textStyle="bold"
-        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignBottom="@+id/usageImage"
         android:layout_alignParentStart="true" />
 
     <Button
@@ -89,5 +89,16 @@
         android:layout_alignBottom="@+id/textView9"
         android:layout_centerHorizontal="true"
         android:onClick="showTroubleShooting" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffff0016"
+        android:text="@string/screensaverReminder"
+        android:id="@+id/warning2"
+        android:textStyle="bold"
+        android:layout_below="@+id/warning1"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
