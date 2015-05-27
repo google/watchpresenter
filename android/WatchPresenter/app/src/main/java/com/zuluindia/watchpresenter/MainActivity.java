@@ -36,6 +36,7 @@ import android.view.MenuItem;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
@@ -352,6 +353,22 @@ public class MainActivity extends Activity {
     private void launchTutorial(){
         Intent intent = new Intent(this, TutorialActivity.class);
         startActivityForResult(intent, TUTORIAL_ACTIVITY);
+    }
+
+    public void showTroubleShooting(View v){
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.html_dialog, null);
+        WebView mainWebView = (WebView) dialogLayout.findViewById(R.id.mainWebView);
+        mainWebView.loadUrl("file:///android_asset/troubleshooting.html");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogLayout);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setTitle(getString(R.string.troubleshooting));
+        builder.show();
     }
 
 }
