@@ -27,6 +27,8 @@ public class Constants {
     public static final String NEXT_SLIDE_MESSAGE = "NEXT";
     public static final String PREV_SLIDE_MESSAGE = "PREV";
 
+    public static final String SERVER_URL = "https://watchpresenter.appspot.com/_ah/api/";
+
     public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
 
     public static class VersionMessageActions{

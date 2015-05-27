@@ -24,6 +24,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.zuluindia.watchpresenter.Constants;
 import com.zuluindia.watchpresenter.backend.registration.Registration;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -48,7 +49,7 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         if (regService == null) {
             Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-                    .setRootUrl("https://watchpresenter.appspot.com/_ah/api/");
+                    .setRootUrl(Constants.SERVER_URL);
 
             regService = builder.build();
         }
