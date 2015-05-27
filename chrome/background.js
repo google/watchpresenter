@@ -13,12 +13,10 @@
 //limitations under the License.
 
 
-var apiUp = false;
 var URLRegexp = /http[s]:\/\/docs\.google\.com.*\/presentation/i;
 var URLRegexpNoPresent = /http[s]:\/\/docs\.google\.com.*\/presentation(?!.*present\?)/i;
 var checkLaunched = false;
 var modalRegistrationTabId;
-var REGISTRATION_TIMEOUT = 60 * 1000;
 var MIN_SLIDE_PASS_PERIOD = 500;
 
 
@@ -39,9 +37,7 @@ function registerCallback(registrationId) {
         // next time when the app starts up.
         if (succeed) {
             console.log("Registration successful (" + succeed + "). Saving to storage...");
-            chrome.storage.local.set({
-                registered: true
-            });
+            setLastRegistrationVersion();
         }
         releaseModal(succeed);
     });
@@ -61,17 +57,16 @@ function sendRegistrationId(regId, callback) {
 
 function afterAPIUp() {
     console.log("Checking if already registered");
-    chrome.storage.local.get("registered", function (result) {
-        // If already registered, bail out.
-        if (result["registered"])
-            console.log("Looks like already registered, but we'll try again anyway");
-        else
+    getLastRegistrationVersion(function (lastRegistrationVersion) {
+        if (lastRegistrationVersion != getCurrentVersion()) {
             console.log("Not registered yet. Registering...");
-        // Up to 100 senders are allowed.
-        var senderIds = ["122248338560"];
-        chrome.gcm.register(senderIds, registerCallback);
+            var senderIds = ["122248338560"];
+            chrome.gcm.register(senderIds, registerCallback);
+        } else {
+            console.log("Already registered");
+            releaseModal(true);
+        }
     });
-    apiUp = true;
 }
 
 
@@ -157,10 +152,8 @@ function checkAuthStatus(tab, tryInteractive) {
             }
             if (token) {
                 console.log("Valid token found");
-                setLastRegistrationURL(tab.url);
-                setLastRegistrationTime();
                 loadGoogleAPI();
-            } else if(tryInteractive){
+            } else if (tryInteractive) {
                 console.log("Valid token not found");
                 chrome.storage.local.set({
                     registered: false
@@ -171,39 +164,23 @@ function checkAuthStatus(tab, tryInteractive) {
     );
 }
 
-function getLastRegistrationURL(callback) {
-    chrome.storage.local.get("lastRegistrationURL", function (result) {
-        var lastRegistrationURL = result["lastRegistrationURL"];
-        callback(lastRegistrationURL);
+function getLastRegistrationVersion(callback) {
+    chrome.storage.local.get("lastRegistrationVersion", function (result) {
+        var lastRegistrationVersion = result["lastRegistrationVersion"];
+        callback(lastRegistrationVersion);
     });
 }
 
-function removeFragment(url) {
-    var indexOfHash = url.indexOf('#')
-    if (indexOfHash > 0) {
-        url = url.substring(0, indexOfHash);
-    }
-    return url;
-}
-
-function setLastRegistrationURL(url) {
+function setLastRegistrationVersion() {
     chrome.storage.local.set({
-        lastRegistrationURL: removeFragment(url)
+        lastRegistrationVersion: getCurrentVersion()
     });
 }
 
-function getLastRegistrationTime(callback) {
-    chrome.storage.local.get("lastRegistrationTime", function (result) {
-        var lastRegistrationTime = result["lastRegistrationTime"];
-        callback(lastRegistrationTime);
-    });
+function getCurrentVersion() {
+    return chrome.app.getDetails().version;
 }
 
-function setLastRegistrationTime() {
-    chrome.storage.local.set({
-        lastRegistrationTime: (new Date()).getTime()
-    });
-}
 
 function getLastSlidePassTime(callback) {
     chrome.storage.local.get("lastSlidePassTime", function (result) {
@@ -239,17 +216,7 @@ function tryRegistration(tab, tryInteractive) {
 function onPresentationPage(tab) {
     if (tab.url && tab.url.match(URLRegexpNoPresent)) {
         console.log("URL match. Checking auth status...");
-        getLastRegistrationURL(function (lastRegistrationURL) {
-            if (lastRegistrationURL != removeFragment(tab.url)) {
-                tryRegistration(tab, true);
-            } else {
-                getLastRegistrationTime(function (lastRegistrationTime) {
-                    if (!lastRegistrationTime || ((new Date()).getTime() - lastRegistrationTime > REGISTRATION_TIMEOUT)) {
-                        tryRegistration(tab, true);
-                    }
-                });
-            }
-        });
+        tryRegistration(tab, true);
     } else {
         chrome.pageAction.hide(tab.id);
     }
@@ -298,33 +265,6 @@ chrome.gcm.onMessage.addListener(function (message) {
 
 
 
-//function init() {
-//      var apiName = 'registration'
-//      var apiVersion = 'v1'
-//      var apiRoot = 'https://watchpresenterpublic.appspot.com/_ah/api';
-//      var callback = function() {
-//          
-//          
-//          chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-//              console.log("Token retrieved: " + token);
-//              gapi.auth.setToken(token);
-//              afterAPIUp();
-//           });
-//      }
-//      gapi.client.load(apiName, apiVersion, callback, apiRoot);
-//    }
-
-
-//var head = document.getElementsByTagName('head')[0];
-//var script = document.createElement('script');
-//script.type = 'text/javascript';
-//script.src = "https://apis.google.com/js/client.js?onload=init";
-//head.appendChild(script);
-
-
-
-
-
 
 
 function loadScript(url) {
@@ -367,25 +307,6 @@ function authorize() {
 }
 
 
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    if (changeInfo.status == "complete" && tab.url && tab.url.match(URLRegexpNoPresent)) {
-        console.log("URL match. Checking auth status...");
-//        getLastRegistrationURL(function (lastRegistrationURL) {
-//            if (lastRegistrationURL != removeFragment(tab.url)) {
-//                tryRegistration(tab,false);
-//            } else {
-                getLastRegistrationTime(function (lastRegistrationTime) {
-                    if (!lastRegistrationTime || ((new Date()).getTime() - lastRegistrationTime > REGISTRATION_TIMEOUT)) {
-                        tryRegistration(tab, false);
-                    }
-                });
-//            }
-//        });
-    } else {
-        chrome.pageAction.hide(tabId);
-    }
-});
-
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log(sender.tab ?
         "from a content script:" + sender.tab.url :
@@ -413,3 +334,5 @@ chrome.extension.onRequest.addListener(function (request, sender) {
         onPresentationPage(sender.tab);
     }
 });
+
+console.log("Listeners added");
