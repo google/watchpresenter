@@ -100,8 +100,7 @@ public class MainActivity extends Activity {
             Log.d(Constants.LOG_TAG, "Pagage name: " + getPackageName());
             Log.d(Constants.LOG_TAG, "Version code: " + versionCode);
             Log.d(Constants.LOG_TAG, "Version name: " + versionName);
-            (new GcmCheckRegistrationAsyncTask(MessagingService.get(this), this)).execute(
-                    getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+            (new GcmCheckRegistrationAsyncTask(MessagingService.get(this), this)).execute();
 
             TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
             versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);

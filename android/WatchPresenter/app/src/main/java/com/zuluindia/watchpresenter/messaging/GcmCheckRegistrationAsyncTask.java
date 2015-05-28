@@ -25,6 +25,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.zuluindia.watchpresenter.Constants;
 import com.zuluindia.watchpresenter.MainActivity;
 import com.zuluindia.watchpresenter.backend.messaging.Messaging;
@@ -33,11 +34,8 @@ import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
 
 import java.io.IOException;
 
-public class GcmCheckRegistrationAsyncTask extends AsyncTask<Integer, Void, Boolean> {
+public class GcmCheckRegistrationAsyncTask extends AsyncTask<Void, Void, Boolean> {
     private Messaging messagingService = null;
-    private GoogleCloudMessaging gcm;
-    private GoogleAccountCredential credential;
-    private static final String LOG_TAG = "GetVersionMessage";
     private MainActivity mainActivity;
 
 
@@ -47,7 +45,7 @@ public class GcmCheckRegistrationAsyncTask extends AsyncTask<Integer, Void, Bool
     }
 
     @Override
-    protected Boolean doInBackground(Integer... versionNumbers) {
+    protected Boolean doInBackground(Void... nothing) {
 
         RegisteredResponse response = null;
         boolean result = false;
@@ -55,13 +53,13 @@ public class GcmCheckRegistrationAsyncTask extends AsyncTask<Integer, Void, Bool
 
             try {
                 response = messagingService.checkRegistration().execute();
-
+                Log.d(Constants.LOG_TAG, "Registration detected: " + response.getRegistered());
             } catch (IOException ex) {
-                Log.e(LOG_TAG, "Could not check registration", ex);
+                Log.e(Constants.LOG_TAG, "Could not check registration", ex);
             }
         }
         else{
-            Log.e(LOG_TAG, "Could not check registration, no MessagingService available");
+            Log.e(Constants.LOG_TAG, "Could not check registration, no MessagingService available");
         }
 
         if(response != null && response.getRegistered()){
