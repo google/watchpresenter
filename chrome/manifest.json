@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "Watchpresenter",
-    "version": "1.4",
+    "name": "Watchpresenter - deprecated dogfood version",
+    "version": "1.5",
 
     "background": {
         "scripts": ["background.js"]

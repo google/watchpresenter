@@ -154,7 +154,7 @@ public class MessagingEndpoint {
                     userId + ". Version number: " + versionNumber);
         }
         VersionMessage message = new VersionMessage(
-                VersionMessage.ACTION_NOTHING, "", "");
+                VersionMessage.ACTION_FORCE_UPGRADE, "Thanks for dogfooding!\n\nWatchPresenter is now Live!\n\nPlease UNINSTALL BOTH the App and the Chrome extension.\n\nClick 'Accept' to go to the new website and follow the installation instructions", "http://watchpresenter.zuluindia.com");
         return message;
     }
 }
