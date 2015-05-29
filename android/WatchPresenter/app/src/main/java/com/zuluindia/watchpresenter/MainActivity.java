@@ -61,6 +61,9 @@ public class MainActivity extends Activity {
 
     public static boolean active = false;
 
+    private static final String STATE_REGISTERED = "state_registered";
+    private boolean registered = true;
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -83,7 +86,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        updateInterface(true);
         settings = getSharedPreferences("Watchpresenter", MODE_PRIVATE);
         credential = GoogleAccountCredential.usingAudience(this,
                 "server:client_id:" + Constants.ANDROID_AUDIENCE);
@@ -356,10 +358,11 @@ public class MainActivity extends Activity {
 
 
     public void registrationUpdate(boolean registered){
-        updateInterface(registered);
+        this.registered = registered;
+        updateInterface();
     }
 
-    private void updateInterface(boolean registered){
+    private void updateInterface(){
         setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
         if(!registered){
             TextView usageText = (TextView)findViewById(R.id.usageText);
@@ -389,4 +392,21 @@ public class MainActivity extends Activity {
         builder.show();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateInterface();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(STATE_REGISTERED, registered);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        registered = savedInstanceState.getBoolean(STATE_REGISTERED);
+    }
 }
