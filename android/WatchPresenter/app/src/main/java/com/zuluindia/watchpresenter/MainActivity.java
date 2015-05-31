@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
     public static boolean active = false;
 
     private static final String STATE_REGISTERED = "state_registered";
-    private static final long CHECK_REGISTRATION_PERIOD = 30000;
+    private static final long CHECK_REGISTRATION_PERIOD = 10000;
 
     private boolean registered;
 
@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
                     checkAndUpdateRegistration();
                 }
             };
-            timer.schedule(timerTask, CHECK_REGISTRATION_PERIOD);
+            timer.schedule(timerTask,0, CHECK_REGISTRATION_PERIOD);
         }
     }
 
@@ -264,6 +264,7 @@ public class MainActivity extends Activity {
                         if(lastTutorialShown < TUTORIAL_VERSION){
                             launchTutorial();
                         }
+                        checkAndUpdateRegistration();
                     }
                     else{
                         alertAndClose();
