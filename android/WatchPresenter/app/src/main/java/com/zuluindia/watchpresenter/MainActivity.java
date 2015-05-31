@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
     public static boolean active = false;
 
     private static final String STATE_REGISTERED = "state_registered";
-    private static final long CHECK_REGISTRATION_PERIOD = 10000;
+    private static final long CHECK_REGISTRATION_PERIOD = 30000;
 
     private boolean registered;
 
