@@ -112,8 +112,6 @@ public class MainActivity extends Activity {
             Log.d(Constants.LOG_TAG, "Pagage name: " + getPackageName());
             Log.d(Constants.LOG_TAG, "Version code: " + versionCode);
             Log.d(Constants.LOG_TAG, "Version name: " + versionName);
-            TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
-            versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(Constants.LOG_TAG, "Cannot retrieve app version", e);
         }
@@ -404,6 +402,8 @@ public class MainActivity extends Activity {
 
     private void updateInterface(){
         setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
+        TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
+        versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
         if(!registered){
             TextView usageText = (TextView)findViewById(R.id.usageText);
             TextView warning1 = (TextView)findViewById(R.id.warning1);
