@@ -56,7 +56,6 @@ public class MainActivity extends Activity {
     private static final int TUTORIAL_ACTIVITY = 3;
     private String versionName;
     private static final String ACTION_STOP_MONITORING = "com.zuluindia.watchpresenter.STOP_MONITORING";
-    public static final String ACTION_REGISTRATION_UPDATE = "com.zuluindia.watchpresenter.REGISTRATION_UPDATE";
     public static final int PRESENTING_NOTIFICATION_ID = 001;
     private static final int TUTORIAL_VERSION = 1;
 
@@ -64,7 +63,6 @@ public class MainActivity extends Activity {
 
     private static final String STATE_REGISTERED = "state_registered";
 
-    public static final String EXTRA_NEW_REGISTRATION_VALUE = "new_registration_value";
     private boolean registered;
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -81,14 +79,6 @@ public class MainActivity extends Activity {
         }
     };
 
-
-    private BroadcastReceiver registrationChangeReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            registrationUpdate(intent.getBooleanExtra(EXTRA_NEW_REGISTRATION_VALUE, false));
-        }
-    };
 
 
     private void chooseAccount() {
@@ -124,7 +114,6 @@ public class MainActivity extends Activity {
             Log.e(Constants.LOG_TAG, "Cannot retrieve app version", e);
         }
         registerReceiver(broadcastReceiver, new IntentFilter(ACTION_STOP_MONITORING));
-        registerReceiver(registrationChangeReceiver, new IntentFilter(ACTION_REGISTRATION_UPDATE));
     }
 
 
@@ -348,7 +337,6 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(broadcastReceiver);
-        unregisterReceiver(registrationChangeReceiver);
     }
 
     @Override

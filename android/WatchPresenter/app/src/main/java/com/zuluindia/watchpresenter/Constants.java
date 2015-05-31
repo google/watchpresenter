@@ -41,5 +41,4 @@ public class Constants {
         public static final String ACTION_SHOW_MESSAGE = "ACTION_SHOW_MESSAGE";
     }
 
-    public static final String MESSAGE_REGISTERED = "registered";
 }
