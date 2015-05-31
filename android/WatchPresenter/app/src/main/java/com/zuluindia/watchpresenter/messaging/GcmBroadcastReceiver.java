@@ -16,13 +16,16 @@
 
 package com.zuluindia.watchpresenter.messaging;
 
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.WakefulBroadcastReceiver;
+import android.util.Log;
 
-import com.zuluindia.watchpresenter.GcmIntentService;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.zuluindia.watchpresenter.Constants;
+import com.zuluindia.watchpresenter.MainActivity;
+
 
 /**
  * Created by pablogil on 1/16/15.
@@ -30,11 +33,20 @@ import com.zuluindia.watchpresenter.GcmIntentService;
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        // Explicitly specify that GcmIntentService will handle the intent.
-        ComponentName comp = new ComponentName(context.getPackageName(),
-                GcmIntentService.class.getName());
-        // Start the service, keeping the device awake while it is launching.
-        startWakefulService(context, (intent.setComponent(comp)));
-        setResultCode(Activity.RESULT_OK);
+        Log.d(Constants.LOG_TAG, "GCM message received");
+        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
+        String messageType = gcm.getMessageType(intent);
+        Bundle extras = intent.getExtras();
+        if (extras != null && !extras.isEmpty()) {
+            if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
+                Intent i = new Intent(MainActivity.ACTION_REGISTRATION_UPDATE);
+                final String message = extras.getString("message");
+                Log.d(Constants.LOG_TAG, "New registration message received: " + message);
+                boolean registered = Constants.MESSAGE_REGISTERED.equals(message);
+                i.putExtra(MainActivity.EXTRA_NEW_REGISTRATION_VALUE, registered);
+                context.sendBroadcast(i);
+            }
+        }
+
     }
 }

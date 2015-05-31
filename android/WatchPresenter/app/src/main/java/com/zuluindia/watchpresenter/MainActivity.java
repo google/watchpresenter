@@ -56,13 +56,16 @@ public class MainActivity extends Activity {
     private static final int TUTORIAL_ACTIVITY = 3;
     private String versionName;
     private static final String ACTION_STOP_MONITORING = "com.zuluindia.watchpresenter.STOP_MONITORING";
+    public static final String ACTION_REGISTRATION_UPDATE = "com.zuluindia.watchpresenter.REGISTRATION_UPDATE";
     public static final int PRESENTING_NOTIFICATION_ID = 001;
     private static final int TUTORIAL_VERSION = 1;
 
     public static boolean active = false;
 
     private static final String STATE_REGISTERED = "state_registered";
-    private boolean registered = true;
+
+    public static final String EXTRA_NEW_REGISTRATION_VALUE = "new_registration_value";
+    private boolean registered;
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -78,6 +81,16 @@ public class MainActivity extends Activity {
         }
     };
 
+
+    private BroadcastReceiver registrationChangeReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            registrationUpdate(intent.getBooleanExtra(EXTRA_NEW_REGISTRATION_VALUE, false));
+        }
+    };
+
+
     private void chooseAccount() {
         startActivityForResult(credential.newChooseAccountIntent(),
                 REQUEST_ACCOUNT_PICKER);
@@ -86,7 +99,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        settings = getSharedPreferences("Watchpresenter", MODE_PRIVATE);
+        settings = getSharedPreferences(Constants.SETTINGS_NAME, MODE_PRIVATE);
+        registered = settings.getBoolean(Constants.PREF_REGISTERED, false);
         credential = GoogleAccountCredential.usingAudience(this,
                 "server:client_id:" + Constants.ANDROID_AUDIENCE);
         setSelectedAccountName(settings.getString(Constants.PREF_ACCOUNT_NAME, null));
@@ -110,6 +124,7 @@ public class MainActivity extends Activity {
             Log.e(Constants.LOG_TAG, "Cannot retrieve app version", e);
         }
         registerReceiver(broadcastReceiver, new IntentFilter(ACTION_STOP_MONITORING));
+        registerReceiver(registrationChangeReceiver, new IntentFilter(ACTION_REGISTRATION_UPDATE));
     }
 
 
@@ -333,6 +348,7 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(broadcastReceiver);
+        unregisterReceiver(registrationChangeReceiver);
     }
 
     @Override
@@ -344,7 +360,9 @@ public class MainActivity extends Activity {
     private void switchAccounts(){
         SharedPreferences.Editor editor = settings.edit();
         editor.remove(Constants.PREF_ACCOUNT_NAME);
+        editor.remove(Constants.PREF_REGISTERED);
         editor.commit();
+        registered = false;
         Intent objIntent = new Intent(this, MonitorVolumeKeyPress.class);
         stopService(objIntent);
         MessagingService.reset();
@@ -359,6 +377,9 @@ public class MainActivity extends Activity {
 
     public void registrationUpdate(boolean registered){
         this.registered = registered;
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(Constants.PREF_REGISTERED, registered);
+        editor.commit();
         updateInterface();
     }
 
