@@ -37,7 +37,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
@@ -65,7 +64,7 @@ public class MainActivity extends Activity {
     public static boolean active = false;
 
     private static final String STATE_REGISTERED = "state_registered";
-    private static final long CHECK_REGISTRATION_PERIOD = 15000;
+    private static final long CHECK_REGISTRATION_PERIOD = 30000;
 
     private boolean registered;
 
@@ -401,18 +400,13 @@ public class MainActivity extends Activity {
     }
 
     private void updateInterface(){
-        setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
-        TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
-        versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
-        if(!registered){
-            TextView usageText = (TextView)findViewById(R.id.usageText);
-            TextView warning1 = (TextView)findViewById(R.id.warning1);
-            TextView warning2 = (TextView)findViewById(R.id.warning2);
-            ImageView usageImage = (ImageView)findViewById(R.id.usageImage);
-            usageText.setText(R.string.chromeExtensionNotDetected);
-            warning1.setText(R.string.installChromeExtension);
-            warning2.setText(R.string.goToSite);
-            usageImage.setImageResource(R.drawable.phone_usage_broken);
+        if(registered){
+            setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
+            TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
+            versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
+        }
+        else{
+            setContentView(R.layout.no_extension_detected);
         }
     }
 
@@ -449,5 +443,9 @@ public class MainActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         registered = savedInstanceState.getBoolean(STATE_REGISTERED);
+    }
+
+    public void onCheckAgainClick(View v){
+        checkAndUpdateRegistration();
     }
 }

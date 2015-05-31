@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/usageImage"
-        android:src="@drawable/phone_usage"
+        android:src="@drawable/phone_usage_broken"
         android:layout_above="@+id/textView9"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="92dp" />
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffffff"
-        android:text="You can present now!"
+        android:text="@string/chromeExtensionNotDetected"
         android:id="@+id/usageText"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffff0016"
-        android:text="@string/screensaverReminder"
+        android:text="@string/goToSite"
         android:id="@+id/warning1"
         android:textStyle="bold"
         android:layout_alignBottom="@+id/usageImage"
@@ -89,5 +89,14 @@
         android:layout_alignBottom="@+id/textView9"
         android:layout_centerHorizontal="true"
         android:onClick="showTroubleShooting" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/checkAgain"
+        android:id="@+id/button2"
+        android:layout_above="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:onClick="onCheckAgainClick" />
 
 </RelativeLayout>

@@ -47,5 +47,6 @@
     <string name="troubleshooting">Troubleshooting</string>
     <string name="chromeExtensionNotDetected">Chrome extension not detected!</string>
     <string name="installChromeExtension">You must install WatchPresenter Chrome extension</string>
-    <string name="goToSite">Please go to www.zuluindia.com on your desktop and follow the instructions</string>
+    <string name="goToSite">Go to www.zuluindia.com on your computer to install it</string>
+    <string name="checkAgain">Check again</string>
 </resources>
