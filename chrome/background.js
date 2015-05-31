@@ -49,7 +49,7 @@ function onSendregistrationId(succeed){
 
 
 function sendRegistrationId(regId, callback) {
-    console.log("Sending registration ID: " + regId);
+    console.log("Sending registration ID to server");
     gapi.client.registration.register({
         'regId': regId
     }).execute(
