@@ -46,6 +46,9 @@ import com.zuluindia.watchpresenter.messaging.GcmCheckRegistrationAsyncTask;
 import com.zuluindia.watchpresenter.messaging.MessagingService;
 import com.zuluindia.watchpresenter.tutorial.TutorialActivity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class MainActivity extends Activity {
 
@@ -62,8 +65,11 @@ public class MainActivity extends Activity {
     public static boolean active = false;
 
     private static final String STATE_REGISTERED = "state_registered";
+    private static final long CHECK_REGISTRATION_PERIOD = 15000;
 
     private boolean registered;
+
+    private Timer timer;
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -106,8 +112,6 @@ public class MainActivity extends Activity {
             Log.d(Constants.LOG_TAG, "Pagage name: " + getPackageName());
             Log.d(Constants.LOG_TAG, "Version code: " + versionCode);
             Log.d(Constants.LOG_TAG, "Version name: " + versionName);
-            (new GcmCheckRegistrationAsyncTask(MessagingService.get(this), this)).execute();
-
             TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
             versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
         } catch (PackageManager.NameNotFoundException e) {
@@ -116,7 +120,25 @@ public class MainActivity extends Activity {
         registerReceiver(broadcastReceiver, new IntentFilter(ACTION_STOP_MONITORING));
     }
 
+    private void scheduleCheckRegistration(){
+        if(registered == false) {
+            if (timer != null) {
+                timer.cancel();
+            }
+            timer = new Timer();
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    checkAndUpdateRegistration();
+                }
+            };
+            timer.schedule(timerTask, CHECK_REGISTRATION_PERIOD);
+        }
+    }
 
+    private void checkAndUpdateRegistration(){
+        (new GcmCheckRegistrationAsyncTask(MessagingService.get(this), this)).execute();
+    }
 
     public void launchChooseAccount(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
@@ -343,6 +365,9 @@ public class MainActivity extends Activity {
     protected void onStop() {
         super.onPause();
         active = false;
+        if(timer != null){
+            timer.cancel();
+        }
     }
 
     private void switchAccounts(){
@@ -365,6 +390,12 @@ public class MainActivity extends Activity {
 
     public void registrationUpdate(boolean registered){
         this.registered = registered;
+        if(registered){
+            //No need to check anymore
+            if(timer != null){
+                timer.cancel();
+            }
+        }
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean(Constants.PREF_REGISTERED, registered);
         editor.commit();
@@ -405,6 +436,7 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
         updateInterface();
+        scheduleCheckRegistration();
     }
 
     @Override
