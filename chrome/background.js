@@ -13,10 +13,12 @@
 //limitations under the License.
 
 
-var apiUp = false;
 var URLRegexp = /http[s]:\/\/docs\.google\.com.*\/presentation/i;
+var URLRegexpNoPresent = /http[s]:\/\/docs\.google\.com.*\/presentation(?!.*present\?)/i;
 var checkLaunched = false;
 var modalRegistrationTabId;
+var MIN_SLIDE_PASS_PERIOD = 500;
+
 
 function registerCallback(registrationId) {
     console.log("on registerCallback");
@@ -28,23 +30,26 @@ function registerCallback(registrationId) {
         return;
     }
     console.log("Sending registration ID...");
+    setRegistrationId(registrationId)
     // Send the registration ID to your application server.
-    sendRegistrationId(registrationId, function (succeed) {
-        // Once the registration ID is received by your server,
+    sendRegistrationId(registrationId, onSendregistrationId);
+}
+
+
+function onSendregistrationId(succeed){
+    // Once the registration ID is received by your server,
         // set the flag such that register will not be invoked
         // next time when the app starts up.
         if (succeed) {
             console.log("Registration successful (" + succeed + "). Saving to storage...");
-            chrome.storage.local.set({
-                registered: true
-            });
+            setLastRegistrationVersion();
         }
         releaseModal(succeed);
-    });
 }
 
+
 function sendRegistrationId(regId, callback) {
-    console.log("Sending registration ID: " + regId);
+    console.log("Sending registration ID to server");
     gapi.client.registration.register({
         'regId': regId
     }).execute(
@@ -57,17 +62,18 @@ function sendRegistrationId(regId, callback) {
 
 function afterAPIUp() {
     console.log("Checking if already registered");
-    chrome.storage.local.get("registered", function (result) {
-        // If already registered, bail out.
-        if (result["registered"])
-            console.log("Looks like already registered, but we'll try again anyway");
-        else
+    getLastRegistrationVersion(function (lastRegistrationVersion) {
+        if (lastRegistrationVersion != getCurrentVersion()) {
             console.log("Not registered yet. Registering...");
-        // Up to 100 senders are allowed.
-        var senderIds = ["122248338560"];
-        chrome.gcm.register(senderIds, registerCallback);
+            var senderIds = ["122248338560"];
+            chrome.gcm.register(senderIds, registerCallback);
+        } else {
+            console.log("Already registered");
+            getRegistrationId(function (registrationId){
+                sendRegistrationId(registrationId, onSendregistrationId);
+            });
+        }
     });
-    apiUp = true;
 }
 
 
@@ -78,13 +84,13 @@ function loadGoogleAPI() {
 }
 
 
-function requestAuthTokenInteractive() {
+function requestAuthTokenInteractive(tabId) {
     console.log("Requesting auth token interactively");
     //oauth2 auth
-    chrome.tabs.insertCSS({
+    chrome.tabs.insertCSS(tabId, {
         file: "watchpresenter.css"
     });
-    chrome.tabs.executeScript({
+    chrome.tabs.executeScript(tabId, {
         file: "modal_log-in.js"
     });
 }
@@ -131,8 +137,8 @@ function interactiveRequestAuthToken(tabId) {
 }
 
 
-function checkAuthStatus(tabId) {
-    chrome.pageAction.show(tabId);
+function checkAuthStatus(tab, tryInteractive) {
+    chrome.pageAction.show(tab.id);
 
 
     chrome.identity.getAuthToken({
@@ -154,59 +160,87 @@ function checkAuthStatus(tabId) {
             if (token) {
                 console.log("Valid token found");
                 loadGoogleAPI();
-            } else {
+            } else if (tryInteractive) {
                 console.log("Valid token not found");
                 chrome.storage.local.set({
                     registered: false
                 });
-                requestAuthTokenInteractive();
+                requestAuthTokenInteractive(tab.id);
             }
         }
     );
 }
 
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    console.log("Match: " + tab.url.match(/.*#openModal$/));
-    if (changeInfo.status == "complete" && tab.url && tab.url.match(/http[s]:\/\/docs\.google\.com.*\/presentation/i)) {
-        console.log("URL match");
-        if (!(tab.url.match(/.*#openModal$/))) {
-            if (checkLaunched == false) {
-                window.setTimeout(function () {
-                    checkAuthStatus(tabId)
-                }, 1000);
-            } else {
-                console.log("checkAuthStatus already scheduled");
-            }
+function getLastRegistrationVersion(callback) {
+    chrome.storage.local.get("lastRegistrationVersion", function (result) {
+        var lastRegistrationVersion = result["lastRegistrationVersion"];
+        callback(lastRegistrationVersion);
+    });
+}
 
+function setLastRegistrationVersion() {
+    chrome.storage.local.set({
+        lastRegistrationVersion: getCurrentVersion()
+    });
+}
+
+function getRegistrationId(callback) {
+    chrome.storage.local.get("registrationId", function (result) {
+        var registrationId = result["registrationId"];
+        callback(registrationId);
+    });
+}
+
+function setRegistrationId(registrationId) {
+    chrome.storage.local.set({
+        registrationId: registrationId
+    });
+}
+
+function getCurrentVersion() {
+    return chrome.app.getDetails().version;
+}
+
+
+function getLastSlidePassTime(callback) {
+    chrome.storage.local.get("lastSlidePassTime", function (result) {
+        var lastSlidePassTime = result["lastSlidePassTime"];
+        callback(lastSlidePassTime);
+    });
+}
+
+function setLastSlidePassTime() {
+    chrome.storage.local.set({
+        lastSlidePassTime: (new Date()).getTime()
+    });
+}
+
+function tryRegistration(tab, tryInteractive) {
+    console.log("Try registration. Interactive: " + tryInteractive);
+    if (!(tab.url.match(/.*#openModal$/))) {
+        if (checkLaunched == false) {
+            window.setTimeout(function () {
+                checkAuthStatus(tab, tryInteractive)
+            }, 1000);
         } else {
-            console.log("We are already in openModal");
+            console.log("checkAuthStatus already scheduled");
         }
+
     } else {
-        chrome.pageAction.hide(tabId);
-    }
-});
-
-
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log(sender.tab ?
-        "from a content script:" + sender.tab.url :
-        "from the extension");
-    if (request.greeting == "authorize") {
-        var tabId = null;
-        if (sender.tab) {
-            interactiveRequestAuthToken(sender.tab.id);
-        } else {
-            chrome.tabs.query({
-                    currentWindow: true,
-                    active: true
-                },
-                function (tabArray) {
-                    interactiveRequestAuthToken(tabArray[0].id);
-                });
-        }
+        console.log("We are already in openModal");
     }
 
-});
+}
+
+
+function onPresentationPage(tab) {
+    if (tab.url && tab.url.match(URLRegexpNoPresent)) {
+        console.log("URL match. Checking auth status...");
+        tryRegistration(tab, true);
+    } else {
+        chrome.pageAction.hide(tab.id);
+    }
+}
 
 
 chrome.gcm.onMessage.addListener(function (message) {
@@ -216,15 +250,24 @@ chrome.gcm.onMessage.addListener(function (message) {
             if (message.data) {
                 if (message.data.message) {
                     if ("NEXT" == message.data.message) {
-                        chrome.tabs.executeScript({
-                            file: "slide_switcher.js"
+                        getLastSlidePassTime(function (lastTime) {
+                            if (!lastTime || (lastTime - (new Date()).getTime()) > MIN_SLIDE_PASS_PERIOD) {
+                                chrome.tabs.executeScript({
+                                    file: "slide_switcher.js"
+                                });
+                            }
                         });
+
                     } else if ("PREV" == message.data.message) {
-                        chrome.tabs.executeScript({
-                            file: "slide_switcher_backwards.js"
+                        getLastSlidePassTime(function (lastTime) {
+                            if (!lastTime || (lastTime - (new Date()).getTime()) > MIN_SLIDE_PASS_PERIOD) {
+                                chrome.tabs.executeScript({
+                                    file: "slide_switcher_backwards.js"
+                                });
+                            }
                         });
-                    }
-                    else{
+
+                    } else {
                         console.log("Unknown message received. data.message: " + message.data.message);
                     }
                 } else {
@@ -238,33 +281,6 @@ chrome.gcm.onMessage.addListener(function (message) {
         }
     });
 });
-
-
-
-
-//function init() {
-//      var apiName = 'registration'
-//      var apiVersion = 'v1'
-//      var apiRoot = 'https://watchpresenterpublic.appspot.com/_ah/api';
-//      var callback = function() {
-//          
-//          
-//          chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-//              console.log("Token retrieved: " + token);
-//              gapi.auth.setToken(token);
-//              afterAPIUp();
-//           });
-//      }
-//      gapi.client.load(apiName, apiVersion, callback, apiRoot);
-//    }
-
-
-//var head = document.getElementsByTagName('head')[0];
-//var script = document.createElement('script');
-//script.type = 'text/javascript';
-//script.src = "https://apis.google.com/js/client.js?onload=init";
-//head.appendChild(script);
-
 
 
 
@@ -310,8 +326,33 @@ function authorize() {
     );
 }
 
-if (apiUp) {
-    //load Google's javascript client libraries
-    window.gapi_onload = authorize;
-    loadScript('https://apis.google.com/js/client.js');
-}
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    console.log(sender.tab ?
+        "from a content script:" + sender.tab.url :
+        "from the extension");
+    if (request.greeting == "authorize") {
+        var tabId = null;
+        if (sender.tab) {
+            interactiveRequestAuthToken(sender.tab.id);
+        } else {
+            chrome.tabs.query({
+                    currentWindow: true,
+                    active: true
+                },
+                function (tabArray) {
+                    interactiveRequestAuthToken(tabArray[0].id);
+                });
+        }
+    }
+
+});
+
+
+chrome.extension.onRequest.addListener(function (request, sender) {
+    if (request == "onPresentationPage") {
+        onPresentationPage(sender.tab);
+    }
+});
+
+console.log("Listeners added");

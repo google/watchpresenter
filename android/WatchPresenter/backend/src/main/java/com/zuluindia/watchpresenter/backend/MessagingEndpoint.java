@@ -154,4 +154,25 @@ public class MessagingEndpoint {
                 VersionMessage.ACTION_NOTHING, "", "");
         return message;
     }
+
+
+    /**
+     * Check if the user Id has, at least, one registered device
+     *
+     */
+    @ApiMethod(name = "checkRegistration")
+    public RegisteredResponse checkRegistration(User user) throws OAuthRequestException {
+        if(user == null){
+            throw new OAuthRequestException("Not authorized");
+        }
+        RegisteredResponse result = new RegisteredResponse();
+        final String userId = PresenterRecord.getUserId(user.getEmail());
+        log.info("Checking for registration. userId: " + userId);
+        PresenterRecord record = ofy().load().
+                key(Key.create(PresenterRecord.class, userId)).now();
+        if(record != null){
+            result.setRegistered(true);
+        }
+        return result;
+    }
 }

@@ -23,57 +23,56 @@ package com.zuluindia.watchpresenter.messaging;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.zuluindia.watchpresenter.backend.messaging.Messaging;
-import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
-import com.zuluindia.watchpresenter.MainActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.zuluindia.watchpresenter.common.Constants;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.zuluindia.watchpresenter.Constants;
+import com.zuluindia.watchpresenter.MainActivity;
+import com.zuluindia.watchpresenter.backend.messaging.Messaging;
+import com.zuluindia.watchpresenter.backend.messaging.model.RegisteredResponse;
+import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
 
 import java.io.IOException;
 
-public class GcmGetVersionMessageAsyncTask extends AsyncTask<Integer, Void, VersionMessage> {
+public class GcmCheckRegistrationAsyncTask extends AsyncTask<Void, Void, Boolean> {
     private Messaging messagingService = null;
-    private GoogleCloudMessaging gcm;
-    private GoogleAccountCredential credential;
-    private static final String LOG_TAG = "GetVersionMessage";
     private MainActivity mainActivity;
 
 
-    public GcmGetVersionMessageAsyncTask(Messaging messagingService, MainActivity mainActivity) {
+    public GcmCheckRegistrationAsyncTask(Messaging messagingService, MainActivity mainActivity) {
         this.messagingService = messagingService;
         this.mainActivity = mainActivity;
     }
 
     @Override
-    protected VersionMessage doInBackground(Integer... versionNumbers) {
+    protected Boolean doInBackground(Void... nothing) {
 
-        int versionNumber = versionNumbers[0];
-        VersionMessage versionMessage = null;
+        RegisteredResponse response = null;
+        boolean result = false;
         if(messagingService != null) {
 
             try {
-                versionMessage = messagingService.getMessageForVersion(versionNumber).execute();
-
+                response = messagingService.checkRegistration().execute();
+                Log.d(Constants.LOG_TAG, "Registration detected: " + response.getRegistered());
             } catch (IOException ex) {
-                Log.e(LOG_TAG, "Could not retrieve version message", ex);
+                Log.e(Constants.LOG_TAG, "Could not check registration", ex);
             }
         }
         else{
-            Log.e(LOG_TAG, "Cannot retrieve version message, no MessagingService available");
+            Log.e(Constants.LOG_TAG, "Could not check registration, no MessagingService available");
         }
-        return versionMessage;
+
+        if(response != null && response.getRegistered()){
+            result = true;
+        }
+
+        return result;
     }
 
 
     @Override
-    protected void onPostExecute(VersionMessage msg) {
-        if(msg != null) {
-            if (Constants.VersionMessageActions.ACTION_NOTHING.equals(msg.getAction()) == false) {
-                mainActivity.showSuggestUpdateDialog(msg);
-            } else {
-                Log.v(LOG_TAG, "No version message to shown to the user");
-            }
-        }
+    protected void onPostExecute(Boolean registered) {
+        mainActivity.registrationUpdate(registered);
     }
 }

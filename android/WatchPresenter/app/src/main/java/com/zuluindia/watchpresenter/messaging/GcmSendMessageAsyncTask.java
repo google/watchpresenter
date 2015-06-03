@@ -23,6 +23,7 @@ package com.zuluindia.watchpresenter.messaging;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.zuluindia.watchpresenter.Constants;
 import com.zuluindia.watchpresenter.backend.messaging.Messaging;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -31,9 +32,6 @@ import java.io.IOException;
 
 public class GcmSendMessageAsyncTask extends AsyncTask<String, Void, String> {
     private Messaging messagingService = null;
-    private GoogleCloudMessaging gcm;
-    private GoogleAccountCredential credential;
-    private static final String LOG_TAG = "SendMessageTask";
 
 
     public GcmSendMessageAsyncTask(Messaging messagingService) {
@@ -59,7 +57,7 @@ public class GcmSendMessageAsyncTask extends AsyncTask<String, Void, String> {
             }
         }
         else{
-            Log.e(LOG_TAG, "Cannot send message, no MessagingService available");
+            Log.e(Constants.LOG_TAG, "Cannot send message, no MessagingService available");
             msg = "Not sent";
         }
         return msg;
@@ -68,6 +66,6 @@ public class GcmSendMessageAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String msg) {
-        Log.d(LOG_TAG, "Message sent: '" + msg + "'");
+        Log.d(Constants.LOG_TAG, "Message sent: '" + msg + "'");
     }
 }

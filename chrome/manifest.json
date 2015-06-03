@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Watchpresenter",
-    "version": "1.8",
+    "version": "3.2",
 
     "background": {
         "scripts": ["background.js"]
@@ -12,6 +12,13 @@
         "48": "images/icon_48.png",
         "128": "images/icon_128.png"
     },
+
+    "content_scripts": [{
+        "matches": ["*://docs.google.com/*presentation*"],
+        "js": ["watchpresenter.js"],
+        "css": ["watchpresenter.css"],
+        "run_at": "document_idle"
+    }],
 
     "web_accessible_resources": [
     "images/*"
@@ -28,7 +35,7 @@
     "notifications",
         "http://*/",
         "https://*/"],
-   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkZKUpYaK/MmGR3VZQlGCX2LJF2oIxKouPVvDKE/tw0Y8VmxrOcgF+eYDM6FCCYuns2/H7FIMshLxzph18aUf6NcwYfyAeWlg9VvLELBBSIqWMK8F7RzA5xJ+Y+5OUkwRLvlTu+AZDYx6u2hIx7Vdu2Cclwio10QBJRGcZm/vecACaTyAjed8wL0NT+mo+UStE2KDpGY08okJRgoWG3DU3O9gr8Hu0SnuecKG7ZiXDoI9GQM2jDEoq3qWgy0w5GdT7K0jWavDuVNZizR72awxbja0IQovqUOWphu0jor9byxwdN0h7YW8EA2cr/66QQWU7uzRFEWGYiTT/JbovFAYtQIDAQAB",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkZKUpYaK/MmGR3VZQlGCX2LJF2oIxKouPVvDKE/tw0Y8VmxrOcgF+eYDM6FCCYuns2/H7FIMshLxzph18aUf6NcwYfyAeWlg9VvLELBBSIqWMK8F7RzA5xJ+Y+5OUkwRLvlTu+AZDYx6u2hIx7Vdu2Cclwio10QBJRGcZm/vecACaTyAjed8wL0NT+mo+UStE2KDpGY08okJRgoWG3DU3O9gr8Hu0SnuecKG7ZiXDoI9GQM2jDEoq3qWgy0w5GdT7K0jWavDuVNZizR72awxbja0IQovqUOWphu0jor9byxwdN0h7YW8EA2cr/66QQWU7uzRFEWGYiTT/JbovFAYtQIDAQAB",
     "oauth2": {
         "client_id": "736639150268-d4i5u6msvjai5okftb50s3tcaqu9booi.apps.googleusercontent.com",
         "scopes": [

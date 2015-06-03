@@ -70,6 +70,7 @@ public class RegistrationEndpoint {
             throw new OAuthRequestException("Not authorized");
         }
         final String userId = PresenterRecord.getUserId(user.getEmail());
+        log.info("Registration for userId: " + userId);
         PresenterRecord record = ofy().load().
                 key(Key.create(PresenterRecord.class, userId)).now();
         if(record == null){
@@ -86,6 +87,7 @@ public class RegistrationEndpoint {
         record.updateTime();
         ofy().save().entity(record).now();
     }
+
 
 
 

@@ -30,22 +30,33 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
+<<<<<<< HEAD
 import android.widget.CompoundButton;
+=======
+import android.webkit.WebView;
+>>>>>>> master
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
-import com.zuluindia.watchpresenter.messaging.GcmRegistrationAsyncTask;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.zuluindia.watchpresenter.messaging.GcmGetVersionMessageAsyncTask;
+import com.zuluindia.watchpresenter.messaging.GcmCheckRegistrationAsyncTask;
 import com.zuluindia.watchpresenter.messaging.MessagingService;
+<<<<<<< HEAD
 import com.zuluindia.watchpresenter.common.Constants;
 import com.zuluindia.watchpresenter.common.WearMessenger;
+=======
+import com.zuluindia.watchpresenter.tutorial.TutorialActivity;
+
+import java.util.Timer;
+import java.util.TimerTask;
+>>>>>>> master
 
 
 public class MainActivity extends Activity {
@@ -54,15 +65,24 @@ public class MainActivity extends Activity {
     private String accountName;
     private GoogleAccountCredential credential;
     private static final int REQUEST_ACCOUNT_PICKER = 2;
+    private static final int TUTORIAL_ACTIVITY = 3;
     private String versionName;
     private static final String ACTION_STOP_MONITORING = "com.zuluindia.watchpresenter.STOP_MONITORING";
     public static final int PRESENTING_NOTIFICATION_ID = 001;
+    private static final int TUTORIAL_VERSION = 1;
 
 
     private ToggleButton tbEnableWearGestures;
     private WearController wearController;
 
     public static boolean active = false;
+
+    private static final String STATE_REGISTERED = "state_registered";
+    private static final long CHECK_REGISTRATION_PERIOD = 30000;
+
+    private boolean registered;
+
+    private Timer timer;
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -79,6 +99,8 @@ public class MainActivity extends Activity {
         }
     };
 
+
+
     private void chooseAccount() {
         startActivityForResult(credential.newChooseAccountIntent(),
                 REQUEST_ACCOUNT_PICKER);
@@ -87,8 +109,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
-        settings = getSharedPreferences("Watchpresenter", MODE_PRIVATE);
+        settings = getSharedPreferences(Constants.SETTINGS_NAME, MODE_PRIVATE);
+        registered = settings.getBoolean(Constants.PREF_REGISTERED, false);
         credential = GoogleAccountCredential.usingAudience(this,
                 "server:client_id:" + Constants.ANDROID_AUDIENCE);
         setSelectedAccountName(settings.getString(Constants.PREF_ACCOUNT_NAME, null));
@@ -96,7 +118,7 @@ public class MainActivity extends Activity {
             Log.d(Constants.LOG_TAG, "User already logged in");
         } else {
             Log.d(Constants.LOG_TAG, "User not logged in. Requesting user...");
-            chooseAccount();
+            launchChooseAccount();
         }
         try {
             int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
@@ -104,11 +126,6 @@ public class MainActivity extends Activity {
             Log.d(Constants.LOG_TAG, "Pagage name: " + getPackageName());
             Log.d(Constants.LOG_TAG, "Version code: " + versionCode);
             Log.d(Constants.LOG_TAG, "Version name: " + versionName);
-            (new GcmGetVersionMessageAsyncTask(MessagingService.get(this), this)).execute(
-                    getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
-
-            TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
-            versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(Constants.LOG_TAG, "Cannot retrieve app version", e);
         }
@@ -131,18 +148,46 @@ public class MainActivity extends Activity {
 
     }
 
-
-    public void onRegisterGcmButtonClick(View v){
-        (new GcmRegistrationAsyncTask(this)).execute();
+    private void scheduleCheckRegistration(){
+        if(registered == false) {
+            if (timer != null) {
+                timer.cancel();
+            }
+            timer = new Timer();
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    checkAndUpdateRegistration();
+                }
+            };
+            timer.schedule(timerTask,0, CHECK_REGISTRATION_PERIOD);
+        }
     }
 
-    public void onSendMessageButtonClick(View v){
-        Intent i = new Intent("com.zuluindia.watchpresenter.SEND_MESSAGE");
-        i.putExtra(Constants.EXTRA_MESSAGE, Constants.NEXT_SLIDE_MESSAGE);
-        sendBroadcast(i);
+    private void checkAndUpdateRegistration(){
+        (new GcmCheckRegistrationAsyncTask(MessagingService.get(this), this)).execute();
     }
 
+    public void launchChooseAccount(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.chooseAnAccount))
 
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setMessage(R.string.beforeAccountChooseMessage)
+                .setIcon(android.R.drawable.ic_dialog_alert);
+
+        builder.setCancelable(false);
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                chooseAccount();
+            }
+        });
+        builder.show();
+    }
 
     public void launchNotification(){
 // Build intent for notification content
@@ -217,6 +262,14 @@ public class MainActivity extends Activity {
             ).show();
             return true;
         }
+        if (id == R.id.action_tutorial) {
+            launchTutorial();
+            return true;
+        }
+        if (id == R.id.action_switchAccounts) {
+            switchAccounts();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -237,11 +290,41 @@ public class MainActivity extends Activity {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(Constants.PREF_ACCOUNT_NAME, accountName);
                         editor.commit();
-
+                        final int lastTutorialShown =
+                                settings.getInt(Constants.PREF_LAST_TUTORIAL_SHOWN, 0);
+                        if(lastTutorialShown < TUTORIAL_VERSION){
+                            launchTutorial();
+                        }
+                        checkAndUpdateRegistration();
+                    }
+                    else{
+                        alertAndClose();
                     }
                 }
+                else{
+                    alertAndClose();
+                }
+                break;
+            case TUTORIAL_ACTIVITY:
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(Constants.PREF_LAST_TUTORIAL_SHOWN, TUTORIAL_VERSION);
+                editor.commit();
                 break;
         }
+    }
+
+    private void alertAndClose(){
+        (new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.errorNoAccount))
+                .setMessage(R.string.cannotContinueWithoutAccount)
+
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+        ).show();
     }
 
     private void setSelectedAccountName(String accountName) {
@@ -311,8 +394,22 @@ public class MainActivity extends Activity {
     protected void onStop() {
         super.onPause();
         active = false;
+        if(timer != null){
+            timer.cancel();
+        }
     }
 
+    private void switchAccounts(){
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove(Constants.PREF_ACCOUNT_NAME);
+        editor.remove(Constants.PREF_REGISTERED);
+        editor.commit();
+        registered = false;
+        Intent objIntent = new Intent(this, MonitorVolumeKeyPress.class);
+        stopService(objIntent);
+        MessagingService.reset();
+        recreate();
+    }
 
 
     private void startGestureDetection(){
@@ -323,4 +420,73 @@ public class MainActivity extends Activity {
         wearController.stopGestureDetection();
     }
 
+    private void launchTutorial(){
+        Intent intent = new Intent(this, TutorialActivity.class);
+        startActivityForResult(intent, TUTORIAL_ACTIVITY);
+    }
+
+
+    public void registrationUpdate(boolean registered){
+        this.registered = registered;
+        if(registered){
+            //No need to check anymore
+            if(timer != null){
+                timer.cancel();
+            }
+        }
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(Constants.PREF_REGISTERED, registered);
+        editor.commit();
+        updateInterface();
+    }
+
+    private void updateInterface(){
+        if(registered){
+            setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
+            TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
+            versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
+        }
+        else{
+            setContentView(R.layout.no_extension_detected);
+        }
+    }
+
+    public void showTroubleShooting(View v){
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.html_dialog, null);
+        WebView mainWebView = (WebView) dialogLayout.findViewById(R.id.mainWebView);
+        mainWebView.loadUrl("file:///android_asset/troubleshooting.html");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogLayout);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setTitle(getString(R.string.troubleshooting));
+        builder.show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateInterface();
+        scheduleCheckRegistration();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(STATE_REGISTERED, registered);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        registered = savedInstanceState.getBoolean(STATE_REGISTERED);
+    }
+
+    public void onCheckAgainClick(View v){
+        checkAndUpdateRegistration();
+    }
 }

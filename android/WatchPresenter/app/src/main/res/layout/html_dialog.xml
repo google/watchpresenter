@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2014 Google Inc. All Rights Reserved.
   ~
@@ -15,15 +15,14 @@
   ~ limitations under the License.
   -->
 
-<cronentries>
-    <cron>
-        <url>/cron/cleanupDatabase</url>
-        <description>Cleans old entries in the database</description>
-        <schedule>every day 02:00</schedule>
-    </cron>
-    <cron>
-        <url>/cron/keepAlive</url>
-        <description>Keeps app alive</description>
-        <schedule>every 1 minutes</schedule>
-    </cron>
-</cronentries>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainWebView"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>
