@@ -23,10 +23,10 @@ package com.zuluindia.watchpresenter.messaging;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.zuluindia.watchpresenter.Constants;
 import com.zuluindia.watchpresenter.backend.messaging.Messaging;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.zuluindia.watchpresenter.common.Constants;
 
 import java.io.IOException;
 
@@ -48,7 +48,7 @@ public class GcmSendMessageAsyncTask extends AsyncTask<String, Void, String> {
         if(messagingService != null) {
 
             try {
-                Log.d(LOG_TAG, "Sending message...");
+                Log.d(Constants.LOG_TAG, "Sending message...");
                 messagingService.sendMessage(msg).execute();
 
             } catch (IOException ex) {

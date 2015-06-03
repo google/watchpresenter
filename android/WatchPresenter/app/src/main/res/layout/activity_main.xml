@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffffff"
-        android:text="You can present now!"
+        android:text="@string/youCanPresentNow"
         android:id="@+id/usageText"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/enableWearGestureDetection"
-        android:layout_above="@+id/versionText"
+        android:layout_above="@+id/troubleshootingButton"
         android:layout_marginBottom="15dp"
         android:layout_centerHorizontal="true"
         android:textOn="@string/wearGestureDetectionOn"
@@ -94,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/troubleshooting"
-        android:id="@+id/button"
+        android:id="@+id/troubleshootingButton"
         android:layout_alignBottom="@+id/textView9"
         android:layout_centerHorizontal="true"
         android:onClick="showTroubleShooting" />

@@ -36,11 +36,8 @@ import android.view.MenuItem;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
-<<<<<<< HEAD
 import android.widget.CompoundButton;
-=======
 import android.webkit.WebView;
->>>>>>> master
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -48,15 +45,11 @@ import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.zuluindia.watchpresenter.messaging.GcmCheckRegistrationAsyncTask;
 import com.zuluindia.watchpresenter.messaging.MessagingService;
-<<<<<<< HEAD
 import com.zuluindia.watchpresenter.common.Constants;
-import com.zuluindia.watchpresenter.common.WearMessenger;
-=======
 import com.zuluindia.watchpresenter.tutorial.TutorialActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
->>>>>>> master
 
 
 public class MainActivity extends Activity {
@@ -72,7 +65,6 @@ public class MainActivity extends Activity {
     private static final int TUTORIAL_VERSION = 1;
 
 
-    private ToggleButton tbEnableWearGestures;
     private WearController wearController;
 
     public static boolean active = false;
@@ -133,18 +125,7 @@ public class MainActivity extends Activity {
 
         wearController = new WearController(this);
 
-        tbEnableWearGestures = (ToggleButton)findViewById(R.id.enableWearGestureDetection);
 
-        tbEnableWearGestures.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-                if (arg1) {
-                    startGestureDetection();
-                } else {
-                    stopGestureDetection();
-                }
-            }
-        });
 
     }
 
@@ -445,6 +426,18 @@ public class MainActivity extends Activity {
             setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
             TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
             versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
+            ToggleButton tbEnableWearGestures = (ToggleButton)findViewById(R.id.enableWearGestureDetection);
+
+            tbEnableWearGestures.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+                    if (arg1) {
+                        startGestureDetection();
+                    } else {
+                        stopGestureDetection();
+                    }
+                }
+            });
         }
         else{
             setContentView(R.layout.no_extension_detected);

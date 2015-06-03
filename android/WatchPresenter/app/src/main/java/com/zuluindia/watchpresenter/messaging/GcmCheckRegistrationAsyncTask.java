@@ -23,15 +23,10 @@ package com.zuluindia.watchpresenter.messaging;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.zuluindia.watchpresenter.common.Constants;
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.zuluindia.watchpresenter.Constants;
 import com.zuluindia.watchpresenter.MainActivity;
 import com.zuluindia.watchpresenter.backend.messaging.Messaging;
 import com.zuluindia.watchpresenter.backend.messaging.model.RegisteredResponse;
-import com.zuluindia.watchpresenter.backend.messaging.model.VersionMessage;
 
 import java.io.IOException;
 

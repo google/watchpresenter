@@ -85,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/troubleshooting"
-        android:id="@+id/button"
+        android:id="@+id/troubleshootingButton"
         android:layout_alignBottom="@+id/textView9"
         android:layout_centerHorizontal="true"
         android:onClick="showTroubleShooting" />
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:text="@string/checkAgain"
         android:id="@+id/button2"
-        android:layout_above="@+id/button"
+        android:layout_above="@+id/troubleshootingButton"
         android:layout_centerHorizontal="true"
         android:onClick="onCheckAgainClick" />
 
