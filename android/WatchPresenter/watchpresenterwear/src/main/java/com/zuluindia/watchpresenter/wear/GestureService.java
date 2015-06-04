@@ -51,7 +51,7 @@ public class GestureService extends Service {
     private static final int WINDOW = 10;
 
     /* Do not send message if two gestures are detected within this time range */
-    private static final long MIN_GESTURE_LAPSE = 200;
+    private static final long MIN_GESTURE_LAPSE = 500;
 
     private long lastGesture;
 
