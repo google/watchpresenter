@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId "com.zuluindia.watchpresenter"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 20
         versionCode 2010
         versionName "2.0.1"
