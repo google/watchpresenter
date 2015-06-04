@@ -290,6 +290,7 @@ public class MainActivity extends Activity {
             case TUTORIAL_ACTIVITY:
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putInt(Constants.PREF_LAST_TUTORIAL_SHOWN, TUTORIAL_VERSION);
+                editor.putInt(Constants.PREF_LAST_UPDATES_SHOWN, versionCode);
                 editor.commit();
                 break;
         }
@@ -466,13 +467,15 @@ public class MainActivity extends Activity {
         super.onStart();
         updateInterface();
         scheduleCheckRegistration();
-        final int lastUpdatesShown =
-                settings.getInt(Constants.PREF_LAST_UPDATES_SHOWN, 0);
-        if(lastUpdatesShown < versionCode){
-            showUpdates();
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt(Constants.PREF_LAST_UPDATES_SHOWN, versionCode);
-            editor.commit();
+        if(registered) {
+            final int lastUpdatesShown =
+                    settings.getInt(Constants.PREF_LAST_UPDATES_SHOWN, 0);
+            if (lastUpdatesShown < versionCode) {
+                showUpdates();
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(Constants.PREF_LAST_UPDATES_SHOWN, versionCode);
+                editor.commit();
+            }
         }
     }
 
@@ -488,7 +491,7 @@ public class MainActivity extends Activity {
 
             }
         });
-        builder.setTitle(getString(R.string.troubleshooting));
+        builder.setTitle(getString(R.string.newFeaturesTitle));
         builder.show();
     }
 
