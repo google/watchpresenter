@@ -60,7 +60,11 @@
             </intent-filter>
         </receiver>
         <service android:name=".MonitorVolumeKeyPress"  android:enabled="true"></service>
-
+        <service android:name=".WearMessageListener">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
