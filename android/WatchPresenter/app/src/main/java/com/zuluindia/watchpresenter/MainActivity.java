@@ -60,6 +60,7 @@ public class MainActivity extends Activity {
     private static final int REQUEST_ACCOUNT_PICKER = 2;
     private static final int TUTORIAL_ACTIVITY = 3;
     private String versionName;
+    private int versionCode;
     private static final String ACTION_STOP_MONITORING = "com.zuluindia.watchpresenter.STOP_MONITORING";
     public static final int PRESENTING_NOTIFICATION_ID = 001;
     private static final int TUTORIAL_VERSION = 1;
@@ -113,7 +114,7 @@ public class MainActivity extends Activity {
             launchChooseAccount();
         }
         try {
-            int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+            versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
             Log.d(Constants.LOG_TAG, "Pagage name: " + getPackageName());
             Log.d(Constants.LOG_TAG, "Version code: " + versionCode);
@@ -465,6 +466,30 @@ public class MainActivity extends Activity {
         super.onStart();
         updateInterface();
         scheduleCheckRegistration();
+        final int lastUpdatesShown =
+                settings.getInt(Constants.PREF_LAST_UPDATES_SHOWN, 0);
+        if(lastUpdatesShown < versionCode){
+            showUpdates();
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt(Constants.PREF_LAST_UPDATES_SHOWN, versionCode);
+            editor.commit();
+        }
+    }
+
+    private void showUpdates(){
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.html_dialog, null);
+        WebView mainWebView = (WebView) dialogLayout.findViewById(R.id.mainWebView);
+        mainWebView.loadUrl("file:///android_asset/updates.html");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogLayout);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setTitle(getString(R.string.troubleshooting));
+        builder.show();
     }
 
     @Override
