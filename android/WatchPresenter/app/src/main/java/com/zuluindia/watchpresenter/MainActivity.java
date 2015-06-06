@@ -186,7 +186,8 @@ public class MainActivity extends Activity {
 
 
         NotificationCompat.Action action = new NotificationCompat.Action.Builder(
-                com.zuluindia.watchpresenter.R.drawable.ic_stat_ic_action_forward_blue, null, viewPendingIntent).build();
+                com.zuluindia.watchpresenter.R.drawable.ic_stat_ic_action_forward_blue,
+                getString(R.string.nextSlide), viewPendingIntent).build();
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(com.zuluindia.watchpresenter.R.drawable.ic_launcher)
