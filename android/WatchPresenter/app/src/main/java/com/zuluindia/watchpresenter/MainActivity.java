@@ -29,6 +29,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -72,11 +73,9 @@ public class MainActivity extends Activity {
     public static boolean active = false;
 
     private static final String STATE_REGISTERED = "state_registered";
-    private static final String STATE_GESTURES_ENABLED = "state_gestures_enabled";
     private static final long CHECK_REGISTRATION_PERIOD = 30000;
 
     private boolean registered;
-    private boolean gesturesEnabled;
 
     private Timer timer;
 
@@ -188,6 +187,13 @@ public class MainActivity extends Activity {
                 PendingIntent.getBroadcast(this, 0, dismissedIntent, 0);
 
 
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Action action = new NotificationCompat.Action.Builder(
                 com.zuluindia.watchpresenter.R.drawable.ic_stat_ic_action_forward_blue,
                 getString(R.string.nextSlide), viewPendingIntent).build();
@@ -198,7 +204,7 @@ public class MainActivity extends Activity {
                         .setContentText(getResources().getString(R.string.notificationMessage))
                         .setDeleteIntent(dismissedPendingIntent)
                         .addAction(action)
-                        .setContentIntent(viewPendingIntent)
+                        .setContentIntent(resultPendingIntent)
                         .extend(new NotificationCompat.WearableExtender()
                                 .setContentAction(0));
 
@@ -401,10 +407,12 @@ public class MainActivity extends Activity {
 
     private void startGestureDetection(){
         wearController.voidStartGestureDetection();
+        State.gesturesEnabled = true;
     }
 
     private void stopGestureDetection(){
         wearController.stopGestureDetection();
+        State.gesturesEnabled = false;
     }
 
     private void launchTutorial(){
@@ -432,17 +440,15 @@ public class MainActivity extends Activity {
             setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
             ToggleButton tbEnableWearGestures = (ToggleButton)findViewById(R.id.enableWearGestureDetection);
             tbEnableWearGestures.setOnCheckedChangeListener(null);
-            tbEnableWearGestures.setChecked(gesturesEnabled);
+            tbEnableWearGestures.setChecked(State.gesturesEnabled);
             tbEnableWearGestures.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                 public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
                     if (arg1) {
                         showGestureExperimental();
                         startGestureDetection();
-                        gesturesEnabled = true;
                     } else {
                         stopGestureDetection();
-                        gesturesEnabled = false;
                     }
                 }
             });
@@ -525,7 +531,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(STATE_REGISTERED, registered);
-        outState.putBoolean(STATE_GESTURES_ENABLED, gesturesEnabled);
         super.onSaveInstanceState(outState);
     }
 
@@ -533,7 +538,6 @@ public class MainActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         registered = savedInstanceState.getBoolean(STATE_REGISTERED);
-        gesturesEnabled = savedInstanceState.getBoolean(STATE_GESTURES_ENABLED);
     }
 
     public void onCheckAgainClick(View v){
