@@ -47,6 +47,7 @@ import com.zuluindia.watchpresenter.messaging.GcmCheckRegistrationAsyncTask;
 import com.zuluindia.watchpresenter.messaging.MessagingService;
 import com.zuluindia.watchpresenter.common.Constants;
 import com.zuluindia.watchpresenter.tutorial.TutorialActivity;
+import com.zuluindia.watchpresenter.ui.MailtoWebView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -71,9 +72,11 @@ public class MainActivity extends Activity {
     public static boolean active = false;
 
     private static final String STATE_REGISTERED = "state_registered";
+    private static final String STATE_GESTURES_ENABLED = "state_gestures_enabled";
     private static final long CHECK_REGISTRATION_PERIOD = 30000;
 
     private boolean registered;
+    private boolean gesturesEnabled;
 
     private Timer timer;
 
@@ -427,24 +430,30 @@ public class MainActivity extends Activity {
     private void updateInterface(){
         if(registered){
             setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
-            TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
-            versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
             ToggleButton tbEnableWearGestures = (ToggleButton)findViewById(R.id.enableWearGestureDetection);
-
+            tbEnableWearGestures.setOnCheckedChangeListener(null);
+            tbEnableWearGestures.setChecked(gesturesEnabled);
             tbEnableWearGestures.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                 public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
                     if (arg1) {
+                        showGestureExperimental();
                         startGestureDetection();
+                        gesturesEnabled = true;
                     } else {
                         stopGestureDetection();
+                        gesturesEnabled = false;
                     }
                 }
             });
+
         }
         else{
             setContentView(R.layout.no_extension_detected);
         }
+        TextView versionTextView = (TextView)findViewById(com.zuluindia.watchpresenter.R.id.versionText);
+        versionTextView.setText(getResources().getString(R.string.versionPrefix) + " " + versionName);
+
     }
 
     public void showTroubleShooting(View v){
@@ -452,6 +461,23 @@ public class MainActivity extends Activity {
         View dialogLayout = inflater.inflate(R.layout.html_dialog, null);
         WebView mainWebView = (WebView) dialogLayout.findViewById(R.id.mainWebView);
         mainWebView.loadUrl("file:///android_asset/troubleshooting.html");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogLayout);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setTitle(getString(R.string.troubleshooting));
+        builder.show();
+    }
+
+    public void showGestureExperimental(){
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.html_dialog, null);
+        WebView mainWebView = (WebView) dialogLayout.findViewById(R.id.mainWebView);
+        mainWebView.setWebViewClient(new MailtoWebView(this));
+        mainWebView.loadUrl("file:///android_asset/gestures_experimental.html");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogLayout);
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -499,6 +525,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(STATE_REGISTERED, registered);
+        outState.putBoolean(STATE_GESTURES_ENABLED, gesturesEnabled);
         super.onSaveInstanceState(outState);
     }
 
@@ -506,6 +533,7 @@ public class MainActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         registered = savedInstanceState.getBoolean(STATE_REGISTERED);
+        gesturesEnabled = savedInstanceState.getBoolean(STATE_GESTURES_ENABLED);
     }
 
     public void onCheckAgainClick(View v){

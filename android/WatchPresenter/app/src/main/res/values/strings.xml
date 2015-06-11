@@ -54,4 +54,5 @@
     <string name="youCanPresentNow">You can present now!</string>
     <string name="newFeaturesTitle">New features</string>
     <string name="nextSlide">Next slide</string>
+    <string name="experimentalFeature">Experimental feature!</string>
 </resources>
