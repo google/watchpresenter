@@ -182,6 +182,9 @@ function setLastRegistrationVersion() {
     chrome.storage.local.set({
         lastRegistrationVersion: getCurrentVersion()
     });
+    chrome.storage.local.set({
+        registered: true
+    });
 }
 
 function getRegistrationId(callback) {
