@@ -31,20 +31,20 @@ function registerCallback(registrationId) {
     }
     console.log("Sending registration ID...");
     setRegistrationId(registrationId)
-    // Send the registration ID to your application server.
+        // Send the registration ID to your application server.
     sendRegistrationId(registrationId, onSendregistrationId);
 }
 
 
-function onSendregistrationId(succeed){
+function onSendregistrationId(succeed) {
     // Once the registration ID is received by your server,
-        // set the flag such that register will not be invoked
-        // next time when the app starts up.
-        if (succeed) {
-            console.log("Registration successful (" + succeed + "). Saving to storage...");
-            setLastRegistrationVersion();
-        }
-        releaseModal(succeed);
+    // set the flag such that register will not be invoked
+    // next time when the app starts up.
+    if (succeed) {
+        console.log("Registration successful (" + succeed + "). Saving to storage...");
+        setLastRegistrationVersion();
+    }
+    releaseModal(succeed);
 }
 
 
@@ -69,7 +69,7 @@ function afterAPIUp() {
             chrome.gcm.register(senderIds, registerCallback);
         } else {
             console.log("Already registered");
-            getRegistrationId(function (registrationId){
+            getRegistrationId(function (registrationId) {
                 sendRegistrationId(registrationId, onSendregistrationId);
             });
         }
@@ -359,3 +359,15 @@ chrome.extension.onRequest.addListener(function (request, sender) {
 });
 
 console.log("Listeners added");
+
+function install_notice() {
+    chrome.storage.local.get("registered", function (result) {
+        if (result["registered"] == true) {
+            console.log("Already registered. Not showing welcome message");
+        return;
+        } else {
+            chrome.tabs.create({url: "welcome.html"});
+        }
+    })
+}
+install_notice();

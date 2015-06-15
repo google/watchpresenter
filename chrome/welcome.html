@@ -1,0 +1,56 @@
+<!--
+Copyright 2014 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!doctype html>
+<html>
+
+<head>
+    <title>Thanks for installing Watch Presenter</title>
+    <script src="welcome.js"></script>
+    <script src="https://apis.google.com/js/client.js"></script>
+    <link rel="stylesheet" href="watchpresenter.css">
+</head>
+
+<body class="watchpresenter">
+    <div>
+        <h1>Welcome to Watchpresenter</h1>
+        <div id="authorizedText">
+            <p>Watchpresenter is up and ready. You can start controlling your presentation from either your mobile phone or your smartwatch.</p>
+            <p>In order to start presenting:</p>
+            <ol>
+                <li>Open the app on your phone</li>
+                <li>Start presentation full-screen on Google Slides</li>
+                <li>Control your presentation from either your phone or smartwatch</li>
+            </ol>
+            <p>If you still don't have the app installed on your phone, please install it from the Play Store:</p>
+            <a href="https://play.google.com/store/apps/details?id=com.zuluindia.watchpresenter" target="_blank">
+                <img alt="Get it on Google Play" src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" />
+            </a>
+        </div>
+        <div id="notAuthorizedText">
+            <p>You are not logged in yet!</p>
+            <p>In order to proceed, click on the <em>Log in</em> button below.</p>
+            <p>Watchpresenter will use your Chrome account to log in</p>
+            <div class="btn" class="watchpresenterPopupLogInButton">
+                <a id="authorizeButton">Log in</button>
+            </div>
+        </div>
+    </div>
+    <dialog id="myDialog">This is a dialog window</dialog>
+
+    <dialog class="watchpresenter" id="watchpresenterLoadingDialog"><p>Authorizing</p><p>You might get a popup requesting permissions. If so, please review it and click on 'Accept' on the popup to continue</p><img src="chrome-extension://hafndepdmjlnoeieonianffejnpfninb/images/loading.gif" alt="Loading..."></img></dialog>
+</body>
+
+</html>
