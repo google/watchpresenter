@@ -39,7 +39,7 @@
     <string name="aboutMessage">Watch Presenter is released under the Apache 2.0 License.\n\nFor a full copy of the license please refer to https://www.apache.org/licenses/LICENSE-2.0\n\nThis application includes code copyrighted by Google, Inc.\n\nNote: Watch Presenter is not an official Google product and is not supported by Google in any way.</string>
     <string name="wearGestureDetectionOn">Watch gestures ON (Experimental)</string>
     <string name="wearGestureDetectionOff">Watch gestures OFF (Experimental)</string>
-    <string name="beforeAccountChooseMessage">Watch Presenter uses your Google account to link with the Chrome browser extension.\n\nOn the next step, you must choose the Google account you use for logging in Chrome.\n\nAn ID will be generated based on your e-mail address. No personal information will be stored anywhere.</string>
+    <string name="beforeAccountChooseMessage">Watch Presenter uses your Google account to link with the Chrome browser extension.\n\nOn the next step, you must choose the same account that your use to log in Chrome on the computer.</string>
     <string name="chooseAnAccount">Choose account</string>
     <string name="cannotContinueWithoutAccount">You must choose an account to continue. The app will be closed now.</string>
     <string name="errorNoAccount">Error</string>

@@ -491,7 +491,7 @@ public class MainActivity extends Activity {
 
             }
         });
-        builder.setTitle(getString(R.string.troubleshooting));
+        builder.setTitle(getString(R.string.experimentalFeature));
         builder.show();
     }
 
