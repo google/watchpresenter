@@ -29,6 +29,7 @@ public class Constants {
     public static final String LOG_TAG = "WatchPresenter";
     public static final String NEXT_SLIDE_MESSAGE = "NEXT";
     public static final String PREV_SLIDE_MESSAGE = "PREV";
+    public static final String WARMUP_MESSAGE = "WARMUP";
     public static final String SETTINGS_NAME = "Watchpresenter";
 
     public static final String SERVER_URL = "https://watchpresenter.appspot.com/_ah/api/";
