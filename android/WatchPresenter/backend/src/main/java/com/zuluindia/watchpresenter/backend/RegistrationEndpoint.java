@@ -31,6 +31,7 @@ import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.users.User;
 import com.googlecode.objectify.Key;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
@@ -87,8 +88,14 @@ public class RegistrationEndpoint {
             record.addRegistrationId(regId);
         }
         record.updateTime();
-        ChannelService channelService = ChannelServiceFactory.getChannelService();
-        String token = channelService.createChannel(userId);
+        String token = null;
+        try {
+            ChannelService channelService = ChannelServiceFactory.getChannelService();
+            token = channelService.createChannel(userId);
+        }
+        catch (Exception e){
+            log.log(Level.WARNING, "Could not create channel for userId: " + userId, e);
+        }
         ofy().save().entity(record).now();
         RegistrationResponse response = new RegistrationResponse();
         response.setChannelToken(token);
