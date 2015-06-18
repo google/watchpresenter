@@ -31,7 +31,7 @@ function registerCallback(registrationId) {
     }
     console.log("Sending registration ID...");
     setRegistrationId(registrationId)
-        // Send the registration ID to your application server.
+        // Send the registration ID to backend.
     sendRegistrationId(registrationId, onSendregistrationId);
 }
 
@@ -371,3 +371,8 @@ function install_notice() {
     })
 }
 install_notice();
+
+//Load Google Channels
+loadScript('https://talkgadget.google.com/talkgadget/channel.js');
+
+
