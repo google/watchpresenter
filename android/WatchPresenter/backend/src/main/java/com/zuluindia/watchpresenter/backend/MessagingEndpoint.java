@@ -108,6 +108,7 @@ public class MessagingEndpoint {
             try {
                 ChannelService channelService = ChannelServiceFactory.getChannelService();
                 channelService.sendMessage(new ChannelMessage(userId, message));
+                log.info("Message sent through channel");
             }
             catch (Exception e){
                 log.log(Level.WARNING, "Could not send channel message to userId " +

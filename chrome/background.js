@@ -54,6 +54,17 @@ function sendRegistrationId(regId, callback) {
         'regId': regId
     }).execute(
         function (response) {
+            console.log("Opening channel with token: " + response.channelToken);
+            var channel = new goog.appengine.Channel(response.channelToken);
+            var socket = channel.open()
+
+            socket.onopen = function () {
+                console.log("Channel opened");
+            }
+
+            socket.onmessage = function (evt) {
+                console.log("Message received through channel: " + evt.data);
+            }
             console.log("sendRegistrationId response: " + response);
             callback(true);
         }
@@ -364,9 +375,11 @@ function install_notice() {
     chrome.storage.local.get("registered", function (result) {
         if (result["registered"] == true) {
             console.log("Already registered. Not showing welcome message");
-        return;
+            return;
         } else {
-            chrome.tabs.create({url: "welcome.html"});
+            chrome.tabs.create({
+                url: "welcome.html"
+            });
         }
     })
 }
@@ -374,5 +387,3 @@ install_notice();
 
 //Load Google Channels
 loadScript('https://talkgadget.google.com/talkgadget/channel.js');
-
-
