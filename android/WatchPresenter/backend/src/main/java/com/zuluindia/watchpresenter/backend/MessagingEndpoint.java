@@ -97,7 +97,8 @@ public class MessagingEndpoint {
             message = message.substring(0, 1000) + "[...]";
         }
         Sender sender = new Sender(API_KEY);
-        Message msg = new Message.Builder().addData("message", message).build();
+        Message msg = new Message.Builder().collapseKey("WatchPresenter").timeToLive(0).
+                addData("message", message).build();
         PresenterRecord presenterRecord =
                 ofy().load().key(Key.create(PresenterRecord.class,userId)).now();
         if(presenterRecord != null) {
