@@ -29,6 +29,9 @@ import com.google.android.gcm.server.Sender;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.appengine.api.channel.ChannelMessage;
+import com.google.appengine.api.channel.ChannelService;
+import com.google.appengine.api.channel.ChannelServiceFactory;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.users.User;
 import com.googlecode.objectify.Key;
@@ -101,6 +104,14 @@ public class MessagingEndpoint {
         PresenterRecord presenterRecord =
                 ofy().load().key(Key.create(PresenterRecord.class,userId)).now();
         if(presenterRecord != null) {
+            try {
+                ChannelService channelService = ChannelServiceFactory.getChannelService();
+                channelService.sendMessage(new ChannelMessage(userId, message));
+            }
+            catch (Exception e){
+                log.log(Level.WARNING, "Could not send channel message to userId " +
+                                userId, e);
+            }
             Iterator<String> regIdsIterator = presenterRecord.getRegIds().iterator();
             while (regIdsIterator.hasNext()) {
                 String regId = regIdsIterator.next();

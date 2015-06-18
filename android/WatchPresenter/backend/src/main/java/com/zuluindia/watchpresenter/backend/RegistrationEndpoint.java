@@ -25,6 +25,8 @@ package com.zuluindia.watchpresenter.backend;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.appengine.api.channel.ChannelService;
+import com.google.appengine.api.channel.ChannelServiceFactory;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.users.User;
 import com.googlecode.objectify.Key;
@@ -65,7 +67,7 @@ public class RegistrationEndpoint {
      * @param regId The Google Cloud Messaging registration Id to add
      */
     @ApiMethod(name = "register")
-    public void registerDevice(@Named("regId") String regId, User user) throws OAuthRequestException {
+    public RegistrationResponse registerDevice(@Named("regId") String regId, User user) throws OAuthRequestException {
         if(user == null){
             throw new OAuthRequestException("Not authorized");
         }
@@ -85,7 +87,12 @@ public class RegistrationEndpoint {
             record.addRegistrationId(regId);
         }
         record.updateTime();
+        ChannelService channelService = ChannelServiceFactory.getChannelService();
+        String token = channelService.createChannel(userId);
         ofy().save().entity(record).now();
+        RegistrationResponse response = new RegistrationResponse();
+        response.setChannelToken(token);
+        return response;
     }
 
 
