@@ -216,6 +216,10 @@ public class MainActivity extends Activity {
         notificationManager.notify(PRESENTING_NOTIFICATION_ID, notificationBuilder.build());
         Intent objIntent = new Intent(this, MonitorVolumeKeyPress.class);
         startService(objIntent);
+        //Send warm-up message
+        Intent i = new Intent(SendMessageReceiver.INTENT);
+        i.putExtra(Constants.EXTRA_MESSAGE, Constants.WARMUP_MESSAGE);
+        sendBroadcast(i);
     }
 
     @Override
