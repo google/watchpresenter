@@ -67,6 +67,8 @@ public class MainActivity extends Activity {
     public static final int PRESENTING_NOTIFICATION_ID = 001;
     private static final int TUTORIAL_VERSION = 1;
 
+    private static final int LATEST_VERSION_WITH_UPDATES_TO_SHOW = 2040;
+
 
     private WearController wearController;
 
@@ -507,7 +509,7 @@ public class MainActivity extends Activity {
         if(registered) {
             final int lastUpdatesShown =
                     settings.getInt(Constants.PREF_LAST_UPDATES_SHOWN, 0);
-            if (lastUpdatesShown < versionCode) {
+            if (lastUpdatesShown < LATEST_VERSION_WITH_UPDATES_TO_SHOW) {
                 showUpdates();
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putInt(Constants.PREF_LAST_UPDATES_SHOWN, versionCode);
