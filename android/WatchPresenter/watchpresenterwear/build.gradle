@@ -25,8 +25,8 @@ android {
         applicationId "com.zuluindia.watchpresenter"
         minSdkVersion 20
         targetSdkVersion 21
-        versionCode 2040
-        versionName "2.0.4"
+        versionCode 2050
+        versionName "2.0.5"
     }
     buildTypes {
         release {

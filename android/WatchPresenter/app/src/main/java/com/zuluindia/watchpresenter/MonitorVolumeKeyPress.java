@@ -43,6 +43,7 @@ public class MonitorVolumeKeyPress extends Service{
     WifiManager.WifiLock wifiLock = null;
     private static final String ACTION_VOLUME_KEY_PRESS = "android.media.VOLUME_CHANGED_ACTION";
     private static final long SWITCH_OFF_DELAY = 3600000;
+    private static final long KEEP_ALIVE_PERIOD = 120000;
 
 
     private Timer timer;
@@ -68,7 +69,7 @@ public class MonitorVolumeKeyPress extends Service{
                 lastVolume = newVolume;
                 i.putExtra(Constants.EXTRA_MESSAGE, message);
                 context.sendBroadcast(i);
-                scheduleShutdown();
+                scheduleMaintenance();
             }
             else{
                 Log.d(Constants.LOG_TAG, "Duplicate volume event discarded");
@@ -112,18 +113,18 @@ public class MonitorVolumeKeyPress extends Service{
         if(objPlayer.isLooping() != true){
             Log.d(LOGCAT, "Problem in Playing Audio");
         }
-        scheduleShutdown();
+        scheduleMaintenance();
     }
 
     private void stopMonitoring(){
         objPlayer.stop();
         wifiLock.release();
         objPlayer.release();
-        cancelShutdown();
+        cancelMaintenance();
         unregisterReceiver(volumeKeysReceiver);
     }
 
-    private synchronized void scheduleShutdown(){
+    private synchronized void scheduleMaintenance(){
         if(timer != null){
             timer.cancel();
         }
@@ -147,9 +148,17 @@ public class MonitorVolumeKeyPress extends Service{
                 }
             }
         }, SWITCH_OFF_DELAY);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Intent i = new Intent(SendMessageReceiver.INTENT);
+                i.putExtra(Constants.EXTRA_MESSAGE, Constants.WARMUP_MESSAGE);
+                sendBroadcast(i);
+            }
+        }, KEEP_ALIVE_PERIOD, KEEP_ALIVE_PERIOD) ;
     }
 
-    private synchronized void cancelShutdown(){
+    private synchronized void cancelMaintenance(){
         if(timer != null){
             timer.cancel();
         }
