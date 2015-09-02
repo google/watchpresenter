@@ -43,7 +43,7 @@ public class MonitorVolumeKeyPress extends Service{
     WifiManager.WifiLock wifiLock = null;
     private static final String ACTION_VOLUME_KEY_PRESS = "android.media.VOLUME_CHANGED_ACTION";
     private static final long SWITCH_OFF_DELAY = 3600000;
-    private static final long KEEP_ALIVE_PERIOD = 120000;
+    private static final long KEEP_ALIVE_PERIOD = 60000;
 
 
     private Timer timer;
