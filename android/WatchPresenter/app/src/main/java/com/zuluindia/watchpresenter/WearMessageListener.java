@@ -44,6 +44,12 @@ public class WearMessageListener extends WearableListenerService {
                 intent.putExtra(Constants.EXTRA_MESSAGE, Constants.NEXT_SLIDE_MESSAGE);
                 sendBroadcast(intent);
             }
+            else if(messagePath.equals(Constants.PREV_SLIDE_GESTURE_DETECTED_PATH)) {
+                Log.d(Constants.LOG_TAG, "Prev slide message received from Wear device...");
+                Intent intent = new Intent(SendMessageReceiver.INTENT);
+                intent.putExtra(Constants.EXTRA_MESSAGE, Constants.PREV_SLIDE_MESSAGE);
+                sendBroadcast(intent);
+            }
             else{
                 Log.i(Constants.LOG_TAG, "Received message with unknown path: " + messagePath);
             }

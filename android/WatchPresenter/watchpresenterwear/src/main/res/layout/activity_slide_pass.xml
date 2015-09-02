@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2014 Google Inc. All Rights Reserved.
   ~
@@ -14,9 +15,12 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <string name="app_name">WatchPresenterWear</string>
-    <string name="title_activity_slide_pass">SlidePassActivity</string>
-    <string name="hello_round">Hello Round World!</string>
-    <string name="hello_square">Hello Square World!</string>
-</resources>
+<android.support.wearable.view.WatchViewStub
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/watch_view_stub"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    app:rectLayout="@layout/rect_activity_slide_pass"
+    app:roundLayout="@layout/round_activity_slide_pass"
+    tools:context="com.zuluindia.watchpresenter.wear.SlidePassActivity"
+    tools:deviceIds="wear"></android.support.wearable.view.WatchViewStub>

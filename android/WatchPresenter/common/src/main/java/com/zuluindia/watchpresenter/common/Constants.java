@@ -48,4 +48,5 @@ public class Constants {
     public static final String STOP_GESTURE_SERVICE_PATH = "stop/GestureService";
 
     public static final String NEXT_SLIDE_GESTURE_DETECTED_PATH = "nextSlide/GestureService";
+    public static final String PREV_SLIDE_GESTURE_DETECTED_PATH = "prevSlide/GestureService";
 }
