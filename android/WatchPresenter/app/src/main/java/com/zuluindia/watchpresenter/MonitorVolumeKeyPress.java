@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
@@ -45,6 +46,8 @@ public class MonitorVolumeKeyPress extends Service{
     private static final long SWITCH_OFF_DELAY = 3600000;
     private static final long KEEP_ALIVE_PERIOD = 60000;
 
+    private AudioManager audioManager;
+    private int midVolume;
 
     private Timer timer;
 
@@ -54,8 +57,6 @@ public class MonitorVolumeKeyPress extends Service{
 
 
         private long lastEvent = 0;
-        private int lastVolume = -1; //By initializing to a negative value we
-        //are assuming that the first event ever is a next slide event
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -64,9 +65,8 @@ public class MonitorVolumeKeyPress extends Service{
             if(currentEvent - lastEvent > DUPLICATE_TIME) {
                 int newVolume =
                         (Integer)intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
-                final String message = (newVolume!=0&&(newVolume >= lastVolume))?
+                final String message = (newVolume!=0&&(newVolume >= midVolume))?
                         Constants.NEXT_SLIDE_MESSAGE: Constants.PREV_SLIDE_MESSAGE;
-                lastVolume = newVolume;
                 i.putExtra(Constants.EXTRA_MESSAGE, message);
                 context.sendBroadcast(i);
                 scheduleMaintenance();
@@ -74,6 +74,7 @@ public class MonitorVolumeKeyPress extends Service{
             else{
                 Log.d(Constants.LOG_TAG, "Duplicate volume event discarded");
             }
+            resetVolume();
             lastEvent = currentEvent;
         }
     };
@@ -86,6 +87,13 @@ public class MonitorVolumeKeyPress extends Service{
         objPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         objPlayer.setLooping(true);
         timer = new Timer();
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        midVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)/2;
+        resetVolume();
+    }
+
+    private void resetVolume(){
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,midVolume,0);
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
