@@ -364,10 +364,73 @@ function install_notice() {
     chrome.storage.local.get("registered", function (result) {
         if (result["registered"] == true) {
             console.log("Already registered. Not showing welcome message");
-        return;
+            return;
         } else {
-            chrome.tabs.create({url: "welcome.html"});
+            chrome.tabs.create({
+                url: "welcome.html"
+            });
         }
     })
 }
 install_notice();
+
+
+
+var config = {
+    "iceServers": [{
+        "url": "stun:stun.l.google.com:19302"
+    }]
+};
+var connection = {
+    'optional': [{
+        'DtlsSrtpKeyAgreement': true
+    }, {
+        'RtpDataChannels': true
+    }]
+};
+var peerConnection = new webkitRTCPeerConnection(config, connection);
+
+peerConnection.onicecandidate = function (e) {
+    if (!peerConnection || !e || !e.candidate) return;
+    console.log("Sending negotiation");
+}
+
+var dataChannel = peerConnection.createDataChannel("datachannel", {
+    reliable: false
+});
+
+dataChannel.onmessage = function (e) {
+    console.log("DC message:" + e.data);
+};
+dataChannel.onopen = function () {
+    console.log("------ DATACHANNEL OPENED ------");
+};
+dataChannel.onclose = function () {
+    console.log("------- DC closed! -------")
+};
+dataChannel.onerror = function () {
+    console.log("DC ERROR!!!")
+};
+
+var sdpConstraints = {
+    'mandatory': {
+        'OfferToReceiveAudio': false,
+        'OfferToReceiveVideo': false
+    }
+};
+
+peerConnection.createOffer(function (sdp) {
+    peerConnection.setLocalDescription(sdp);
+    console.log("Sending negotiation");
+    console.log("------ SEND OFFER ------");
+}, null, sdpConstraints);
+
+
+function processIce(iceCandidate) {
+    peerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
+}
+
+function processAnswer(answer) {
+    peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+    console.log("------ PROCESSED ANSWER ------");
+};
