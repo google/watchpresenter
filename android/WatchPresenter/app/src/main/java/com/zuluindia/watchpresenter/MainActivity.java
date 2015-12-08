@@ -50,6 +50,8 @@ import com.zuluindia.watchpresenter.common.Constants;
 import com.zuluindia.watchpresenter.tutorial.TutorialActivity;
 import com.zuluindia.watchpresenter.ui.MailtoWebView;
 
+import org.webrtc.DataChannel;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -129,7 +131,6 @@ public class MainActivity extends Activity {
         registerReceiver(broadcastReceiver, new IntentFilter(ACTION_STOP_MONITORING));
 
         wearController = new WearController(this);
-
 
 
     }
@@ -516,6 +517,7 @@ public class MainActivity extends Activity {
                 editor.commit();
             }
         }
+
     }
 
     private void showUpdates(){
