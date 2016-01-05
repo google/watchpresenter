@@ -37,6 +37,7 @@ import java.util.logging.Logger;
 public class PresenterRecord {
 
     private Set<String> regIds;
+    private Set<String> controllerRegIds;
 
     @Index
     private Date lastUpdate;
@@ -59,6 +60,7 @@ public class PresenterRecord {
 
     public PresenterRecord() {
         regIds = new HashSet<String>();
+        controllerRegIds = new HashSet<String>();
     }
 
     public Set<String> getRegIds() {
@@ -97,5 +99,17 @@ public class PresenterRecord {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public Set<String> getControllerRegIds() {
+        return controllerRegIds;
+    }
+
+    public void setControllerRegIds(Set<String> controllerRegIds) {
+        this.controllerRegIds = controllerRegIds;
+    }
+
+    public void addControllerRegId(String newID){
+        this.getControllerRegIds().add(newID);
     }
 }

@@ -69,8 +69,27 @@ public class RegistrationEndpoint {
         if(user == null){
             throw new OAuthRequestException("Not authorized");
         }
+        addRegistration(regId, user, false);
+    }
+
+
+    /**
+     * Register a device to the backend
+     *
+     * @param regId The Google Cloud Messaging registration Id to add
+     */
+    @ApiMethod(name = "registerController")
+    public void registerController(@Named("regId") String regId, User user) throws OAuthRequestException {
+        if(user == null){
+            throw new OAuthRequestException("Not authorized");
+        }
+        addRegistration(regId, user, true);
+    }
+
+
+    private void addRegistration(String regId, User user, boolean isController){
         final String userId = PresenterRecord.getUserId(user.getEmail());
-        log.info("Registration for userId: " + userId);
+        log.info("Registration for userId: '" + userId + "'. isController: " + isController);
         PresenterRecord record = ofy().load().
                 key(Key.create(PresenterRecord.class, userId)).now();
         if(record == null){
@@ -82,13 +101,14 @@ public class RegistrationEndpoint {
             log.info("Device " + regId + " already registered, skipping register");
         }
         else {
-            record.addRegistrationId(regId);
+            if(isController == false) {
+                record.addRegistrationId(regId);
+            }
+            else{
+                record.addControllerRegId(regId);
+            }
         }
         record.updateTime();
         ofy().save().entity(record).now();
     }
-
-
-
-
 }

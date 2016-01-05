@@ -38,6 +38,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,6 +81,22 @@ public class MessagingEndpoint {
         if(user == null){
             throw new OAuthRequestException("Not authorized");
         }
+        doSendMessage(message, user, false);
+    }
+
+    /**
+     *
+     * @param message The message to send
+     */
+    @ApiMethod(name = "sendMessageToController")
+    public void sendMessageToController(@Named("message") String message, User user) throws IOException, OAuthRequestException {
+        if(user == null){
+            throw new OAuthRequestException("Not authorized");
+        }
+        doSendMessage(message, user, true);
+    }
+
+    private void doSendMessage(String message, User user, boolean toController) throws IOException {
         final String userId = PresenterRecord.getUserId(user.getEmail());
         if(com.zuluindia.watchpresenter.backend.Constants.KEEP_ALIVE_MESSAGE.equals(
                 message)){
@@ -94,6 +111,7 @@ public class MessagingEndpoint {
         }
         // crop longer messages
         if (message.length() > 1000) {
+            log.warning("Cropping long message");
             message = message.substring(0, 1000) + "[...]";
         }
         Sender sender = new Sender(API_KEY);
@@ -102,7 +120,14 @@ public class MessagingEndpoint {
         PresenterRecord presenterRecord =
                 ofy().load().key(Key.create(PresenterRecord.class,userId)).now();
         if(presenterRecord != null) {
-            Iterator<String> regIdsIterator = presenterRecord.getRegIds().iterator();
+            Set<String> regIdSet = null;
+            if(toController){
+                regIdSet = presenterRecord.getControllerRegIds();
+            }
+            else{
+                regIdSet = presenterRecord.getRegIds();
+            }
+            Iterator<String> regIdsIterator = regIdSet.iterator();
             while (regIdsIterator.hasNext()) {
                 String regId = regIdsIterator.next();
                 Result result = sender.send(msg, regId, 5);
@@ -113,9 +138,14 @@ public class MessagingEndpoint {
                         // if the regId changed, we have to update the datastore
                         log.info("Registration Id changed for " + regId + ". Updating to " + canonicalRegId);
                         regIdsIterator.remove();
-                        HashSet<String> newSet = new HashSet<String>(presenterRecord.getRegIds());
+                        HashSet<String> newSet = new HashSet<String>(regIdSet);
                         newSet.add(canonicalRegId);
-                        presenterRecord.setRegIds(newSet);
+                        if(toController){
+                            presenterRecord.setControllerRegIds(newSet);
+                        }
+                        else {
+                            presenterRecord.setRegIds(newSet);
+                        }
                         ofy().save().entity(presenterRecord).now();
                     }
                 } else {
