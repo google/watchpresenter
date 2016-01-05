@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.zuluindia.watchpresenter.backend;
+package com.zuluindia.watchpresenter.backend.persistence;
 
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
+import com.zuluindia.watchpresenter.backend.PresenterRecord;
 
 /**
  * Objectify service wrapper so we can statically register our persistence classes

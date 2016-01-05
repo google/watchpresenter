@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
-import static com.zuluindia.watchpresenter.backend.OfyService.ofy;
+import static com.zuluindia.watchpresenter.backend.persistence.OfyService.ofy;
 
 /**
  * Registration EndPoint

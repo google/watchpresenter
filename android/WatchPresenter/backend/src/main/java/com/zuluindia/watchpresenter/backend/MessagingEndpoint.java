@@ -36,15 +36,13 @@ import com.googlecode.objectify.Key;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
 
-import static com.zuluindia.watchpresenter.backend.OfyService.ofy;
+import static com.zuluindia.watchpresenter.backend.persistence.OfyService.ofy;
 
 /**
  * Messagint EndPoint
