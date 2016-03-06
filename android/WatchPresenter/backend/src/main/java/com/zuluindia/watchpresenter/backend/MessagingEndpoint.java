@@ -60,7 +60,8 @@ import static com.zuluindia.watchpresenter.backend.OfyService.ofy;
     clientIds = {com.zuluindia.watchpresenter.backend.Constants.ANDROID_DEBUG_CLIENT_ID,
             com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID,
             com.zuluindia.watchpresenter.backend.Constants.WEB_CLIENT_ID,
-            com.zuluindia.watchpresenter.backend.Constants.ANDROID_CLIENT_ID
+            com.zuluindia.watchpresenter.backend.Constants.ANDROID_CLIENT_ID,
+            com.zuluindia.watchpresenter.backend.Constants.ANDROID_DEBUG_CLIENT_ID_PERSONAL
     },
     audiences = {com.zuluindia.watchpresenter.backend.Constants.ANDROID_AUDIENCE})
 public class MessagingEndpoint {

@@ -22,6 +22,7 @@ package com.zuluindia.watchpresenter.backend;
 public class Constants {
     public static final String WEB_CLIENT_ID = "736639150268-egocd3c5l2p2peh0r436fln5dv0ir1m8.apps.googleusercontent.com";
     public static final String ANDROID_DEBUG_CLIENT_ID = "736639150268-k9tik3tthrbra0u57fo56h262p73jg29.apps.googleusercontent.com";
+    public static final String ANDROID_DEBUG_CLIENT_ID_PERSONAL = "736639150268-oddgqvqcu71e49md0qip5rd2k2hjbup0.apps.googleusercontent.com";
     public static final String ANDROID_CLIENT_ID = "736639150268-nn6qb4bh5ekk7ele584rqbs2ptbi3e48.apps.googleusercontent.com";
     public static final String CHROME_EXTENSION_ID = "736639150268-d4i5u6msvjai5okftb50s3tcaqu9booi.apps.googleusercontent.com";
     public static final String ANDROID_AUDIENCE = WEB_CLIENT_ID;

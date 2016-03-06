@@ -51,6 +51,7 @@ import static com.zuluindia.watchpresenter.backend.OfyService.ofy;
         scopes = {com.zuluindia.watchpresenter.backend.Constants.EMAIL_SCOPE},
         clientIds = {com.zuluindia.watchpresenter.backend.Constants.ANDROID_DEBUG_CLIENT_ID,
                 com.zuluindia.watchpresenter.backend.Constants.ANDROID_CLIENT_ID,
+                Constants.ANDROID_DEBUG_CLIENT_ID_PERSONAL,
                 com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID,
                 com.zuluindia.watchpresenter.backend.Constants.WEB_CLIENT_ID,
                 Constants.CHROME_EXTENSION_ID},
