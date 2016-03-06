@@ -25,6 +25,7 @@ import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
@@ -50,6 +51,7 @@ public class MonitorVolumeKeyPress extends Service{
     private int midVolume;
 
     private Timer timer;
+    private Vibrator vibrator;
 
     private BroadcastReceiver volumeKeysReceiver = new BroadcastReceiver() {
 
@@ -66,8 +68,17 @@ public class MonitorVolumeKeyPress extends Service{
                     (Integer)intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
             if(newVolume != midVolume) {
                 if (currentEvent - lastEvent > DUPLICATE_TIME) {
-                    final String message = (newVolume != 0 && (newVolume >= midVolume)) ?
-                            Constants.NEXT_SLIDE_MESSAGE : Constants.PREV_SLIDE_MESSAGE;
+                    String message;
+                    long[] vibrationPattern;
+                    if(newVolume != 0 && (newVolume >= midVolume)){
+                        message = Constants.NEXT_SLIDE_MESSAGE;
+                        vibrationPattern = new long[]{0,50,20,50};
+                    }
+                    else{
+                        message = Constants.PREV_SLIDE_MESSAGE;
+                        vibrationPattern = new long[]{0,50,20,150};
+                    }
+                    vibrator.vibrate(vibrationPattern,-1);
                     i.putExtra(Constants.EXTRA_MESSAGE, message);
                     context.sendBroadcast(i);
                     scheduleMaintenance();
@@ -87,6 +98,7 @@ public class MonitorVolumeKeyPress extends Service{
 
     public void onCreate(){
         super.onCreate();
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
         Log.d(LOGCAT, "Service Started!");
         objPlayer = MediaPlayer.create(this, com.zuluindia.watchpresenter.R.raw.silence);
         objPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
