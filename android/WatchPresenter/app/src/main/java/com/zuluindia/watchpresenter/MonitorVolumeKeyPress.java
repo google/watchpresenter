@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
@@ -54,6 +55,7 @@ public class MonitorVolumeKeyPress extends Service{
 
     private Timer timer;
     private Vibrator vibrator;
+    private SharedPreferences settings;
 
     private BroadcastReceiver volumeKeysReceiver = new BroadcastReceiver() {
 
@@ -80,7 +82,9 @@ public class MonitorVolumeKeyPress extends Service{
                         message = Constants.PREV_SLIDE_MESSAGE;
                         vibrationPattern = VIBRATION_PATTERN_BACKWARDS;
                     }
-                    vibrator.vibrate(vibrationPattern,-1);
+                    if(settings.getBoolean(Constants.PREF_VIBRATION, true)) {
+                        vibrator.vibrate(vibrationPattern, -1);
+                    }
                     i.putExtra(Constants.EXTRA_MESSAGE, message);
                     context.sendBroadcast(i);
                     scheduleMaintenance();
@@ -100,6 +104,7 @@ public class MonitorVolumeKeyPress extends Service{
 
     public void onCreate(){
         super.onCreate();
+        settings = getSharedPreferences(Constants.SETTINGS_NAME,MODE_PRIVATE);
         vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
         Log.d(LOGCAT, "Service Started!");
         objPlayer = MediaPlayer.create(this, com.zuluindia.watchpresenter.R.raw.silence);

@@ -17,9 +17,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
   <item android:id="@+id/action_tutorial" android:title="@string/tutorial"
-      android:orderInCategory="10" android:showAsAction="never" />
+      android:orderInCategory="20" android:showAsAction="never" />
     <item android:id="@+id/action_about" android:title="@string/about"
-        android:orderInCategory="100" android:showAsAction="never" />
+        android:orderInCategory="10" android:showAsAction="never" />
+  <item android:id="@+id/action_troubleshooting" android:title="@string/troubleshooting"
+      android:orderInCategory="30" android:showAsAction="never" />
   <item android:id="@+id/action_switchAccounts" android:title="@string/switchAccounts"
-      android:orderInCategory="100" android:showAsAction="never" />
+      android:orderInCategory="40" android:showAsAction="never" />
 </menu>

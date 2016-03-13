@@ -39,6 +39,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.webkit.WebView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -78,6 +79,7 @@ public class MainActivity extends Activity {
     private static final long CHECK_REGISTRATION_PERIOD = 30000;
 
     private boolean registered;
+    private boolean vibration;
 
     private Timer timer;
 
@@ -108,6 +110,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         settings = getSharedPreferences(Constants.SETTINGS_NAME, MODE_PRIVATE);
         registered = settings.getBoolean(Constants.PREF_REGISTERED, false);
+        vibration = settings.getBoolean(Constants.PREF_VIBRATION, true);
         credential = GoogleAccountCredential.usingAudience(this,
                 "server:client_id:" + Constants.ANDROID_AUDIENCE);
         setSelectedAccountName(settings.getString(Constants.PREF_ACCOUNT_NAME, null));
@@ -268,6 +271,10 @@ public class MainActivity extends Activity {
             switchAccounts();
             return true;
         }
+        if (id == R.id.action_troubleshooting) {
+            showTroubleShooting();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -391,7 +398,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onStop() {
-        super.onPause();
+        super.onStop();
         active = false;
         if(timer != null){
             timer.cancel();
@@ -444,10 +451,10 @@ public class MainActivity extends Activity {
     private void updateInterface(){
         if(registered){
             setContentView(com.zuluindia.watchpresenter.R.layout.activity_main);
-            ToggleButton tbEnableWearGestures = (ToggleButton)findViewById(R.id.enableWearGestureDetection);
-            tbEnableWearGestures.setOnCheckedChangeListener(null);
-            tbEnableWearGestures.setChecked(State.gesturesEnabled);
-            tbEnableWearGestures.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            Switch swtEnableWearGestures = (Switch)findViewById(R.id.enableWearGestureDetection);
+            swtEnableWearGestures.setOnCheckedChangeListener(null);
+            swtEnableWearGestures.setChecked(State.gesturesEnabled);
+            swtEnableWearGestures.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                 public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
                     if (arg1) {
@@ -458,7 +465,15 @@ public class MainActivity extends Activity {
                     }
                 }
             });
+            Switch swtVibration = (Switch) findViewById(R.id.vibrationSwitch);
+            swtVibration.setOnCheckedChangeListener(null);
+            swtVibration.setChecked(vibration);
+            swtVibration.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+                public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+                    setVibration(arg1);
+                }
+            });
         }
         else{
             setContentView(R.layout.no_extension_detected);
@@ -468,7 +483,7 @@ public class MainActivity extends Activity {
 
     }
 
-    public void showTroubleShooting(View v){
+    public void showTroubleShooting(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.html_dialog, null);
         WebView mainWebView = (WebView) dialogLayout.findViewById(R.id.mainWebView);
@@ -544,6 +559,13 @@ public class MainActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         registered = savedInstanceState.getBoolean(STATE_REGISTERED);
+    }
+
+    private void setVibration(boolean newValue){
+        vibration = newValue;
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(Constants.PREF_VIBRATION, newValue);
+        editor.apply();
     }
 
     public void onCheckAgainClick(View v){
