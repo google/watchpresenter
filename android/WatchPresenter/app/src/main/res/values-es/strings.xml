@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="aMessageFromTheDeveloper">Un mensaje del desarollador</string>
+    <string name="about">Acerca de</string>
+    <string name="action_settings">Configuración</string>
+    <string name="androidWearHint">Toca en tu wearable</string>
+    <string name="beforeAccountChooseMessage">Watch Presenter utiliza tu cuenta de Google para comunicarse con la extensión de Chrome.\n\nEn el siguiente paso debes escoger la misma cuenta con la que hayas iniciado sesión en Chrome en el ordenador.</string>
+    <string name="bigButtonDesc">Toca la pantalla del teléfono</string>
+    <string name="cannotContinueWithoutAccount">Debe seleccionar una cuenta para continuar. La aplicación se cerrará ahora</string>
+    <string name="checkAgain">Comprobar de nuevo</string>
+    <string name="chooseAnAccount">Escoger cuenta</string>
+    <string name="chromeExtensionNotDetected">¡Extensión de Chrome no detectada!</string>
+    <string name="errorNoAccount">Error</string>
+    <string name="experimentalFeature">Funcionalidad experimental</string>
+    <string name="goToSite">Entra en www.zuluindia.com desde el ordenador para instalarla</string>
+    <string name="installChromeExtension">Es necesario instalar la extensión de Chrome para WatchPresenter</string>
+    <string name="later">Más tarde</string>
+    <string name="newFeaturesTitle">Nuevas funcionalidades</string>
+    <string name="nextSlide">Pasar transaparencia</string>
+    <string name="notificationMessage">Descarta cuando hayas terminado</string>
+    <string name="or">o</string>
+    <string name="registerGcm">Registrar dispositivo</string>
+    <string name="screensaverReminder">Recuerda desactivar el protector de pantalla en el ordenador</string>
+    <string name="sendMessage">Enviar mensaje</string>
+    <string name="switchAccounts">Cambiar de cuenta</string>
+    <string name="toPassTheSlidesYouMay">Para pasar las transparencias puedes:</string>
+    <string name="troubleshooting">Solucionar problemas</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="useVolume">Utiliza los botones de volumen</string>
+    <string name="versionPrefix">Versión:</string>
+    <string name="vibrationEnabled">Vibrar</string>
+    <string name="wearGestureDetection">Control con el reloj</string>
+    <string name="youCanPresentNow">¡Listo para presentar!</string>
+</resources>
