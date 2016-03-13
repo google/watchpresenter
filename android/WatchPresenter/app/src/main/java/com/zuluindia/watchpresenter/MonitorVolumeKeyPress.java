@@ -46,6 +46,8 @@ public class MonitorVolumeKeyPress extends Service{
     private static final String ACTION_VOLUME_KEY_PRESS = "android.media.VOLUME_CHANGED_ACTION";
     private static final long SWITCH_OFF_DELAY = 3600000;
     private static final long KEEP_ALIVE_PERIOD = 60000;
+    private static final long[] VIBRATION_PATTERN_FORWARD = {0,40};
+    private static final long[] VIBRATION_PATTERN_BACKWARDS = {0,40,20,40};
 
     private AudioManager audioManager;
     private int midVolume;
@@ -72,11 +74,11 @@ public class MonitorVolumeKeyPress extends Service{
                     long[] vibrationPattern;
                     if(newVolume != 0 && (newVolume >= midVolume)){
                         message = Constants.NEXT_SLIDE_MESSAGE;
-                        vibrationPattern = new long[]{0,50,20,50};
+                        vibrationPattern = VIBRATION_PATTERN_FORWARD;
                     }
                     else{
                         message = Constants.PREV_SLIDE_MESSAGE;
-                        vibrationPattern = new long[]{0,50,20,150};
+                        vibrationPattern = VIBRATION_PATTERN_BACKWARDS;
                     }
                     vibrator.vibrate(vibrationPattern,-1);
                     i.putExtra(Constants.EXTRA_MESSAGE, message);
