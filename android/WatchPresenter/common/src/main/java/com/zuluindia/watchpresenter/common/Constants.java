@@ -33,7 +33,7 @@ public class Constants {
     public static final String WARMUP_MESSAGE = "WARMUP";
     public static final String SETTINGS_NAME = "Watchpresenter";
 
-    public static final String SERVER_URL = "https://watchpresenter.appspot.com/_ah/api/";
+    public static final String SERVER_URL = "https://testing-dot-watchpresenter.appspot.com/_ah/api/";
 
     public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
 
