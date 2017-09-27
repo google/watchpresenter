@@ -31,4 +31,11 @@
     <string name="vibrationEnabled">Vibrar</string>
     <string name="wearGestureDetection">Control con el reloj</string>
     <string name="youCanPresentNow">¡Listo para presentar!</string>
+    <string name="hello_world">Hola mundo</string>
+    <string name="infoFeedback">" "</string>
+    <string name="launch_notification">Lanzar notificación</string>
+    <string name="notificationTitle">Watch Presenter</string>
+    <string name="app_name">WatchPresenter</string>
+    <string name="aboutMessage">Watch Presenter is released under the Apache 2.0 License.  For a full copy of the license please refer to https://www.apache.org/licenses/LICENSE-2.0  This application includes code copyrighted by Google, Inc.  Note: Watch Presenter is not an official Google product and is not supported by Google in any way.</string>
+    <string name="aboutTitle">"Watch Presenter "</string>
 </resources>

@@ -30,7 +30,7 @@
     <string name="or">or</string>
     <string name="useVolume">use phone\'s volume buttons</string>
     <string name="toPassTheSlidesYouMay">To pass the slides you may:</string>
-    <string name="infoFeedback"></string>
+    <string name="infoFeedback">" "</string>
     <string name="aMessageFromTheDeveloper">A message from the developer</string>
     <string name="notificationTitle">Watch Presenter</string>
     <string name="notificationMessage">Dismiss when you\'re done presenting</string>
