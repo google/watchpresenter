@@ -311,15 +311,19 @@ function loadScript(url) {
 
 function authorize() {
     console.log("on authorize()");
-    gapi.auth.authorize({
-            client_id: '736639150268-d4i5u6msvjai5okftb50s3tcaqu9booi.apps.googleusercontent.com',
-            immediate: true,
-            scope: 'https://www.googleapis.com/auth/userinfo.email'
+    console.log("authorizing...");
+    chrome.identity.getAuthToken({
+            interactive: true 
         },
         function (token) {
-            if (token.access_token && !token.error) {
+            console.log("on authorize callback. token: " + token);
+            if (!token.error) {
+                console.log("Setting access token...");
+                gapi.client.setToken({access_token: token});
+                console.log("Loading API...");
                 gapi.client.load('registration', 'v1', afterAPIUp, 'https://watchpresenter.appspot.com/_ah/api');
             } else {
+                console.log("Invalid token");
                 chrome.storage.local.set({
                     registered: false
                 });
