@@ -1,58 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright 2014 Google Inc. All Rights Reserved.
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <resources>
-
     <string name="app_name">WatchPresenter</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="launch_notification">Launch notification!</string>
-    <string name="registerGcm">Register device</string>
-    <string name="sendMessage">Send message</string>
-    <string name="bigButtonDesc">touch the phone\'s screen</string>
-    <string name="androidWearHint">touch on your Wear device</string>
-    <string name="later">Later</string>
-    <string name="about">About</string>
-    <string name="or">or</string>
-    <string name="useVolume">use phone\'s volume buttons</string>
-    <string name="toPassTheSlidesYouMay">To pass the slides you may:</string>
-    <string name="infoFeedback">" "</string>
-    <string name="aMessageFromTheDeveloper">A message from the developer</string>
-    <string name="notificationTitle">Watch Presenter</string>
-    <string name="notificationMessage">Dismiss when you\'re done presenting</string>
-    <string name="versionPrefix">Version:</string>
-    <string name="aboutTitle">Watch Presenter </string>
-    <string name="aboutMessage">Watch Presenter is released under the Apache 2.0 License.\n\nFor a full copy of the license please refer to https://www.apache.org/licenses/LICENSE-2.0\n\nThis application includes code copyrighted by Google, Inc.\n\nNote: Watch Presenter is not an official Google product and is not supported by Google in any way.</string>
-    <string name="wearGestureDetection">Smartwatch control</string>
-    <string name="beforeAccountChooseMessage">Watch Presenter uses your Google account to link with the Chrome browser extension.\n\nOn the next step, you must choose the same account that your use to log in Chrome on the computer.</string>
-    <string name="chooseAnAccount">Choose account</string>
-    <string name="cannotContinueWithoutAccount">You must choose an account to continue. The app will be closed now.</string>
-    <string name="errorNoAccount">Error</string>
-    <string name="tutorial">Tutorial</string>
-    <string name="switchAccounts">Switch accounts</string>
-    <string name="screensaverReminder">Remember to turn the screensaver off on your computer</string>
-    <string name="troubleshooting">Troubleshooting</string>
-    <string name="chromeExtensionNotDetected">Chrome extension not detected!</string>
-    <string name="installChromeExtension">You must install WatchPresenter Chrome extension</string>
-    <string name="goToSite">Go to www.zuluindia.com on your computer to install it</string>
-    <string name="checkAgain">Check again</string>
-    <string name="youCanPresentNow">You can present now!</string>
-    <string name="newFeaturesTitle">New features</string>
-    <string name="nextSlide">Next slide</string>
-    <string name="experimentalFeature">Experimental feature!</string>
-    <string name="vibrationEnabled">Vibrate</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="notification_title">WP is active</string>
+    <string name="notification_message">WP is active - notification message</string>
+    <string name="ticker_text">WP ticker text</string>
+    <string name="channel_name">WP Channel name</string>
+    <string name="channel_description">WP Channel description</string>
 </resources>
